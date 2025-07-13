@@ -26,8 +26,8 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
     }
   }, []);
 
-  const handleOpen = () => {
-    setIsOpen(true);
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
     setShowInitial(false);
     localStorage.setItem('avatar-guide-seen', 'true');
   };
@@ -42,7 +42,7 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
   };
 
   return (
-    <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
+    <div className={`fixed bottom-9 right-4 z-50 ${className}`}>
       {/* Initial floating message */}
       {showInitial && !isOpen && (
         <div className="absolute bottom-16 right-0 mb-3 animate-bounce">
@@ -63,20 +63,16 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
         </div>
       )}
 
-      {/* Avatar button */}
+            {/* Avatar button */}
       <button
-        onClick={handleOpen}
-        className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 flex items-center justify-center text-white font-bold text-lg border-2 border-blue-400 relative"
+        onClick={handleToggle}
+        className="w-22 h-22 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 flex items-center justify-center relative overflow-hidden"
         title="Get help navigating the portfolio"
       >
         {/* Custom icon placeholder - replace with your image */}
-        <div className="w-8 h-8 rounded-full overflow-hidden">
-          {/* TODO: Replace this div with your custom icon image */}
-          <img src="public/kartikey-avatar.png" alt="Kartikey" className="w-full h-full object-cover" /> 
-        </div>
+        <img src="/kartikey-avatar.png" alt="Kartikey" className="w-full h-full object-cover" />
         
-        {/* Fallback "K" text - remove this when you add your icon */}
-        <span className="absolute inset-0 flex items-center justify-center">K</span>
+        
       </button>
 
       {/* Help panel */}
