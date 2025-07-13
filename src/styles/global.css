@@ -1,0 +1,317 @@
+/* src/styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--textPrimary);
+  line-height: 1.5;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--borderLight);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--selection);
+  color: var(--textAccent);
+}
+
+/* Focus ring */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* VS Code specific styles */
+.vscode-container {
+  height: 100vh;
+  background: var(--background);
+  color: var(--textPrimary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.vscode-titlebar {
+  background: var(--titleBar);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+
+.vscode-statusbar {
+  background: var(--statusBar);
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 12px;
+  color: var(--textAccent);
+}
+
+.vscode-sidebar {
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  min-width: 240px;
+  max-width: 400px;
+  position: relative;
+}
+
+.vscode-editor {
+  background: var(--editor);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vscode-terminal {
+  background: var(--terminal);
+  border-top: 1px solid var(--border);
+  min-height: 200px;
+  max-height: 50vh;
+}
+
+/* Monaco Editor specific styles */
+.monaco-editor {
+  background: var(--editor) !important;
+  z-index: 1 !important;
+}
+
+.monaco-editor .margin {
+  background: var(--editor) !important;
+}
+
+.monaco-editor .monaco-editor-background {
+  background: var(--editor) !important;
+}
+
+/* Sidebar resize handle - ensure it's above other elements */
+.vscode-sidebar .resize-handle {
+  position: absolute;
+  right: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  z-index: 1000;
+  cursor: col-resize;
+  background: transparent;
+  transition: background-color 0.1s ease;
+  pointer-events: auto;
+}
+
+.vscode-sidebar .resize-handle:hover {
+  background: var(--border);
+}
+
+.vscode-sidebar .resize-handle:active {
+  background: var(--borderLight);
+}
+
+/* Ensure sidebar content doesn't interfere with resize */
+.vscode-sidebar > *:not(.resize-handle) {
+  pointer-events: auto;
+}
+
+/* Terminal specific styles */
+.terminal-container {
+  background: var(--terminal);
+  color: var(--textPrimary);
+  font-family: 'Fira Code', Monaco, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 8px;
+}
+
+.terminal-container .xterm-viewport {
+  background: var(--terminal) !important;
+}
+
+.terminal-container .xterm-screen {
+  background: var(--terminal) !important;
+}
+
+/* Terminal resize handle */
+.terminal-resize-handle {
+  position: absolute;
+  z-index: 1000;
+  background: transparent;
+  transition: background-color 0.1s ease;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.terminal-resize-handle:hover {
+  background: var(--border);
+}
+
+.terminal-resize-handle:active {
+  background: var(--borderLight);
+}
+
+/* File explorer styles */
+.file-explorer {
+  background: var(--sidebar);
+  color: var(--textPrimary);
+}
+
+.file-explorer-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.1s ease;
+}
+
+.file-explorer-item:hover {
+  background: var(--hover);
+}
+
+.file-explorer-item.active {
+  background: var(--active);
+}
+
+.file-explorer-item.selected {
+  background: var(--selection);
+}
+
+/* Tab styles */
+.editor-tabs {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: 35px;
+  overflow-x: auto;
+  z-index: 10;
+}
+
+.editor-tabs::-webkit-scrollbar {
+  height: 2px;
+}
+
+.editor-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.1s ease;
+  min-width: 120px;
+  max-width: 200px;
+}
+
+.editor-tab:hover {
+  background: var(--surfaceHover);
+}
+
+.editor-tab.active {
+  background: var(--editor);
+  border-bottom: 2px solid var(--primary);
+}
+
+.editor-tab .close-button {
+  margin-left: auto;
+  padding: 2px;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: opacity 0.1s ease;
+}
+
+.editor-tab .close-button:hover {
+  opacity: 1;
+  background: var(--hover);
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .vscode-container {
+    flex-direction: column;
+  }
+  
+  .vscode-sidebar {
+    min-width: 200px;
+    max-width: 300px;
+  }
+  
+  .editor-tab {
+    min-width: 100px;
+    max-width: 150px;
+  }
+}
