@@ -32,10 +32,6 @@ export const metadata: Metadata = {
     title: "Kartikey Pandey - AR Developer Portfolio",
     description: "AR Developer at Snap Inc. with $50,000+ in secured funding and 8x hackathon wins",
   },
-  robots: {
-    index: false,
-    follow: false,
-  },
   alternates: {
     canonical: "https://yourdomain.com",
   },
