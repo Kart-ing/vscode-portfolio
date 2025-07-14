@@ -27,9 +27,17 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://yourdomain.com",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kartikey Pandey - AR Developer Portfolio",
+    description: "AR Developer at Snap Inc. with $50,000+ in secured funding and 8x hackathon wins",
+  },
   robots: {
     index: false,
     follow: false,
+  },
+  alternates: {
+    canonical: "https://yourdomain.com",
   },
 };
 
@@ -38,8 +46,45 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kartikey Pandey",
+    "jobTitle": "AR Developer & Software Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Snap Inc."
+    },
+    "description": "AR Developer at Snap Inc. with $50,000+ in secured funding, 8x hackathon winner, and experience leading Penn State's competitive programming team.",
+    "email": "kartikeypandey.official@gmail.com",
+    "url": "https://yourdomain.com",
+    "sameAs": [
+      "https://linkedin.com/in/kartikeypandey",
+      "https://github.com/Kart-ing"
+    ],
+    "knowsAbout": [
+      "Augmented Reality",
+      "Unity",
+      "React",
+      "Next.js",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "C++"
+    ]
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

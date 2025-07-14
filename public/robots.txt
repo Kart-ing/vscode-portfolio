@@ -1,12 +1,12 @@
 User-agent: *
 Allow: /resume.json
-Allow: /seo-content
+Allow: /seo-content.html
 Allow: /sitemap.xml
 Disallow: /
 
 # Allow specific SEO content for ATS systems and search engines
 User-agent: *
-Allow: /seo-content/
+Allow: /seo-content.html
 Allow: /resume.json
 Allow: /sitemap.xml
 
