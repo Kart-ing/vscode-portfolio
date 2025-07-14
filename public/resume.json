@@ -1,0 +1,161 @@
+{
+  "basics": {
+    "name": "Kartikey Pandey",
+    "label": "AR Developer & Software Engineer",
+    "email": "kartikeypandey.official@gmail.com",
+    "summary": "AR Developer at Snap Inc. with $50,000+ in secured funding, 8x hackathon winner, and experience leading Penn State's competitive programming team from 185th to 74th nationally.",
+    "location": {
+      "city": "State College",
+      "region": "PA"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "url": "https://linkedin.com/in/kartikeypandey"
+      },
+      {
+        "network": "GitHub",
+        "url": "https://github.com/Kart-ing"
+      }
+    ]
+  },
+  "work": [
+    {
+      "company": "Snap Inc.",
+      "position": "AR Developer",
+      "startDate": "2024",
+      "endDate": "Present",
+      "summary": "Developing augmented reality experiences and applications using cutting-edge AR technologies.",
+      "highlights": [
+        "AR development and implementation",
+        "Cross-platform AR solutions",
+        "Performance optimization for AR applications"
+      ]
+    },
+    {
+      "company": "Intel Corporation",
+      "position": "Software Engineer Intern",
+      "startDate": "2023",
+      "endDate": "2024",
+      "summary": "Software engineering internship focusing on system-level programming and optimization.",
+      "highlights": [
+        "System-level programming",
+        "Performance optimization",
+        "Software development lifecycle"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Penn State University",
+      "area": "Computer Science",
+      "studyType": "Bachelor's",
+      "startDate": "2021",
+      "endDate": "2025",
+      "gpa": "3.8",
+      "courses": [
+        "Data Structures & Algorithms",
+        "Software Engineering",
+        "Computer Architecture",
+        "Database Systems"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming Languages",
+      "level": "Expert",
+      "keywords": ["JavaScript", "TypeScript", "Python", "Java", "C++", "React", "Next.js"]
+    },
+    {
+      "name": "AR/VR Development",
+      "level": "Expert",
+      "keywords": ["Unity", "Unreal Engine", "ARCore", "ARKit", "Snap Lens Studio"]
+    },
+    {
+      "name": "Web Development",
+      "level": "Advanced",
+      "keywords": ["React", "Next.js", "Node.js", "MongoDB", "PostgreSQL", "AWS"]
+    },
+    {
+      "name": "Mobile Development",
+      "level": "Intermediate",
+      "keywords": ["React Native", "Flutter", "iOS", "Android"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AR E-commerce Platform",
+      "description": "Funded AR project enabling virtual try-ons and interactive shopping experiences",
+      "highlights": [
+        "Secured $25,000 in funding",
+        "Implemented AR try-on technology",
+        "Integrated with e-commerce platforms"
+      ],
+      "keywords": ["AR", "E-commerce", "Unity", "Computer Vision"],
+      "startDate": "2023",
+      "endDate": "2024"
+    },
+    {
+      "name": "Task Management AR App",
+      "description": "Augmented reality task management system with spatial organization",
+      "highlights": [
+        "Spatial AR interface design",
+        "Real-time collaboration features",
+        "Cross-platform compatibility"
+      ],
+      "keywords": ["AR", "Task Management", "Collaboration", "Unity"],
+      "startDate": "2023",
+      "endDate": "2024"
+    }
+  ],
+  "awards": [
+    {
+      "title": "8x Hackathon Winner",
+      "date": "2021-2024",
+      "awarder": "Various Universities & Organizations",
+      "summary": "Consistently winning hackathons across multiple universities and tech organizations"
+    },
+    {
+      "title": "$50,000+ Secured Funding",
+      "date": "2023-2024",
+      "awarder": "Various Funding Organizations",
+      "summary": "Successfully secured over $50,000 in funding for AR and software projects"
+    },
+    {
+      "title": "Penn State Competitive Programming Lead",
+      "date": "2022-2024",
+      "awarder": "Penn State University",
+      "summary": "Led team from 185th to 74th nationally in competitive programming rankings"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native"
+    },
+    {
+      "language": "Hindi",
+      "fluency": "Native"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Augmented Reality",
+      "keywords": ["AR Development", "Computer Vision", "Spatial Computing"]
+    },
+    {
+      "name": "Competitive Programming",
+      "keywords": ["Algorithms", "Data Structures", "Problem Solving"]
+    },
+    {
+      "name": "Open Source",
+      "keywords": ["GitHub", "Community", "Collaboration"]
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2024-12-19",
+    "format": "JSON Resume v1.0.0",
+    "version": "1.0.0"
+  }
+} 
