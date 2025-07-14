@@ -1,17 +1,2 @@
 User-agent: *
-Allow: /resume.json
-Allow: /seo-content.html
-Allow: /sitemap.xml
-Disallow: /
-
-# Allow specific SEO content for ATS systems and search engines
-User-agent: *
-Allow: /seo-content.html
-Allow: /resume.json
-Allow: /sitemap.xml
-
-# Block everything else to prevent indexing of the VS Code interface
-Disallow: /
-
-# Sitemap location
-Sitemap: https://yourdomain.com/sitemap.xml 
+Allow: /
