@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { IconButton } from '@/components/ui/IconButton'
 import { X, Trash2 } from 'lucide-react'
 import { useFileSystem } from '@/contexts/FileSystemContext'
+import { loadPyodideOnce, runPython, getPyStatus } from '@/lib/pyodide'
 
 interface TerminalProps {
   height: number
@@ -31,6 +32,8 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [currentInput, setCurrentInput] = useState('')
+  const [pythonRepl, setPythonRepl] = useState(false)
+  const [isBusy, setIsBusy] = useState(false)
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: 'welcome-1',
@@ -41,7 +44,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
     {
       id: 'welcome-2',
       type: 'output',
-      content: 'Type "help" to see available commands.',
+      content: 'Type "help" for commands. Try: whoami · projects · open recompress · python fib.py',
       timestamp: new Date()
     },
     {
@@ -324,7 +327,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       name: 'whoami',
       description: 'Print effective user ID',
       usage: 'whoami',
-      execute: () => 'portfolio-user'
+      execute: () => 'Kartikey Pandey — Founding Engineer @ Raya Health (HF0 W26). 10x hackathon winner · ex-NASA · ex-Intel.'
     },
 
     date: {
@@ -353,15 +356,14 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       execute: () => {
         return `                    kartikey@portfolio
                     ---------------
-OS: Portfolio OS 1.0.0
-Kernel: VS Code x86_64
+Name: Kartikey Pandey
+Role: Founding Engineer @ Raya Health (HF0 W26)
+Past: NASA Lunar Autonomy Challenge · Intel · Snap Spectacles
+Awards: 10x hackathon winner · 1 patent
+Edu: B.S. Computer Science, Penn State (2022–2026)
+Stack: TypeScript · Python · React/Next.js · PyTorch · TensorFlow
 Uptime: ${Math.floor(Math.random() * 24)}h ${Math.floor(Math.random() * 60)}m
-Packages: 1337 (npm)
-Shell: Simulated Terminal
-Terminal: Portfolio Terminal
-CPU: Intel i7-12700K (12) @ 3.60GHz
-Memory: 16384MiB / 32768MiB
-Disk: 512GB NVMe SSD
+Shell: Portfolio Terminal (try: resume, projects, open recompress)
 
 ███▄▄▄▄      ██▄███▄    ▄█     ▄█▄
 ██  ▀██▄    █  █▀ ▀█    ███    ████
@@ -376,32 +378,119 @@ Disk: 512GB NVMe SSD
       }
     },
 
-    python: {
-      name: 'python',
-      description: 'Python interpreter',
-      usage: 'python [script]',
-      execute: (args) => {
-        if (args.length === 0) {
-          return `Python 3.9.0 (default, Oct 27 2020, 14:15:16)
-[GCC 9.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> `
-        }
-        return 'Python script execution would happen here in a real environment.'
-      }
-    },
-
     node: {
       name: 'node',
       description: 'Node.js runtime',
       usage: 'node [script]',
       execute: (args) => {
         if (args.length === 0) {
-          return `Welcome to Node.js v16.13.0.
+          return `Welcome to Node.js v20.x.
 Type ".help" for more information.
 > `
         }
         return 'Node.js script execution would happen here in a real environment.'
+      }
+    },
+
+    resume: {
+      name: 'resume',
+      description: 'Open my résumé (PDF)',
+      usage: 'resume',
+      execute: () => {
+        if (typeof window !== 'undefined') window.open('/resume.pdf', '_blank')
+        return 'Opening résumé… (also at /resume.json for structured data)'
+      }
+    },
+
+    experience: {
+      name: 'experience',
+      description: 'Summarize work experience',
+      usage: 'experience',
+      execute: () => {
+        return [
+          'Founding Engineer       Raya Health (HF0 W26)         2026',
+          'Founder & President     Penn State Hackathon Team     2024–2025  (#185 → #74)',
+          'ML Engineer             NASA Lunar Autonomy / JHU APL 2024–2025',
+          'SWE Intern              ColdStart                     2025',
+          'President / Tech Lead    Google DSC @ Penn State       2023–2025  (200+ members)',
+          'Engineer                Intel Corporation             2020–2021  (−33% deploy time)',
+          'AR/AI Dev               Snap Spectacles Accelerator   ($25k+ funding)',
+          '',
+          "Tip: 'cat experience.md' for the full version.",
+        ].join('\n')
+      }
+    },
+
+    projects: {
+      name: 'projects',
+      description: 'List projects',
+      usage: 'projects',
+      execute: () => {
+        const projectsFolder = state.files[0]?.children?.find(n => n.id === 'projects')
+        const names = (projectsFolder?.children || []).map(p => `  • ${p.name.replace('.md','')}`)
+        return [
+          'Projects (open with: open <name>, e.g. `open recompress`)',
+          '',
+          ...names,
+          '',
+          '⭐ recompress  — published research, 8.1× token reduction (Zenodo DOI)',
+          '⭐ multiverse  — speculative execution for AI agents',
+          '   mutable     — self-designing forms, live at trymutable.online',
+        ].join('\n')
+      }
+    },
+
+    open: {
+      name: 'open',
+      description: 'Open a file in the viewer',
+      usage: 'open <file>',
+      execute: (args) => {
+        if (args.length === 0) return 'open: missing file operand (try: open recompress)'
+        const query = args[0].replace(/\.md$/, '').toLowerCase()
+        // Search the whole tree for a file whose id or name matches.
+        const search = (nodes: typeof state.files): string | null => {
+          for (const node of nodes) {
+            if (node.type === 'file') {
+              const idMatch = node.id.toLowerCase() === query
+              const nameMatch = node.name.replace(/\.md$/, '').toLowerCase() === query
+              if (idMatch || nameMatch) return node.id
+            }
+            if (node.children) {
+              const found = search(node.children)
+              if (found) return found
+            }
+          }
+          return null
+        }
+        const id = search(state.files)
+        if (!id) return `open: '${args[0]}' not found. Try 'projects' or 'ls'.`
+        dispatch({ type: 'OPEN_FILE', payload: { id } })
+        return `Opening ${args[0]}…`
+      }
+    },
+
+    socials: {
+      name: 'socials',
+      description: 'Show links',
+      usage: 'socials',
+      execute: () => {
+        return [
+          'GitHub:    https://github.com/Kart-ing',
+          'LinkedIn:  https://linkedin.com/in/kartikeypandey2004',
+          'Email:     kartikeypandey.official@gmail.com',
+          'ReCompress (paper): https://doi.org/10.5281/zenodo.20786357',
+          'Mutable (live):     https://trymutable.online',
+        ].join('\n')
+      }
+    },
+
+    sudo: {
+      name: 'sudo',
+      description: 'Execute as superuser',
+      usage: 'sudo <command>',
+      execute: (args) => {
+        const cmd = args.join(' ') || 'su'
+        return `[sudo] password for kartikey: \nNice try. ${cmd ? `'${cmd}' ` : ''}denied — but I admire the ambition. 😏`
       }
     }
   }
@@ -416,20 +505,113 @@ Type ".help" for more information.
     setLines(prev => [...prev, newLine])
   }
 
-  const executeCommand = (commandLine: string) => {
+  const refocus = () => {
+    setCurrentInput('')
+    setCursorPosition(0)
+    setTimeout(() => inputRef.current?.focus(), 0)
+  }
+
+  // Resolve `python <file>` source: first the in-memory VFS, then bundled /scripts/.
+  const resolvePythonSource = async (fileArg: string): Promise<string | null> => {
+    const fullPath = fileArg.startsWith('/')
+      ? fileArg
+      : `${currentDirectory}/${fileArg}`.replace('//', '/')
+    const node = findFileByPath(fullPath)
+    if (node && 'content' in node && node.type === 'file' && typeof node.content === 'string' && node.content) {
+      return node.content
+    }
+    const base = fileArg.split('/').pop() ?? fileArg
+    if (['hello.py', 'fib.py', 'about.py'].includes(base)) {
+      try {
+        const r = await fetch(`/scripts/${base}`)
+        if (r.ok) return await r.text()
+      } catch {
+        /* fall through */
+      }
+    }
+    return null
+  }
+
+  const bootPythonIfNeeded = async (): Promise<boolean> => {
+    if (getPyStatus() === 'ready') return true
+    addLine('output', '🐍 booting Python (WASM)… first run downloads ~10MB, then it\'s instant.')
+    try {
+      await loadPyodideOnce((msg) => addLine('output', `   ${msg}`))
+      return true
+    } catch (e) {
+      addLine('error', `Failed to start Python: ${e instanceof Error ? e.message : String(e)}`)
+      return false
+    }
+  }
+
+  const handlePython = async (args: string[]) => {
+    // No args → enter the REPL.
+    if (args.length === 0) {
+      if (!(await bootPythonIfNeeded())) return
+      const ver = await runPython('import sys; print(sys.version.split()[0])')
+      addLine('output', `Python ${ver.output.trim()} (Pyodide/WASM) in the browser`)
+      addLine('output', 'Type "exit()" to return to the shell.')
+      setPythonRepl(true)
+      return
+    }
+    // Run a .py file.
+    const code = await resolvePythonSource(args[0])
+    if (code == null) {
+      addLine('error', `python: can't open file '${args[0]}': No such file or directory`)
+      addLine('output', 'Try the demos: python hello.py · python fib.py · python about.py')
+      return
+    }
+    if (!(await bootPythonIfNeeded())) return
+    const res = await runPython(code, {
+      onStdout: (s) => addLine('output', s.replace(/\n$/, '')),
+      onStderr: (s) => addLine('error', s.replace(/\n$/, '')),
+    })
+    if (!res.ok && res.error) addLine('error', res.error)
+  }
+
+  const executeCommand = async (commandLine: string) => {
+    // ---- REPL MODE: each line goes to Python until exit() ----
+    if (pythonRepl) {
+      addLine('input', `>>> ${commandLine}`)
+      const trimmed = commandLine.trim()
+      if (trimmed === 'exit()' || trimmed === 'quit()' || trimmed === 'exit') {
+        setPythonRepl(false)
+        addLine('output', 'Back to the shell.')
+        refocus()
+        return
+      }
+      if (trimmed === '') { refocus(); return }
+      setCommandHistory(prev => [...prev, commandLine])
+      setHistoryIndex(-1)
+      setIsBusy(true)
+      const res = await runPython(commandLine, {
+        onStdout: (s) => addLine('output', s.replace(/\n$/, '')),
+        onStderr: (s) => addLine('error', s.replace(/\n$/, '')),
+      })
+      if (!res.ok && res.error) addLine('error', res.error)
+      setIsBusy(false)
+      refocus()
+      return
+    }
+
     if (!commandLine.trim()) return
 
-    // Add command to history
     setCommandHistory(prev => [...prev, commandLine])
     setHistoryIndex(-1)
-
-    // Add input line
     addLine('input', commandLine)
 
-    // Parse and execute command
     const [commandName, ...args] = commandLine.trim().split(' ')
-    const command = commands[commandName]
 
+    // ---- PYTHON: intercept before the synchronous command map ----
+    if (commandName === 'python' || commandName === 'python3') {
+      setIsBusy(true)
+      await handlePython(args)
+      setIsBusy(false)
+      refocus()
+      return
+    }
+
+    const command = commands[commandName]
     if (command) {
       const result = command.execute(args)
       if (result !== '') {
@@ -440,19 +622,12 @@ Type ".help" for more information.
       addLine('output', 'Try \'help\' for available commands.')
     }
 
-    // Clear input and refocus
-    setCurrentInput('')
-    setCursorPosition(0)
-    
-    // Refocus the input after a short delay to ensure the DOM has updated
-    setTimeout(() => {
-      inputRef.current?.focus()
-    }, 0)
+    refocus()
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      executeCommand(currentInput)
+      void executeCommand(currentInput)
       // Focus is handled in executeCommand now
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
@@ -521,7 +696,17 @@ Type ".help" for more information.
 
   const renderLine = (line: TerminalLine) => {
     switch (line.type) {
-      case 'input':
+      case 'input': {
+        // REPL-echoed lines already carry their own ">>> " prompt — don't add the shell prompt.
+        const isReplEcho = line.content.startsWith('>>> ')
+        if (isReplEcho) {
+          return (
+            <div key={line.id} className="flex items-start">
+              <span className="text-yellow-400 mr-2">&gt;&gt;&gt;</span>
+              <span className="text-white">{line.content.slice(4)}</span>
+            </div>
+          )
+        }
         return (
           <div key={line.id} className="flex items-start">
             <span className="text-green-400 mr-2">portfolio-user@portfolio:</span>
@@ -529,6 +714,7 @@ Type ".help" for more information.
             <span className="text-white">{line.content}</span>
           </div>
         )
+      }
       case 'output':
         return (
           <div key={line.id} className="text-white whitespace-pre-wrap">
@@ -588,8 +774,14 @@ Type ".help" for more information.
         
         {/* Current input line */}
         <div className="flex items-start">
-          <span className="text-green-400 mr-2">portfolio-user@portfolio:</span>
-          <span className="text-blue-400 mr-2">{currentDirectory === '/' ? '~' : currentDirectory}$</span>
+          {pythonRepl ? (
+            <span className="text-yellow-400 mr-2">&gt;&gt;&gt;</span>
+          ) : (
+            <>
+              <span className="text-green-400 mr-2">portfolio-user@portfolio:</span>
+              <span className="text-blue-400 mr-2">{currentDirectory === '/' ? '~' : currentDirectory}$</span>
+            </>
+          )}
           <div className="flex-1 relative">
             <input
               ref={inputRef}

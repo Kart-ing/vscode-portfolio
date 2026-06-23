@@ -65,6 +65,78 @@ const fileStructure: FileNode[] = [
         isOpen: true,
         children: [
           {
+            id: 'recompress',
+            name: 'recompress.md',
+            type: 'file',
+            path: '/projects/recompress.md',
+            externalPath: '/content/projects/recompress.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'multiverse',
+            name: 'multiverse.md',
+            type: 'file',
+            path: '/projects/multiverse.md',
+            externalPath: '/content/projects/multiverse.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'mutable',
+            name: 'mutable.md',
+            type: 'file',
+            path: '/projects/mutable.md',
+            externalPath: '/content/projects/mutable.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'pingpal',
+            name: 'pingpal.md',
+            type: 'file',
+            path: '/projects/pingpal.md',
+            externalPath: '/content/projects/pingpal.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'hermes',
+            name: 'hermes.md',
+            type: 'file',
+            path: '/projects/hermes.md',
+            externalPath: '/content/projects/hermes.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'ledgerup',
+            name: 'ledgerup.md',
+            type: 'file',
+            path: '/projects/ledgerup.md',
+            externalPath: '/content/projects/ledgerup.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'mechanize-whiteboard',
+            name: 'mechanize-whiteboard.md',
+            type: 'file',
+            path: '/projects/mechanize-whiteboard.md',
+            externalPath: '/content/projects/mechanize-whiteboard.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
+            id: 'acrn',
+            name: 'acrn.md',
+            type: 'file',
+            path: '/projects/acrn.md',
+            externalPath: '/content/projects/acrn.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
             id: 'reality-rush',
             name: 'reality-rush.md',
             type: 'file',
@@ -101,47 +173,20 @@ const fileStructure: FileNode[] = [
             language: 'markdown'
           },
           {
-            id: 'vr-breadboard',
-            name: 'vr-breadboard.md',
-            type: 'file',
-            path: '/projects/vr-breadboard.md',
-            externalPath: '/content/projects/vr-breadboard.md',
-            content: '',
-            language: 'markdown'
-          },
-          {
-            id: 'surgical-tracking',
-            name: 'surgical-tracking.md',
-            type: 'file',
-            path: '/projects/surgical-tracking.md',
-            externalPath: '/content/projects/surgical-tracking.md',
-            content: '',
-            language: 'markdown'
-          },
-          {
             id: 'moth-challenge',
-            name: 'moth-challenge.md',
+            name: 'nasa-lunar-autonomy.md',
             type: 'file',
-            path: '/projects/moth-challenge.md',
+            path: '/projects/nasa-lunar-autonomy.md',
             externalPath: '/content/projects/moth-challenge.md',
             content: '',
             language: 'markdown'
           },
           {
-            id: 'devspot',
-            name: 'devspot.md',
+            id: 'more',
+            name: 'more.md',
             type: 'file',
-            path: '/projects/devspot.md',
-            externalPath: '/content/projects/devspot.md',
-            content: '',
-            language: 'markdown'
-          },
-          {
-            id: 'asl-banking',
-            name: 'asl-banking.md',
-            type: 'file',
-            path: '/projects/asl-banking.md',
-            externalPath: '/content/projects/asl-banking.md',
+            path: '/projects/more.md',
+            externalPath: '/content/projects/more.md',
             content: '',
             language: 'markdown'
           }

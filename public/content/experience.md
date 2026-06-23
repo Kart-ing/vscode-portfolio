@@ -1,165 +1,140 @@
 # Professional Experience 💼
 
-## AR Developer - Snap Inc.
-**Spectacles Student Accelerator Program** | Remote | January 2025 - Present
+## Founding Engineer — Raya Health
+**HF0 W26 Batch** | San Francisco Bay Area | February 2026 – May 2026
 
-### 🌟 Leading Team Virtus to AR Innovation
-- **Lead AR Developer** securing **$35,000 funding** for Project Elementals and **$15,000** for motion sickness reduction technology
-- **Total Impact**: $50,000+ in secured funding for groundbreaking AR projects
-
-### 🎮 Project Elementals - Multiplayer AR Game
-**$35,000 Funded Project**
-- **Architecting** the first multiplayer Avatar-inspired AR game using **Lens Studio and TypeScript**
-- **Real-time synchronization** enabling shared AR environments where players become elemental benders
-- **Innovative gameplay mechanics** combining physical movement with digital interaction
-- **Cross-platform compatibility** ensuring seamless experiences across Spectacles devices
-
-### 🧠 Motion Sickness Reduction Technology
-**$15,000 Funded Innovation**
-- **Engineering advanced stabilization algorithms** to eliminate motion sickness in AR glasses
-- **Pioneering comfortable AR usage** in vehicles and public transit environments
-- **First-of-its-kind technology** making extended AR use accessible to broader audiences
-- **Industry impact** setting new standards for AR comfort and usability
-
-### 🛠️ Technical Achievements
-- **TypeScript & Lens Studio mastery** for production AR applications
-- **Real-time multiplayer architecture** with sub-100ms latency
-- **Advanced spatial tracking** for precise AR object placement
-- **Performance optimization** for mobile AR experiences
+- **Founding engineer** building Raya Health from the ground up as part of the **HF0 W26** residency — one of the top startup residencies.
+- Shipping product end to end across full-stack, infrastructure, and AI.
 
 ---
 
-## Founder & President - Penn State Hackathon Team
-**Penn State College of Engineering** | University Park, PA | Spring 2024 - Present
+## Founder & President — Penn State Collegiate Hackathon Team
+**Penn State University** | State College, PA | August 2024 – December 2025
 
-### 📈 Transformational Leadership Impact
-- **Founded collegiate hackathon team** with 7 core members and 20+ rotating participants
-- **Improved Penn State's national ranking** from **185 → 74** in hackathons within one year
-- **111-position improvement** demonstrating strategic leadership and team development
-
-### 🏆 Competition Excellence
-- **Achieved 8x hackathon winner status** across competitions nationwide
-- **Consistent technical excellence** with multiple first-place finishes
-- **National recognition** for innovative solutions and team leadership
-
-### 🎯 Program Development & Impact
-- **Dual-track program design** enabling beginners to build real-world projects with judge feedback
-- **Experienced member showcasing** connecting talent with recruiters at national competitions
-- **Skill development framework** advancing participants from beginners to competition-ready developers
-- **Industry connections** facilitating career opportunities for team members
-
-### 🌟 Leadership Outcomes
-- **Team scaling** from startup to 20+ active participants
-- **Knowledge transfer** through mentorship and structured learning programs
-- **Competition strategy** resulting in consistent top-tier placements
-- **Community building** creating lasting professional networks
+- **Founded and led** the collegiate hackathon team, growing it to **27+ members**.
+- **Lifted Penn State's national hackathon rank from #185 → #74** within a single year.
+- **10x hackathon winner** across major competitions spanning full-stack, product management, and GenAI tracks.
+- Built a **dual-track program** — mentoring beginners while showcasing advanced teams to recruiters.
+- **Secured national sponsorships** and ran workshops on **Next.js, GraphQL, and automation engineering**.
 
 ---
 
-## AI Software Engineer Intern - Intel Corporation
-**OpenVINO Team** | Remote | June 2020 - April 2021
+## Software Engineer Intern — ColdStart
+**State College, PA** | January 2025 – May 2025
+
+- Software engineering internship contributing to product development and full-stack engineering.
+
+---
+
+## President & Technical Lead — GDSC @ Penn State
+**Google Developer Student Club, Penn State** | State College, PA
+**President**: August 2024 – May 2025 · **Technical Lead**: January 2023 – August 2024
+
+- Built and led a **200+ student** developer community focused on **software engineering, AI/ML, and cloud**.
+- Progressed from Technical Lead to President, organizing technical programming and community growth.
+
+---
+
+## Machine Learning Engineer — NASA Lunar Autonomy Challenge
+**via Johns Hopkins Applied Physics Lab (APL)** | November 2024 – January 2025
+
+- Selected for the **NASA-affiliated Lunar Autonomy Challenge**, run by Johns Hopkins APL.
+- Worked on **autonomous lunar robotics** — navigation, excavation, and resource utilization.
+- Used **CARLA simulation, SLAM algorithms, and AI frameworks**.
+- Supported **NASA's Lunar Surface Innovation Initiative (LSII)**.
+
+---
+
+## Snap Inc. — Spectacles Student Accelerator
+**AR/AI Development** | Snap Spectacles Accelerator
+
+- **Secured $25,000+ in funding** through Snap's Spectacles Student Accelerator.
+- **Led AR/AI development** with **TypeScript, Node.js, and real-time cloud sync**.
+- **Snap AR Challenge Winner**.
+
+---
+
+## Intel Corporation
+**Apprentice** (May 2021 – Jul 2021, Singapore / Bangalore)
+**Internship Trainee** (Aug 2020 – May 2021, Bengaluru, India)
 
 ### ⚡ ML Pipeline Optimization
-- **Built ML training pipeline** reducing model deployment time by **33%** (3 days → 2 days)
-- **Production impact** accelerating time-to-market for AI-powered products
-- **Automation implementation** streamlining previously manual deployment processes
+- **Built an ML training pipeline** (TensorFlow, Python, Docker, AWS) reducing model deployment time by **33%** (3 days → 2 days).
 
-### 👁️ Computer Vision Excellence
-- **Implemented Computer Vision system** for chip defect detection using **OpenCV**
-- **Achieved 97% accuracy** on **100,000+ test images** in production environment
-- **Quality assurance automation** significantly reducing manual inspection requirements
-- **Scalable architecture** handling high-volume image processing workloads
+### 👁️ Computer Vision
+- **Implemented a computer-vision system** for chip defect detection (OpenCV, PyTorch).
+- **Achieved 97% accuracy** on **100,000+ test images**.
 
-### 📄 Document Processing Innovation
-- **Designed BERT-based document classifier** for technical specifications
-- **Processing capacity**: **1000+ documents daily** with **90% accuracy**
-- **NLP integration** automating previously time-intensive manual categorization
-- **Production deployment** serving real business requirements at enterprise scale
+### 📄 NLP Document Classification
+- **Designed a BERT-based document classifier** for technical specifications.
+- Processed **1,000+ technical specs/day at 90% accuracy**.
 
-### 🏗️ Technical Implementation
-- **OpenVINO framework mastery** for optimized AI model deployment
-- **Computer vision algorithms** for real-world manufacturing applications
-- **Natural language processing** for technical document understanding
-- **Production system integration** with enterprise-level reliability requirements
+### 🏗️ Automation & Leadership
+- **Led automation engineering** for a scalable inference API (Selenium, REST).
+- **Presented optimizations and benchmarks** to senior leadership.
 
 ---
 
-## Academic Research & Leadership
+## Education
 
-### Penn State Computer Science Program
-**University Park, PA** | August 2022 - Present
+### Penn State University
+**B.S. Computer Science, Minor in Entrepreneurship** | 2022 – 2026
 
-#### 📚 Academic Excellence
-- **Current GPA**: 3.5/4.0 (Dean's List candidate)
-- **Major**: Computer Science with focus on AI/ML and systems programming
-- **Minor**: Entrepreneurship (business applications of technology)
+- Focus on software engineering, AI/ML, and systems.
 
-#### 🔬 Research Interests
-- **Augmented Reality Systems**: Spatial computing and user interaction
-- **Machine Learning Applications**: Computer vision and NLP
-- **Human-Computer Interaction**: Accessible technology design
-- **Real-time Systems**: Low-latency application architecture
+### Earlier Education
+- **Delhi Public School, Whitefield** — Grade 12 (2020 – 2022)
+- **Greenwood High International** — Grade 10 (2015 – 2020)
 
 ---
 
-## Technical Skills Demonstrated
+## Patent
 
-### AR/VR Development
-- **Lens Studio**: Production AR application development
-- **Spectacles SDK**: Hardware-specific optimization and features
-- **Real-time Rendering**: Performance optimization for mobile AR
-- **Spatial Computing**: 3D tracking and world understanding
-- **Gesture Recognition**: Natural user interface development
+- **"System and Method Providing Data Conversion."**
+
+---
+
+## Honors & Awards
+
+- **Harvard Hack — CareYaya Track**: 2nd Place
+- **HackPSU**: 2nd Place Overall
+- **HackPSU Spring 2024**: Entrepreneurship Award
+- **Bitcamp**: Best Cybersecurity Track
+- **Snap AR Challenge**: Winner
+- **10x Hackathon Winner** overall across major competitions
+
+---
+
+## Selected Technical Skills
+
+### Software Engineering & Full-Stack
+- **Languages**: Python, TypeScript, JavaScript, Java, C/C++, SQL
+- **Web**: React, Next.js, Node.js, Express, GraphQL, Flask, FastAPI
+- **Cloud & DevOps**: AWS, Google Cloud Platform, Docker, PostgreSQL
 
 ### Machine Learning & AI
-- **Computer Vision**: Production systems with 97% accuracy
-- **Natural Language Processing**: BERT-based classification systems
-- **TensorFlow/PyTorch**: Model development and optimization
-- **OpenCV**: Image processing and analysis
-- **MLOps**: Model deployment and monitoring
-
-### Software Engineering
-- **Full-Stack Development**: End-to-end application development
-- **TypeScript/JavaScript**: Modern web application development
-- **Python**: AI/ML development and backend services
-- **Java/C++**: Systems programming and performance optimization
-- **Cloud Platforms**: AWS, GCP deployment and scaling
+- **Computer Vision**: OpenCV, PyTorch — production systems at 97% accuracy
+- **NLP**: BERT-based classification
+- **Frameworks**: TensorFlow, Scikit-learn
+- **Robotics/Simulation**: SLAM, CARLA
 
 ### Leadership & Collaboration
-- **Team Building**: Growing teams from concept to 20+ members
-- **Strategic Planning**: Improving organizational performance metrics
-- **Mentorship**: Developing junior developers and team members
-- **Public Speaking**: Presentations at competitions and industry events
+- Founding and scaling teams and communities (Hackathon Team #185→#74, GDSC 200+)
+- Securing sponsorships and accelerator funding
+- Workshops, mentorship, and public technical presentations
 
 ---
 
-## Quantifiable Impact Summary
+## Quantifiable Impact
 
-### Financial Impact
-- **$50,000+** total funding secured for AR projects
+- **#185 → #74** national hackathon ranking for Penn State
+- **27+ members** in the hackathon team founded and led
+- **200+ students** in the GDSC community built
+- **$25,000+** secured at Snap's Spectacles Accelerator
 - **33%** reduction in ML deployment time at Intel
-- **$5,000** prize won at HackPSU Snap AR Hackathon
-
-### Performance Achievements
-- **97%** accuracy in computer vision systems
-- **100,000+** images processed in production systems
-- **1000+** documents processed daily with NLP systems
-- **Sub-100ms** feedback in real-time AR applications
-
-### Organizational Impact
-- **111-position** improvement in Penn State's national hackathon ranking
-- **8x** hackathon winner status across nationwide competitions
-- **20+** team members developed and mentored
-- **Multiple** first-place competition finishes
+- **97% accuracy** across 100,000+ test images
+- **1,000+ specs/day** at 90% accuracy with NLP classification
 
 ---
 
-## Looking Forward
-
-My professional journey demonstrates consistent growth from **technical implementation** to **team leadership** to **innovation funding**. I'm excited to continue building breakthrough technologies that combine **technical excellence** with **real-world impact**.
-
-**Current Focus**: Advancing AR/VR technology accessibility and developing next-generation human-computer interaction paradigms.
-
----
-
-*"Innovation distinguishes between a leader and a follower." - Steve Jobs*
+*"Innovation distinguishes between a leader and a follower." — Steve Jobs*

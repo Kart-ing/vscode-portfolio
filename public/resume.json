@@ -1,47 +1,114 @@
 {
   "basics": {
     "name": "Kartikey Pandey",
-    "label": "AR Developer & Software Engineer",
+    "label": "Founding Engineer @ Raya Health",
     "email": "kartikeypandey.official@gmail.com",
-    "summary": "AR Developer at Snap Inc. with $50,000+ in secured funding, 8x hackathon winner, and experience leading Penn State's competitive programming team from 185th to 74th nationally.",
+    "phone": "+1 814-325-1459",
+    "summary": "Software engineer and full-stack developer building scalable systems, cloud-native apps, and AI-driven solutions. Founding Engineer at Raya Health (HF0 W26). 10x hackathon winner across ML, computer vision, and full-stack. At Intel, built ML pipelines that cut deployment time 33%. At NASA's Lunar Autonomy Challenge (via JHU APL), worked on autonomous robotics with SLAM and AI frameworks. At Snap's Spectacles Accelerator, secured $25,000+ for AR/AI development. Built a diabetic retinopathy detection platform cutting diagnostic costs ~99.8%. Founder/President of Penn State's Collegiate Hackathon Team (#185 to #74 nationally) and President of GDSC @ Penn State (200+ students).",
     "location": {
-      "city": "State College",
-      "region": "PA"
+      "city": "San Francisco Bay Area",
+      "region": "CA",
+      "countryCode": "US"
     },
     "profiles": [
       {
         "network": "LinkedIn",
-        "url": "https://linkedin.com/in/kartikeypandey"
+        "username": "kartikeypandey2004",
+        "url": "https://linkedin.com/in/kartikeypandey2004"
       },
       {
         "network": "GitHub",
+        "username": "Kart-ing",
         "url": "https://github.com/Kart-ing"
       }
     ]
   },
   "work": [
     {
-      "company": "Snap Inc.",
-      "position": "AR Developer",
-      "startDate": "2024",
-      "endDate": "Present",
-      "summary": "Developing augmented reality experiences and applications using cutting-edge AR technologies.",
+      "company": "Raya Health",
+      "position": "Founding Engineer",
+      "location": "San Francisco Bay Area",
+      "startDate": "2026-02",
+      "endDate": "2026-05",
+      "summary": "Building Raya Health as a founding engineer as part of the HF0 W26 residency batch.",
       "highlights": [
-        "AR development and implementation",
-        "Cross-platform AR solutions",
-        "Performance optimization for AR applications"
+        "Part of the HF0 W26 batch, a top startup residency",
+        "Shipping product end to end across full-stack, infrastructure, and AI"
+      ]
+    },
+    {
+      "company": "Penn State Collegiate Hackathon Team",
+      "position": "Founder & President",
+      "location": "State College, PA",
+      "startDate": "2024-08",
+      "endDate": "2025-12",
+      "summary": "Founded and led Penn State's collegiate hackathon team.",
+      "highlights": [
+        "Grew the team to 27+ members",
+        "Elevated Penn State's national hackathon rank from #185 to #74 within a year",
+        "10x hackathon winner across full-stack, product management, and GenAI competitions",
+        "Built a dual-track program: mentoring beginners and showcasing advanced teams to recruiters",
+        "Secured national sponsorships and ran workshops on Next.js, GraphQL, and automation engineering"
+      ]
+    },
+    {
+      "company": "ColdStart",
+      "position": "Software Engineer Intern",
+      "location": "State College, PA",
+      "startDate": "2025-01",
+      "endDate": "2025-05",
+      "summary": "Software engineering internship contributing to product and full-stack development.",
+      "highlights": []
+    },
+    {
+      "company": "GDSC (Google Developer Student Club) @ Penn State",
+      "position": "President & Technical Lead",
+      "location": "State College, PA",
+      "startDate": "2023-01",
+      "endDate": "2025-05",
+      "summary": "President (Aug 2024 - May 2025) and Technical Lead (Jan 2023 - Aug 2024) of GDSC at Penn State.",
+      "highlights": [
+        "Built a 200+ student developer community focused on software engineering, AI/ML, and cloud",
+        "Progressed from Technical Lead to President"
+      ]
+    },
+    {
+      "company": "NASA Lunar Autonomy Challenge (via Johns Hopkins APL)",
+      "position": "Machine Learning Engineer",
+      "location": "Remote",
+      "startDate": "2024-11",
+      "endDate": "2025-01",
+      "summary": "Selected for the NASA-affiliated Lunar Autonomy Challenge, run by Johns Hopkins Applied Physics Lab.",
+      "highlights": [
+        "Worked on autonomous lunar robotics: navigation, excavation, and resource utilization",
+        "Used CARLA simulation, SLAM algorithms, and AI frameworks",
+        "Supported NASA's Lunar Surface Innovation Initiative (LSII)"
       ]
     },
     {
       "company": "Intel Corporation",
-      "position": "Software Engineer Intern",
-      "startDate": "2023",
-      "endDate": "2024",
-      "summary": "Software engineering internship focusing on system-level programming and optimization.",
+      "position": "Apprentice & Internship Trainee",
+      "location": "Bengaluru, India / Singapore",
+      "startDate": "2020-08",
+      "endDate": "2021-07",
+      "summary": "Apprentice (May 2021 - Jul 2021) and Internship Trainee (Aug 2020 - May 2021), working on ML pipelines, computer vision, and NLP.",
       "highlights": [
-        "System-level programming",
-        "Performance optimization",
-        "Software development lifecycle"
+        "Built an ML training pipeline (TensorFlow, Python, Docker, AWS) reducing model deployment time 33% (3 days to 2 days)",
+        "Implemented computer vision for chip defect detection (OpenCV, PyTorch) reaching 97% accuracy on 100,000+ test images",
+        "Designed a BERT-based NLP document classifier processing 1,000+ technical specs/day at 90% accuracy",
+        "Led automation engineering for a scalable inference API (Selenium, REST)",
+        "Presented optimizations and benchmarks to senior leadership"
+      ]
+    },
+    {
+      "company": "Snap Inc.",
+      "position": "Spectacles Student Accelerator",
+      "location": "Remote",
+      "summary": "Led AR/AI development through Snap's Spectacles Student Accelerator.",
+      "highlights": [
+        "Secured $25,000+ in funding",
+        "Led AR/AI development with TypeScript, Node.js, and real-time cloud sync",
+        "Snap AR Challenge Winner"
       ]
     }
   ],
@@ -49,113 +116,138 @@
     {
       "institution": "Penn State University",
       "area": "Computer Science",
-      "studyType": "Bachelor's",
-      "startDate": "2021",
-      "endDate": "2025",
-      "gpa": "3.8",
+      "studyType": "B.S.",
+      "startDate": "2022",
+      "endDate": "2026",
       "courses": [
-        "Data Structures & Algorithms",
+        "Minor in Entrepreneurship",
         "Software Engineering",
-        "Computer Architecture",
-        "Database Systems"
+        "Machine Learning",
+        "Data Structures & Algorithms"
       ]
+    },
+    {
+      "institution": "Delhi Public School, Whitefield",
+      "area": "Grade 12",
+      "studyType": "Secondary",
+      "startDate": "2020",
+      "endDate": "2022"
+    },
+    {
+      "institution": "Greenwood High International",
+      "area": "Grade 10",
+      "studyType": "Secondary",
+      "startDate": "2015",
+      "endDate": "2020"
     }
   ],
   "skills": [
     {
-      "name": "Programming Languages",
+      "name": "Software Engineering",
       "level": "Expert",
-      "keywords": ["JavaScript", "TypeScript", "Python", "Java", "C++", "React", "Next.js"]
+      "keywords": ["Full-Stack Development", "Distributed Systems", "REST APIs", "Automation Engineering"]
     },
     {
-      "name": "AR/VR Development",
+      "name": "Programming Languages",
       "level": "Expert",
-      "keywords": ["Unity", "Unreal Engine", "ARCore", "ARKit", "Snap Lens Studio"]
+      "keywords": ["Python", "TypeScript", "JavaScript", "Java", "C/C++", "SQL"]
     },
     {
       "name": "Web Development",
-      "level": "Advanced",
-      "keywords": ["React", "Next.js", "Node.js", "MongoDB", "PostgreSQL", "AWS"]
+      "level": "Expert",
+      "keywords": ["React", "Next.js", "Node.js", "Express", "GraphQL", "Flask", "FastAPI"]
     },
     {
-      "name": "Mobile Development",
-      "level": "Intermediate",
-      "keywords": ["React Native", "Flutter", "iOS", "Android"]
+      "name": "Machine Learning",
+      "level": "Advanced",
+      "keywords": ["TensorFlow", "PyTorch", "OpenCV", "BERT", "Scikit-learn", "SLAM", "CARLA"]
+    },
+    {
+      "name": "Cloud & DevOps",
+      "level": "Advanced",
+      "keywords": ["AWS", "Google Cloud Platform", "Docker", "PostgreSQL"]
     }
   ],
   "projects": [
     {
-      "name": "AR E-commerce Platform",
-      "description": "Funded AR project enabling virtual try-ons and interactive shopping experiences",
+      "name": "Diabetic Retinopathy Detection Platform",
+      "description": "Healthcare platform for diabetic retinopathy detection cutting diagnostic costs by roughly 99.8%.",
       "highlights": [
-        "Secured $25,000 in funding",
-        "Implemented AR try-on technology",
-        "Integrated with e-commerce platforms"
+        "Computer vision pipeline for retinal screening",
+        "Built with TensorFlow, Flask, and SQL"
       ],
-      "keywords": ["AR", "E-commerce", "Unity", "Computer Vision"],
-      "startDate": "2023",
-      "endDate": "2024"
+      "keywords": ["Computer Vision", "Healthcare", "TensorFlow", "Flask", "SQL"]
     },
     {
-      "name": "Task Management AR App",
-      "description": "Augmented reality task management system with spatial organization",
+      "name": "Snap Spectacles AR/AI",
+      "description": "AR/AI development for Snap's Spectacles Student Accelerator with real-time cloud sync.",
       "highlights": [
-        "Spatial AR interface design",
-        "Real-time collaboration features",
-        "Cross-platform compatibility"
+        "Secured $25,000+ in funding",
+        "Snap AR Challenge Winner"
       ],
-      "keywords": ["AR", "Task Management", "Collaboration", "Unity"],
-      "startDate": "2023",
-      "endDate": "2024"
+      "keywords": ["AR", "TypeScript", "Node.js", "Real-time Sync"]
     }
   ],
   "awards": [
     {
-      "title": "8x Hackathon Winner",
-      "date": "2021-2024",
-      "awarder": "Various Universities & Organizations",
-      "summary": "Consistently winning hackathons across multiple universities and tech organizations"
+      "title": "Harvard Hack - CareYaya Track, 2nd Place",
+      "awarder": "Harvard Hack"
     },
     {
-      "title": "$50,000+ Secured Funding",
-      "date": "2023-2024",
-      "awarder": "Various Funding Organizations",
-      "summary": "Successfully secured over $50,000 in funding for AR and software projects"
+      "title": "HackPSU - 2nd Place Overall",
+      "awarder": "HackPSU"
     },
     {
-      "title": "Penn State Competitive Programming Lead",
-      "date": "2022-2024",
-      "awarder": "Penn State University",
-      "summary": "Led team from 185th to 74th nationally in competitive programming rankings"
+      "title": "HackPSU Spring 2024 - Entrepreneurship Award",
+      "date": "2024",
+      "awarder": "HackPSU"
+    },
+    {
+      "title": "Best Cybersecurity Track",
+      "awarder": "Bitcamp"
+    },
+    {
+      "title": "Snap AR Challenge Winner",
+      "awarder": "Snap Inc."
+    },
+    {
+      "title": "10x Hackathon Winner",
+      "awarder": "Various competitions",
+      "summary": "10x hackathon winner across full-stack, product management, and GenAI competitions."
+    }
+  ],
+  "patents": [
+    {
+      "title": "System and Method Providing Data Conversion"
     }
   ],
   "languages": [
     {
       "language": "English",
-      "fluency": "Native"
+      "fluency": "Native / Bilingual"
     },
     {
       "language": "Hindi",
-      "fluency": "Native"
+      "fluency": "Native / Bilingual"
     }
   ],
   "interests": [
     {
-      "name": "Augmented Reality",
-      "keywords": ["AR Development", "Computer Vision", "Spatial Computing"]
+      "name": "Machine Learning",
+      "keywords": ["Computer Vision", "NLP", "Robotics"]
     },
     {
-      "name": "Competitive Programming",
-      "keywords": ["Algorithms", "Data Structures", "Problem Solving"]
+      "name": "Full-Stack Development",
+      "keywords": ["Web Platforms", "Cloud-Native Apps"]
     },
     {
-      "name": "Open Source",
-      "keywords": ["GitHub", "Community", "Collaboration"]
+      "name": "Startups",
+      "keywords": ["Founding Engineering", "Hackathons", "Entrepreneurship"]
     }
   ],
   "meta": {
-    "lastUpdated": "2024-12-19",
-    "format": "JSON Resume v1.0.0",
+    "lastUpdated": "2026-06-23",
+    "format": "JSON Resume",
     "version": "1.0.0"
   }
-} 
+}

@@ -1,188 +1,91 @@
 # Awards & Achievements 🏆
 
-## 🌟 Recent Major Victories (2024-2025)
+## 🥇 Hackathon Wins & Honors
 
-### Snap Inc. Spectacles Student Accelerator Program
-**🚀 $50,000+ Total Funding Secured** | *January 2025*
+I'm an **10x hackathon winner** across full-stack, product management, and GenAI competitions. Selected honors:
 
-#### Project Elementals - $35,000 Funding
-- **Lead AR Developer** on Team Virtus
-- **Multiplayer Avatar-inspired AR game** using Lens Studio and TypeScript
-- **Real-time synchronization** in shared AR environments
-- **Industry recognition** for innovative gameplay mechanics
+- **Harvard Hack — CareYaya Track**: 🥈 2nd Place
+- **HackPSU**: 🥈 2nd Place Overall
+- **HackPSU Spring 2024**: 🏅 Entrepreneurship Award
+- **Bitcamp**: 🛡️ Best Cybersecurity Track
+- **Snap AR Challenge**: 🥇 Winner
 
-#### Motion Sickness Reduction Technology - $15,000 Funding
-- **Advanced stabilization algorithms** for AR glasses
-- **Pioneer technology** for comfortable AR usage in vehicles and public transit
-- **First-of-its-kind** solution addressing major AR adoption barrier
-- **Potential industry impact** for widespread AR accessibility
+---
 
-### HackPSU Snap AR Hackathon
-**🥇 1st Place Winner** | *October 2024* | **$5,000 Prize**
+## 📜 Patent
 
-#### Reality Rush - AR Fitness Trainer
-- **200+ participants** in Snap's premier AR competition
-- **Real-time pose tracking** using Lens Studio's ML Kit with **90% accuracy**
-- **Sub-100ms feedback** for form correction and performance enhancement
-- **Gesture-based UI** using Spectacles' Hand Tracking API
-- **Industry judge recognition** for technical innovation and user experience
+- **"System and Method Providing Data Conversion."**
 
-### HackHarvard
-**🥈 2nd Place Winner** | *October 2023*
+---
 
-#### EyeSnap - Diabetic Retinopathy Detection
-- **Healthcare innovation** reducing diagnostic costs from **$50,000 → $100** per setup
-- **CNN model** achieving **92% accuracy** on 2,000-image validation set
-- **React Native app** with offline processing capabilities
-- **Diagnosis time reduction** from **2 days → 10 minutes**
-- **NIH database integration** with 10,000+ training images
+## 💸 Funding & Accelerator
+
+### Snap Inc. — Spectacles Student Accelerator
+**🚀 $25,000+ in Funding Secured**
+
+- Led AR/AI development with **TypeScript, Node.js, and real-time cloud sync**.
+- Earned the **Snap AR Challenge** win.
+
+### HF0 W26 Residency
+- Selected as part of the **HF0 W26** batch as a **Founding Engineer at Raya Health** — one of the top startup residencies.
 
 ---
 
 ## 📈 Leadership & Organizational Impact
 
-### Penn State Hackathon Team Transformation
-**🚀 National Ranking Achievement** | *Spring 2024 - Present*
+### Penn State Collegiate Hackathon Team
+**🚀 National Ranking Achievement** | August 2024 – December 2025
 
-#### Quantifiable Impact
-- **Before Leadership**: National rank 185
-- **After One Year**: National rank 74
-- **Improvement**: **111-position jump** in national standings
-- **Team Growth**: 7 core members + 20+ rotating participants
+- **Before**: national rank **#185**
+- **After one year**: national rank **#74**
+- **Founded and led** the team to **27+ members**.
+- Built a **dual-track program** (mentor beginners + showcase advanced teams to recruiters) and **secured national sponsorships**.
 
-#### 8x Hackathon Winner Status
-- **Consistent excellence** across multiple national competitions
-- **Strategic team development** creating sustainable success pipeline
-- **Technical innovation** recognized by industry judges
-- **Leadership methodology** enabling reproducible results
+### GDSC @ Penn State
+**👥 Community Building** | 2023 – 2025
 
-#### Program Innovation
-- **Dual-track system** serving both beginners and experienced developers
-- **Judge feedback integration** accelerating skill development
-- **Recruiter showcasing** at national competitions
-- **Sustainable growth model** ensuring long-term program success
+- Built a **200+ student** developer community focused on software engineering, AI/ML, and cloud.
+- Progressed from **Technical Lead** to **President**.
 
 ---
 
-## 🎓 Academic & Professional Recognition
+## 🌙 Research & Engineering Recognition
 
-### Pennsylvania State University
-**Dean's List Candidate** | *2022-2026*
-- **GPA**: 3.5/4.0 in Computer Science
-- **Minor**: Entrepreneurship (business applications of technology)
-- **Academic Excellence**: Consistent high performance across core CS curriculum
+### NASA Lunar Autonomy Challenge (via JHU APL)
+**Selected Machine Learning Engineer** | November 2024 – January 2025
 
-### Intel Corporation Excellence
-**Top Performing Intern** | *2020-2021*
-- **33% efficiency improvement** in ML deployment pipelines
-- **97% accuracy achievement** in production computer vision systems
-- **100,000+ images processed** in quality assurance automation
-- **1000+ documents/day** processed with NLP classification system
-- **Production impact** with measurable business value
+- Chosen for the **NASA-affiliated Lunar Autonomy Challenge**, run by Johns Hopkins Applied Physics Lab.
+- Worked on **autonomous lunar robotics** (navigation, excavation, resource utilization) with **CARLA simulation, SLAM, and AI frameworks**.
+- Supported **NASA's Lunar Surface Innovation Initiative (LSII)**.
 
----
+### Intel Corporation
+**Apprentice & Internship Trainee** | 2020 – 2021
 
-## 🏅 Competition Highlights & Technical Excellence
-
-### National Hackathon Success Pattern
-**Consistent Top-Tier Performance** | *2023-2025*
-
-#### Technical Innovation Awards
-- **AR/VR Development**: Reality Rush (Snap Spectacles integration)
-- **Healthcare Technology**: EyeSnap (AI-powered medical diagnostics)
-- **Machine Learning**: Multiple projects with 90%+ accuracy
-- **Real-time Systems**: Sub-100ms response time achievements
-
-#### Judge Recognition Categories
-- **Technical Complexity**: Advanced AR multiplayer architecture
-- **User Experience**: Intuitive gesture-based interfaces
-- **Innovation Impact**: Healthcare cost reduction and accessibility
-- **Implementation Quality**: Production-ready code and deployment
-
-### Industry Mentor Recognition
-- **Snap Inc. Engineers**: Technical excellence in AR development
-- **Healthcare Professionals**: Practical impact of diagnostic solutions
-- **Academic Judges**: Research quality and technical depth
-- **Venture Capitalists**: Business viability and market potential
+- **33% reduction** in ML deployment time (3 days → 2 days) via a TensorFlow/Docker/AWS pipeline.
+- **97% accuracy** on **100,000+ test images** in a computer-vision chip-defect detector.
+- **1,000+ technical specs/day at 90% accuracy** with a BERT-based NLP classifier.
+- Presented optimizations and benchmarks to senior leadership.
 
 ---
 
-## 🌟 Professional Development & Certifications
+## 🩺 Project Highlight
 
-### Technical Expertise Recognition
-**Industry-Validated Skills** | *2020-2025*
-
-#### Core Competencies
-- **AR/VR Development**: Lens Studio, Spectacles SDK, Unity
-- **Machine Learning**: TensorFlow, PyTorch, Computer Vision, NLP
-- **Full-Stack Engineering**: React, TypeScript, Node.js, Python
-- **Cloud Architecture**: AWS, GCP, containerization, scalability
-
-#### Performance Benchmarks
-- **Computer Vision**: 97% accuracy in production systems
-- **Real-time AR**: Sub-100ms latency in interactive applications
-- **ML Pipeline**: 33% deployment time reduction
-- **System Scale**: 100,000+ images and 1000+ documents processed daily
+### Diabetic Retinopathy Detection Platform
+- Healthcare platform cutting diagnostic costs by roughly **99.8%**.
+- Built with **computer vision, TensorFlow, Flask, and SQL**.
 
 ---
 
-## 🎯 Impact Metrics & Quantifiable Results
+## 🎯 Impact Metrics
 
-### Financial Impact
-- **$50,000+** total funding secured for AR innovation projects
-- **$5,000** prize money from competition victories
-- **Cost reduction**: $50,000 → $100 healthcare diagnostic setup cost
-- **Efficiency gains**: 33% reduction in deployment timelines
-
-### Technical Achievements
-- **Accuracy rates**: 90-97% across multiple AI/ML systems
-- **Processing scale**: 100,000+ images in production computer vision
-- **Response time**: Sub-100ms in real-time AR applications
-- **Document processing**: 1000+ daily with 90% accuracy
-
-### Organizational Leadership
-- **Ranking improvement**: 111-position national ranking jump
-- **Team development**: 20+ students mentored and developed
-- **Competition success**: 8x hackathon winner status
-- **Program sustainability**: Created lasting institutional improvement
-
-### Innovation Recognition
-- **Industry firsts**: Multiplayer Avatar-style AR game
-- **Technology advancement**: Motion sickness reduction in AR
-- **Healthcare impact**: Accessible diabetic retinopathy screening
-- **Academic contribution**: Research and knowledge sharing
+- **10x** hackathon winner across full-stack, PM, and GenAI competitions
+- **$25,000+** secured at Snap's Spectacles Accelerator
+- **#185 → #74** national hackathon ranking lift for Penn State
+- **200+** students in the GDSC community built
+- **33%** ML deployment-time reduction at Intel
+- **97% accuracy** across 100,000+ images
+- **~99.8%** diagnostic-cost reduction with the retinopathy platform
 
 ---
 
-## 🚀 Future Achievement Targets
-
-### Short-term Goals (6-12 months)
-- [ ] **Advanced AR research** publication in top-tier conference
-- [ ] **$100,000+ funding** for expanded AR/VR research projects
-- [ ] **Industry partnership** for commercial AR application development
-- [ ] **National speaking engagement** on AR innovation and accessibility
-
-### Long-term Vision (1-3 years)
-- [ ] **Technology standards contribution** for AR comfort and accessibility
-- [ ] **Startup founding** or technical leadership role in AR/VR company
-- [ ] **100+ developers mentored** through educational programs
-- [ ] **Industry recognition** as emerging leader in spatial computing
-
----
-
-## 🌟 Recognition Summary
-
-**Current Status**: Rising leader in AR/VR innovation with proven track record of technical excellence, team leadership, and funding acquisition.
-
-**Key Differentiators**:
-- **Proven funding ability**: $50,000+ secured for innovative projects
-- **Consistent competition success**: 8x hackathon winner with sustained excellence
-- **Organizational impact**: Transformational leadership improving institutional performance
-- **Technical depth**: Production-quality systems with measurable business impact
-- **Innovation focus**: First-of-its-kind solutions addressing real-world challenges
-
----
-
-*"Excellence is never an accident. It is always the result of high intention, sincere effort, and intelligent execution." - Aristotle*
-
-*These achievements represent not just personal success, but steps toward building technology that makes a meaningful difference in people's lives.* 🚀
+*"Excellence is never an accident. It is always the result of high intention, sincere effort, and intelligent execution." — Aristotle*

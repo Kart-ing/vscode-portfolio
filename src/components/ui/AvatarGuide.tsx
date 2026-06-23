@@ -7,6 +7,27 @@ interface AvatarGuideProps {
   className?: string;
 }
 
+// Browser-only safe localStorage access (avoids SSR "localStorage is not a
+// function" crashes and private-mode exceptions).
+const safeStorage = {
+  get(key: string): string | null {
+    if (typeof window === 'undefined') return null;
+    try {
+      return window.localStorage?.getItem(key) ?? null;
+    } catch {
+      return null;
+    }
+  },
+  set(key: string, value: string): void {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage?.setItem(key, value);
+    } catch {
+      /* ignore */
+    }
+  },
+};
+
 const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasSeen, setHasSeen] = useState(false);
@@ -14,7 +35,7 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
 
   useEffect(() => {
     // Check if user has seen the guide before
-    const seen = localStorage.getItem('avatar-guide-seen');
+    const seen = safeStorage.get('avatar-guide-seen');
     if (!seen) {
       // Show initial message after 3 seconds
       const timer = setTimeout(() => {
@@ -29,7 +50,7 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
     setShowInitial(false);
-    localStorage.setItem('avatar-guide-seen', 'true');
+    safeStorage.set('avatar-guide-seen', 'true');
   };
 
   const handleClose = () => {
@@ -38,7 +59,7 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
 
   const handleDismiss = () => {
     setShowInitial(false);
-    localStorage.setItem('avatar-guide-seen', 'true');
+    safeStorage.set('avatar-guide-seen', 'true');
   };
 
   return (
@@ -117,9 +138,9 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
                 <h4 className="text-white font-medium mb-2">🚀 What to Check Out:</h4>
                 <ul className="space-y-1 ml-4">
                   <li>• README.md - Start here for overview</li>
-                  <li>• projects/ - My funded AR projects & hackathon wins</li>
-                  <li>• experience.md - Work at Snap Inc. & Intel</li>
-                  <li>• awards.md - $50k+ funding & achievements</li>
+                  <li>• projects/ - My ML, AR & full-stack work</li>
+                  <li>• experience.md - Raya Health, NASA, Intel & more</li>
+                  <li>• awards.md - Hackathon wins, patent & achievements</li>
                 </ul>
               </div>
 
@@ -138,9 +159,10 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
               <div>
                 <h4 className="text-white font-medium mb-2">🎯 Quick Facts:</h4>
                 <ul className="space-y-1 ml-4">
-                  <li>• AR Developer at Snap Inc.</li>
-                  <li>• $50,000+ in secured funding</li>
-                  <li>• 8x hackathon winner</li>
+                  <li>• Founding Engineer @ Raya Health (HF0 W26)</li>
+                  <li>• ex-NASA & ex-Intel</li>
+                  <li>• $25,000+ funding at Snap's accelerator</li>
+                  <li>• 10x hackathon winner</li>
                   <li>• Led Penn State ranking: 185→74 nationally</li>
                 </ul>
               </div>

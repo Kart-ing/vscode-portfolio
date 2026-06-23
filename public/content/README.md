@@ -1,61 +1,62 @@
 # Welcome to Kartikey's Portfolio! 👋
 
-Hi there! I'm **Kartikey Pandey**, a passionate Computer Science student at Penn State University and **AR Developer at Snap Inc.'s Spectacles Student Accelerator Program**.
+Hi there! I'm **Kartikey Pandey**, a software engineer and full-stack developer building scalable systems, cloud-native apps, and AI-driven products. I'm currently a **Founding Engineer @ Raya Health (HF0 W26)**.
 
 ## 🚀 About Me
 
-I'm an **8x hackathon winner** with expertise in AR/VR development, machine learning, and full-stack engineering. Currently leading groundbreaking AR experiences and securing **$50,000+ in funding** for innovative projects.
+I'm an **10x hackathon winner** with experience across machine learning, computer vision, and full-stack engineering. I've built ML pipelines at **Intel**, worked on autonomous lunar robotics for **NASA's Lunar Autonomy Challenge** (via Johns Hopkins APL), and led AR/AI development at **Snap's Spectacles Student Accelerator** — where I secured **$25,000+ in funding**.
 
 ### Quick Facts:
-- 🎓 **Education**: B.S. Computer Science, Minor in Entrepreneurship at Penn State (2022-2026)
-- 📍 **Location**: State College, PA / Remote
-- 💼 **Current Role**: AR Developer at Snap Inc. Spectacles Student Accelerator
-- 🌟 **GPA**: 3.5/4.0 (Dean's List candidate)
-- 🏆 **Achievement**: Led Penn State hackathon ranking from 185 → 74 nationally
+- 💼 **Current Role**: Founding Engineer @ Raya Health (HF0 W26 batch)
+- 🎓 **Education**: B.S. Computer Science, Minor in Entrepreneurship @ Penn State (2022–2026)
+- 📍 **Location**: San Francisco Bay Area
+- 🏆 **Achievement**: Founded & led Penn State's hackathon team, lifting its national rank from **#185 → #74** in a year
+- 🧠 **Background**: ex-NASA (Lunar Autonomy Challenge), ex-Intel, Snap Spectacles Accelerator
+- 📜 **Patent**: "System and Method Providing Data Conversion"
 
 ## 🛠️ Tech Stack
 
-**Programming Languages**: Java, Python, JavaScript, TypeScript, C/C++, C#, Go, PHP, SQL
+**Programming Languages**: Python, TypeScript, JavaScript, Java, C/C++, SQL
 
-**AR/VR Development**: Lens Studio, Spectacles SDK, Unity, WebXR
+**Frontend**: React, Next.js, HTML5, CSS3, Tailwind CSS, GraphQL
 
-**Frontend**: React, Vue.js, Next.js, HTML5, CSS3, Tailwind CSS, Angular
+**Backend**: Node.js, Express.js, FastAPI, Flask, REST APIs
 
-**Backend**: Node.js, Express.js, FastAPI, Flask, Spring
+**AI/ML**: TensorFlow, PyTorch, OpenCV, BERT, Scikit-learn, SLAM
 
-**AI/ML**: TensorFlow, PyTorch, OpenCV, BERT, Scikit-learn
+**AR/Spatial**: Lens Studio, Spectacles SDK, CARLA (simulation)
 
-**Cloud & DevOps**: AWS, Google Cloud Platform, Docker, Kubernetes, PostgreSQL, NoSQL
+**Cloud & DevOps**: AWS, Google Cloud Platform, Docker, PostgreSQL
 
-**Tools**: Git, JIRA, PyTest, Selenium, Linux, Arduino, Blender
+**Tools**: Git, Selenium, Linux, automation engineering
 
 ## 🏆 Recent Achievements
 
-- **$50,000+ in funding** secured at Snap Inc. ($35k for Project Elementals + $15k for motion sickness tech)
-- **1st Place Winner** - HackPSU Snap AR Hackathon ($5,000 prize)
-- **2nd Place Winner** - HackHarvard 2023
-- **8x Hackathon Winner** status across nationwide competitions
-- **Lead AR Developer** on Team Virtus at Snap Inc.
-- **Founded hackathon team** that improved Penn State's national ranking by 111 positions
+- **Founding Engineer @ Raya Health** — part of the **HF0 W26** residency batch
+- **$25,000+ in funding** secured at Snap's Spectacles Student Accelerator
+- **Snap AR Challenge Winner**
+- **10x Hackathon Winner** across full-stack, PM, and GenAI competitions
+- **Founded & led** Penn State's Collegiate Hackathon Team (national rank **#185 → #74**)
+- **President of GDSC @ Penn State** — built a 200+ student SWE/AI/cloud community
+- **NASA Lunar Autonomy Challenge** (via JHU APL) — autonomous lunar robotics
 
 ## 📁 Portfolio Sections
 
 Navigate through the file explorer to explore different sections:
 
-- **📄 about.md** - My background, journey, and what drives me
-- **💼 experience.md** - Professional experience at Snap Inc., Intel, and Penn State
-- **🚀 projects/** - Detailed showcase of Reality Rush, EyeSnap, Project Elementals, and 6 more innovative projects
-- **🏅 awards.md** - $50k+ funding, hackathon wins, and leadership achievements
-- **📞 contact.md** - Get in touch for opportunities and collaborations
+- **📄 about.md** — My background, journey, and what drives me
+- **💼 experience.md** — Raya Health, NASA, ColdStart, GDSC, Intel, and Snap accelerator
+- **🚀 projects/** — Showcase of AR, ML, and full-stack projects
+- **🏅 awards.md** — Hackathon wins, patent, funding, and leadership achievements
+- **📞 contact.md** — Get in touch for opportunities and collaborations
 
 ## 🎯 What I'm Looking For
 
-I'm actively seeking opportunities in:
+I'm always open to building great products with great people, especially in:
 - **Full-stack Software Engineering** roles
-- **AR/VR Developer** positions
 - **Machine Learning Engineering** opportunities
-- **Cloud Engineering** positions
-- **Technical writing** and open source contributions
+- **Founding / early-stage engineering** roles
+- **Cloud & platform engineering** positions
 
 ## 🌟 Why This Portfolio?
 
@@ -65,18 +66,6 @@ This portfolio is built as a VS Code-themed web application to showcase my techn
 - **Monaco editor integration** for authentic code editing
 - **Responsive design** optimized for all devices
 - **Dark theme** with professional blue accents
-
-## 🎮 Current Projects
-
-### Project Elementals ($35,000 funding)
-- **Multiplayer Avatar-inspired AR game** using Lens Studio and TypeScript
-- **Real-time synchronization** enabling shared AR environments
-- **Elemental bending mechanics** in augmented reality
-
-### Motion Sickness Reduction Technology ($15,000 funding)
-- **Advanced stabilization algorithms** for AR glasses
-- **Pioneer comfortable AR usage** in vehicles and public transit
-- **First-of-its-kind** technology for mobile AR experiences
 
 ---
 

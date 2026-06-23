@@ -16,21 +16,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kartikey Pandey - AR Developer & Software Engineer Portfolio",
-  description: "AR Developer at Snap Inc. with $50,000+ in secured funding, 8x hackathon winner, and experience leading Penn State's competitive programming team. Interactive VS Code-themed portfolio showcasing AR projects and achievements.",
-  keywords: ["AR Developer", "Software Engineer", "Snap Inc", "Augmented Reality", "Unity", "React", "Next.js", "Hackathon Winner", "Penn State"],
+  title: "Kartikey Pandey - Founding Engineer & Software Engineer Portfolio",
+  description: "Founding Engineer @ Raya Health (HF0 W26). Full-stack & ML engineer, 10x hackathon winner, ex-NASA Lunar Autonomy Challenge & ex-Intel. Interactive VS Code-themed portfolio showcasing projects, research, and achievements.",
+  keywords: ["Founding Engineer", "Software Engineer", "Full-Stack Developer", "Machine Learning", "Raya Health", "HF0", "NASA", "Intel", "React", "Next.js", "TypeScript", "Python", "Hackathon Winner", "Penn State"],
   authors: [{ name: "Kartikey Pandey" }],
   creator: "Kartikey Pandey",
   openGraph: {
-    title: "Kartikey Pandey - AR Developer Portfolio",
-    description: "AR Developer at Snap Inc. with $50,000+ in secured funding and 8x hackathon wins",
+    title: "Kartikey Pandey - Founding Engineer Portfolio",
+    description: "Founding Engineer @ Raya Health (HF0 W26) · 10x hackathon winner · ex-NASA & ex-Intel · full-stack + ML.",
     type: "website",
     url: "https://yourdomain.com",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kartikey Pandey - AR Developer Portfolio",
-    description: "AR Developer at Snap Inc. with $50,000+ in secured funding and 8x hackathon wins",
+    title: "Kartikey Pandey - Founding Engineer Portfolio",
+    description: "Founding Engineer @ Raya Health (HF0 W26) · 10x hackathon winner · ex-NASA & ex-Intel · full-stack + ML.",
   },
   alternates: {
     canonical: "https://yourdomain.com",
@@ -46,28 +46,33 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Kartikey Pandey",
-    "jobTitle": "AR Developer & Software Engineer",
+    "jobTitle": "Founding Engineer",
     "worksFor": {
       "@type": "Organization",
-      "name": "Snap Inc."
+      "name": "Raya Health"
     },
-    "description": "AR Developer at Snap Inc. with $50,000+ in secured funding, 8x hackathon winner, and experience leading Penn State's competitive programming team.",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Pennsylvania State University"
+    },
+    "description": "Founding Engineer @ Raya Health (HF0 W26). Full-stack and machine-learning engineer, 10x hackathon winner, ex-NASA Lunar Autonomy Challenge and ex-Intel.",
     "email": "kartikeypandey.official@gmail.com",
     "url": "https://yourdomain.com",
     "sameAs": [
-      "https://linkedin.com/in/kartikeypandey",
+      "https://linkedin.com/in/kartikeypandey2004",
       "https://github.com/Kart-ing"
     ],
     "knowsAbout": [
-      "Augmented Reality",
-      "Unity",
+      "Software Engineering",
+      "Full-Stack Development",
+      "Machine Learning",
+      "Computer Vision",
       "React",
       "Next.js",
-      "JavaScript",
       "TypeScript",
       "Python",
-      "Java",
-      "C++"
+      "Node.js",
+      "Augmented Reality"
     ]
   };
 
