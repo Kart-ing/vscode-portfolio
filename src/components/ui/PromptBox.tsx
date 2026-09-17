@@ -54,9 +54,9 @@ export function PromptBox({ inputRef, value, onChange }: PromptBoxProps) {
         type="submit"
         className="prompt-submit"
         data-busy={busy ? "true" : "false"}
-        aria-label={busy ? "Plotting a course" : "Ask"}
+        aria-label={busy ? "Thinking" : "Ask"}
       >
-        <span className="label">{busy ? "Plotting" : "Ask"}</span>
+        <span className="label">{busy ? "Thinking" : "Ask"}</span>
         <span className="key" aria-hidden="true">
           ↵
         </span>

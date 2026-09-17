@@ -65,6 +65,10 @@ describe("POST /api/flight", () => {
     expect(headers.get("x-title")).toBe("kartikey.fyi");
     const body = JSON.parse(String(init?.body));
     expect(body.model).toBe("z-ai/glm-5.2:free");
+    // The fallback chain is free models only, in priority order.
+    expect(body.models[0]).toBe("z-ai/glm-5.2:free");
+    expect(body.models.length).toBeGreaterThanOrEqual(1);
+    for (const id of body.models) expect(id.endsWith(":free"), id).toBe(true);
     expect(body.temperature).toBe(0);
     expect(body.max_tokens).toBeLessThanOrEqual(512);
     expect(body.reasoning).toEqual({ effort: "none", exclude: true });

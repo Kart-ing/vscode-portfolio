@@ -27,6 +27,12 @@ const dmMono = DM_Mono({
 const SITE_URL = "https://www.kartikey.fyi";
 const TITLE = `${record.owner.name} · ${record.owner.role}`;
 
+// Decides before first paint whether the intro plays this session, so the
+// identity never flashes and then hides. It only reads; finishIntro() writes
+// the session flag. Without JavaScript nothing runs and the page is simply
+// visible, which is also what crawlers get.
+const introScript = `(function(){var p='done';try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&sessionStorage.getItem('kfyi-intro')!=='done')p='playing'}catch(e){}document.documentElement.dataset.intro=p})()`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -64,8 +70,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       className={`${bricolage.variable} ${hanken.variable} ${dmMono.variable}`}
+      // The inline script above sets data-intro on <html> before hydration.
+      suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+        {children}
+      </body>
     </html>
   );
 }

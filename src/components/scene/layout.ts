@@ -8,8 +8,10 @@ import type {
   ConstellationId,
   Star,
   StarKind,
+  StarMeta,
   WorkRecord,
 } from "@/lib/contract";
+import { firstFacet, resolveMeta, type StartDate } from "./meta";
 import { DISK_TILT } from "./tuning";
 
 export interface StarNode {
@@ -19,8 +21,11 @@ export interface StarNode {
   label: string;
   kind: StarKind;
   constellation: ConstellationId;
+  constellationLabel: string;
   weight: 1 | 2 | 3;
   period?: string;
+  summary: string;
+  /** Home position in the free map. Views move stars away from it and back. */
   position: Vector3;
   /** Linear RGB, ready for shader attributes. */
   color: Color;
@@ -30,6 +35,14 @@ export interface StarNode {
   hitRadius: number;
   /** Stable 0..1 value for twinkle phase. */
   seed: number;
+  /** When the work started, or null for undated stars. */
+  start: StartDate | null;
+  /** 0..n-1 in ignition order: by start, undated last, record order for ties. */
+  startRank: number;
+  stack: string[];
+  repo?: string;
+  /** The star's lead fact, for the compare panels. */
+  facet?: string;
 }
 
 export interface ConstellationNode {
@@ -48,6 +61,8 @@ export interface StarLayout {
   indexById: Map<string, number>;
   /** Approximate radius of the whole arrangement. */
   radius: number;
+  /** Every constellation segment, flattened, in constellation order. */
+  segments: [number, number][];
 }
 
 // 32-bit string hash (FNV-1a with a final avalanche). Stable across runtimes.
@@ -77,7 +92,7 @@ export function seededRandom(seed: number): () => number {
   };
 }
 
-const KIND_COLORS: Record<StarKind, string> = {
+export const KIND_COLORS: Record<StarKind, string> = {
   company: "#ffd9a3",
   project: "#dfe9ff",
   paper: "#a6cdff",
@@ -126,7 +141,10 @@ function spanningTree(points: Vector3[]): [number, number][] {
   return edges;
 }
 
-export function buildLayout(record: WorkRecord): StarLayout {
+export function buildLayout(
+  record: WorkRecord,
+  metaOverride: Record<string, StarMeta> | null = null,
+): StarLayout {
   const constellationIds = record.constellations.map((c) => c.id);
   const starsByConstellation = new Map<ConstellationId, Star[]>();
   for (const c of record.constellations) starsByConstellation.set(c.id, []);
@@ -196,6 +214,7 @@ export function buildLayout(record: WorkRecord): StarLayout {
       const flat = bestPos ?? anchorFlat.clone();
       placedFlat.push(flat);
 
+      const meta = resolveMeta(star, metaOverride?.[star.id]);
       const index = stars.length;
       indexById.set(star.id, index);
       starIndices.push(index);
@@ -205,13 +224,20 @@ export function buildLayout(record: WorkRecord): StarLayout {
         label: star.label,
         kind: star.kind,
         constellation: star.constellation,
+        constellationLabel: label,
         weight: star.weight,
         period: star.period,
+        summary: star.summary,
         position: tilt(flat.clone()),
         color: new Color(KIND_COLORS[star.kind] ?? "#e6ecff"),
         size: SIZE_BY_WEIGHT[star.weight] ?? 1.2,
         hitRadius: HIT_BY_WEIGHT[star.weight] ?? 1,
         seed: srand(),
+        start: meta.start,
+        startRank: 0,
+        stack: meta.stack,
+        repo: meta.repo,
+        facet: firstFacet(record.facets, star.id)?.text,
       });
     });
 
@@ -239,8 +265,24 @@ export function buildLayout(record: WorkRecord): StarLayout {
     });
   });
 
+  // Ignition order: by start date, undated stars last, record order for ties.
+  const order = stars
+    .map((star) => star.index)
+    .sort((a, b) => {
+      const sa = stars[a].start;
+      const sb = stars[b].start;
+      if (sa && sb) return sa.index - sb.index || a - b;
+      if (sa) return -1;
+      if (sb) return 1;
+      return a - b;
+    });
+  order.forEach((index, rank) => {
+    stars[index].startRank = rank;
+  });
+
   let radius = 10;
   for (const s of stars) radius = Math.max(radius, s.position.length());
 
-  return { stars, constellations, indexById, radius };
+  const segments = constellations.flatMap((c) => c.segments);
+  return { stars, constellations, indexById, radius, segments };
 }

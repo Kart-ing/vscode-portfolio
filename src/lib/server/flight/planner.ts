@@ -19,6 +19,7 @@ import { facetMap, modelSaidNone, parseModelOutput } from "./parse";
 import { buildSystemPrompt } from "./prompt";
 import { normalizeQuestion } from "./text";
 import { EMPTY_PLAN, cleanQuestion } from "./validate";
+import { modelChainFromEnv, resolveModelChain } from "@/lib/server/models";
 
 export interface PlannerOptions {
   record: WorkRecord;
@@ -26,6 +27,8 @@ export interface PlannerOptions {
   /** Read per call so a key added later is picked up; empty means no model. */
   getApiKey?: () => string | undefined;
   model?: string;
+  /** Priority-ordered fallback chain; only ":free" ids survive. Defaults to the env or DEFAULT_MODELS. */
+  models?: readonly string[];
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
   maxTokens?: number;
@@ -61,7 +64,13 @@ function copyStops(stops: readonly FlightStop[]): FlightStop[] {
 export function createFlightPlanner(options: PlannerOptions): FlightPlanner {
   const { record, chips } = options;
   const getApiKey = options.getApiKey ?? (() => process.env.OPENROUTER_API_KEY);
-  const model = options.model ?? process.env.OPENROUTER_MODEL?.trim() ?? DEFAULT_MODEL;
+  // Free models only; a paid id in the options or the env is dropped.
+  const models = options.models
+    ? resolveModelChain(options.models)
+    : options.model
+      ? resolveModelChain(options.model)
+      : modelChainFromEnv();
+  const model = models[0] ?? DEFAULT_MODEL;
   const fetchImpl = options.fetchImpl ?? ((input, init) => fetch(input, init));
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const maxTokens = options.maxTokens ?? DEFAULT_MAX_TOKENS;
@@ -103,6 +112,7 @@ export function createFlightPlanner(options: PlannerOptions): FlightPlanner {
     const result = await callOpenRouter({
       apiKey,
       model,
+      models,
       systemPrompt: buildSystemPrompt(record),
       question,
       fetchImpl,

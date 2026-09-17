@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { record } from "@/content/record";
 import { isExternal } from "./record-lookup";
+import { TourButton } from "./TourButton";
 
 // Server-rendered. This is what a 30-second reader, a crawler and a visitor
 // with JavaScript off all get before anything else loads.
@@ -27,6 +28,7 @@ export function Identity() {
           <Link href="/record" className="to-record">
             Browse the full record →
           </Link>
+          <TourButton />
         </nav>
       </div>
     </div>

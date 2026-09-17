@@ -16,7 +16,7 @@ import {
   ShaderMaterial,
   Vector3,
 } from "three";
-import { useFlight } from "@/lib/flight-state";
+import { useSignals } from "./signals";
 import { hashString, seededRandom } from "./layout";
 import { pointFragment, pointVertex } from "./shaders";
 import { useScene } from "./SceneContext";
@@ -94,7 +94,7 @@ export function PointField(props: PointFieldProps) {
   const sizeMin = props.sizeRange[0];
   const sizeMax = props.sizeRange[1];
   const { reducedMotion, runtimeRef } = useScene();
-  const { status } = useFlight();
+  const { status } = useSignals();
   const pointsRef = useRef<Points>(null);
   const swirlVelocity = useRef(0);
   const swirlAngle = useRef(0);

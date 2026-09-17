@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import type { Facet, Star } from "@/lib/contract";
+import type { Facet, MediaItem, RepoPulse, Star } from "@/lib/contract";
 import { useFlight } from "@/lib/flight-state";
+import { compactCount, relativeTime, useNow } from "./pulse-format";
 import {
   KIND_LABEL,
   evidenceFor,
@@ -55,6 +56,105 @@ const lineVariantsReduced: Variants = {
   exit: { opacity: 1 },
 };
 
+const PARALLAX_PX = 7;
+
+// The owner's own image of the work. Lazy, sized from the record so nothing
+// shifts, and it drifts a few pixels against the cursor on hover.
+function Media({ media, reduced }: { media: MediaItem; reduced: boolean }) {
+  const [failed, setFailed] = useState(false);
+  const frame = useRef<HTMLDivElement | null>(null);
+  if (failed) return null;
+  const ratio = media.width && media.height ? `${media.width} / ${media.height}` : "16 / 10";
+
+  const onMove = (event: MouseEvent<HTMLDivElement>) => {
+    const el = frame.current;
+    if (reduced || !el) return;
+    const rect = el.getBoundingClientRect();
+    const dx = (event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5;
+    const dy = (event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5;
+    el.style.setProperty("--px", `${(-dx * PARALLAX_PX * 2).toFixed(1)}px`);
+    el.style.setProperty("--py", `${(-dy * PARALLAX_PX * 2).toFixed(1)}px`);
+  };
+  const onLeave = () => {
+    const el = frame.current;
+    if (!el) return;
+    el.style.setProperty("--px", "0px");
+    el.style.setProperty("--py", "0px");
+  };
+
+  return (
+    <motion.div
+      ref={frame}
+      className="card-media"
+      style={{ aspectRatio: ratio }}
+      variants={reduced ? lineVariantsReduced : lineVariants}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+    >
+      {media.kind === "video" ? (
+        <video
+          src={media.src}
+          muted
+          loop
+          playsInline
+          autoPlay={!reduced}
+          preload="metadata"
+          aria-label={media.alt}
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        // A plain <img>: the file is the owner's own, already sized, and the
+        // card must not pull the image runtime into the first load.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={media.src}
+          alt={media.alt}
+          width={media.width}
+          height={media.height}
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+        />
+      )}
+      {media.credit && (
+        <a className="card-credit" href={media.credit.url} target="_blank" rel="noopener noreferrer">
+          {media.credit.label}
+        </a>
+      )}
+    </motion.div>
+  );
+}
+
+// Live GitHub stats from /api/pulse, formatted in the browser.
+function Live({ pulse }: { pulse: RepoPulse }) {
+  const now = useNow();
+  const pushed = relativeTime(pulse.lastPushAt, now);
+  const active = pulse.pushesLast30d > 0;
+  const starred = pulse.stars > 0;
+  if (!starred && !pushed && !active) return null;
+  return (
+    <p className="live" aria-label="Live repository activity">
+      {starred && <span className="star-count">★ {compactCount(pulse.stars)}</span>}
+      {pushed && (
+        <>
+          {starred && (
+            <span className="sep" aria-hidden="true">
+              ·
+            </span>
+          )}
+          <span>pushed {pushed}</span>
+        </>
+      )}
+      {active && (
+        <span className="live-badge" title={`${pulse.pushesLast30d} pushes in the last 30 days`}>
+          <span className="live-dot" aria-hidden="true" />
+          active
+        </span>
+      )}
+    </p>
+  );
+}
+
 interface CardProps {
   cardKey: string;
   star: Star;
@@ -63,15 +163,17 @@ interface CardProps {
   counter: { index: number; total: number } | null;
   direction: 1 | -1;
   reduced: boolean;
+  pulse: RepoPulse | undefined;
+  /** Inside the phone sheet: no plate chrome of its own. */
+  bare: boolean;
   onPrev(): void;
   onNext(): void;
   onClose(): void;
 }
 
-function Card({ star, facets, highlightId, counter, direction, reduced, onPrev, onNext, onClose }: CardProps) {
-  // On phones the card is a bottom sheet capped at ~45dvh: it leads with the
-  // answering line and the evidence, and keeps the star's other lines behind a
-  // disclosure that expands in place and scrolls inside the sheet.
+function Card({ star, facets, highlightId, counter, direction, reduced, pulse, bare, onPrev, onNext, onClose }: CardProps) {
+  // On phones the card leads with the answering line and the evidence, and
+  // keeps the star's other lines behind a disclosure that expands in place.
   const compact = useMediaQuery("(max-width: 767px)");
   const [more, setMore] = useState(false);
   const moreRef = useRef<HTMLDivElement | null>(null);
@@ -80,6 +182,9 @@ function Card({ star, facets, highlightId, counter, direction, reduced, onPrev, 
   const lead = primary ?? facets[0];
   const rest = facets.filter((facet) => facet.id !== lead?.id);
   const evidence = evidenceFor(star, primary, rest);
+  if (star.repo && !evidence.some((link) => link.url.includes(`github.com/${star.repo}`))) {
+    evidence.push({ label: "Repository", url: `https://github.com/${star.repo}` });
+  }
   const collapsible = compact && rest.length > 0;
   const meta = [getConstellationLabel(star.constellation), KIND_LABEL[star.kind], star.period]
     .filter(Boolean)
@@ -89,10 +194,11 @@ function Card({ star, facets, highlightId, counter, direction, reduced, onPrev, 
   const plate = reduced ? plateVariantsReduced : plateVariants;
   const line = reduced ? lineVariantsReduced : lineVariants;
   const restClass = highlightId ? "facet" : "facet is-plain";
+  const media = star.media?.find((item) => item.kind === "image") ?? star.media?.[0];
 
   return (
     <motion.article
-      className="plate"
+      className={bare ? "plate is-bare" : "plate"}
       custom={direction}
       variants={plate}
       initial="enter"
@@ -101,6 +207,7 @@ function Card({ star, facets, highlightId, counter, direction, reduced, onPrev, 
       aria-labelledby={headingId}
     >
       <div className="plate-body">
+        {media && <Media media={media} reduced={reduced} />}
         <motion.div className="plate-meta" variants={line}>
           <span>{meta}</span>
           {counter && (
@@ -112,6 +219,18 @@ function Card({ star, facets, highlightId, counter, direction, reduced, onPrev, 
         <motion.h3 id={headingId} className="display-small plate-title" variants={line}>
           {star.label}
         </motion.h3>
+        {pulse && (
+          <motion.div variants={line}>
+            <Live pulse={pulse} />
+          </motion.div>
+        )}
+        {star.stack && star.stack.length > 0 && (
+          <motion.ul className="stack" aria-label="Stack" variants={line}>
+            {star.stack.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </motion.ul>
+        )}
         <ul className="facets">
           {lead && (
             <motion.li className={highlightId ? "facet is-hit" : "facet is-plain"} variants={line}>
@@ -216,44 +335,38 @@ function Card({ star, facets, highlightId, counter, direction, reduced, onPrev, 
   );
 }
 
-export function StopCardHost({ reduced, onClose }: { reduced: boolean; onClose(): void }) {
-  const { status, plan, stopIndex, focusedStarId, direction, next, prev } = useFlight();
+interface HostProps {
+  reduced: boolean;
+  onClose(): void;
+  bare?: boolean;
+}
+
+// The card for the focused star. While a narration plays, the highlighted
+// line is the citation the camera is on, and Previous/Next step through the
+// cited sentences.
+export function StopCardHost({ reduced, onClose, bare = false }: HostProps) {
+  const { status, focusedStarId, focusedFacetId, plan, stopIndex, activeSentence, direction, next, prev, pulses, tour } =
+    useFlight();
 
   let card: CardProps | null = null;
-  if (status === "flying") {
-    const stop = plan?.stops[stopIndex];
-    if (plan && stop) {
-      const star = getStar(stop.starId);
-      if (star) {
-        card = {
-          cardKey: `${stopIndex}:${stop.facetId}`,
-          star,
-          facets: getFacets(star.id),
-          highlightId: stop.facetId,
-          counter: { index: stopIndex + 1, total: plan.stops.length },
-          direction,
-          reduced,
-          onPrev: prev,
-          onNext: next,
-          onClose,
-        };
-      }
-    } else if (focusedStarId) {
-      const star = getStar(focusedStarId);
-      if (star) {
-        card = {
-          cardKey: `star:${star.id}`,
-          star,
-          facets: getFacets(star.id),
-          highlightId: null,
-          counter: null,
-          direction,
-          reduced,
-          onPrev: prev,
-          onNext: next,
-          onClose,
-        };
-      }
+  if (status === "flying" && focusedStarId) {
+    const star = getStar(focusedStarId);
+    if (star) {
+      const counted = !!plan && plan.stops.length > 1 && activeSentence >= 0 && !tour.active;
+      card = {
+        cardKey: `${star.id}:${focusedFacetId ?? ""}`,
+        star,
+        facets: getFacets(star.id),
+        highlightId: focusedFacetId,
+        counter: counted && plan ? { index: stopIndex + 1, total: plan.stops.length } : null,
+        direction,
+        reduced,
+        pulse: pulses[star.id],
+        bare,
+        onPrev: prev,
+        onNext: next,
+        onClose,
+      };
     }
   }
 

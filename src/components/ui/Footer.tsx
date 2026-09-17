@@ -1,15 +1,16 @@
 import Link from "next/link";
+import { SoundToggle } from "./SoundToggle";
 
 export const SOURCE_URL = "https://github.com/Kart-ing/vscode-portfolio";
 
-export function Footer() {
+export function Footer({ sound = false }: { sound?: boolean }) {
   return (
     <p className="footer">
-      <span className="wide">Every line links to its source.</span>
+      <span className="wide">Answers are built only from the verified record</span>
       <span className="sep wide" aria-hidden="true">
         ·
       </span>
-      <span>Questions go to GLM-5.2 via OpenRouter.</span>
+      <span>Questions go to GLM-5.2 via OpenRouter</span>
       <span className="sep" aria-hidden="true">
         ·
       </span>
@@ -24,6 +25,14 @@ export function Footer() {
         ·
       </span>
       <Link href="/record">/record</Link>
+      {sound && (
+        <>
+          <span className="sep" aria-hidden="true">
+            ·
+          </span>
+          <SoundToggle />
+        </>
+      )}
     </p>
   );
 }

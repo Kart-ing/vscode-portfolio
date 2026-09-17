@@ -113,6 +113,11 @@ export function buildRouterIndex(record: WorkRecord): RouterIndex {
 
 /** Question tokens plus synonym expansions, deduplicated, in order. */
 export function expandQuestion(question: string): string[] {
+  return expandTokens(tokenize(question));
+}
+
+/** Synonym expansion for tokens that are already tokenized (see tokenize). */
+export function expandTokens(tokens: readonly string[]): string[] {
   const out: string[] = [];
   const seen = new Set<string>();
   const push = (t: string) => {
@@ -121,7 +126,7 @@ export function expandQuestion(question: string): string[] {
       out.push(t);
     }
   };
-  for (const token of tokenize(question)) {
+  for (const token of tokens) {
     push(token);
     for (const synonym of SYNONYMS[token] ?? []) push(synonym);
   }
@@ -134,8 +139,12 @@ export interface ScoredStop extends FlightStop {
 
 /** Scores every facet and returns the best facet per star, strongest first. */
 export function scoreFacets(question: string, record: WorkRecord): ScoredStop[] {
+  return scoreTerms(expandQuestion(question), record);
+}
+
+/** Like scoreFacets, but for terms already tokenized and expanded (see expandQuestion). */
+export function scoreTerms(terms: readonly string[], record: WorkRecord): ScoredStop[] {
   const index = buildRouterIndex(record);
-  const terms = expandQuestion(question);
   if (terms.length === 0) return [];
 
   const bestPerStar = new Map<string, { entry: IndexedFacet; score: number }>();

@@ -8,6 +8,10 @@ import type { WorkRecord } from "@/lib/contract";
 // GitHub repo descriptions under github.com/Kart-ing, and Devpost taglines
 // quoted verbatim. Never add a date of birth, age, immigration status, phone
 // number, street address or GPA.
+//
+// V3 metadata (start, stack, repo, media) is verified from each star's period,
+// the karts repo's first commit, Kart-ing repo creation dates, languages and
+// READMEs, and the owner's own project images on public Devpost pages.
 
 const GITHUB = "https://github.com/Kart-ing";
 const RECOMPRESS_DOI = "https://doi.org/10.5281/zenodo.20786357";
@@ -60,6 +64,7 @@ export const record: WorkRecord = {
         "working on",
       ],
       links: [],
+      start: "2026-08",
       weight: 3,
     },
 
@@ -82,10 +87,25 @@ export const record: WorkRecord = {
         "fork",
         "replay",
         "branch predictor",
-        "python",
+        "typescript",
+        "opencode",
+        "decision tree",
         "open source",
       ],
       links: [{ label: "GitHub", url: `${GITHUB}/multiverse` }],
+      start: "2026-06",
+      stack: ["TypeScript", "Bun", "ClickHouse", "Langfuse", "Composio"],
+      repo: "Kart-ing/multiverse",
+      media: [
+        {
+          kind: "image",
+          src: "/media/multiverse.jpg",
+          alt: "Terminal screenshot of the Multiverse TUI: a pixel-font multiverse banner above an Ask anything prompt.",
+          width: 1200,
+          height: 1002,
+          credit: { label: "Devpost", url: "https://devpost.com/software/multiverse-xgqfrp" },
+        },
+      ],
       weight: 2,
     },
     {
@@ -115,6 +135,9 @@ export const record: WorkRecord = {
         { label: "GitHub", url: `${GITHUB}/pingpal` },
         { label: "npm", url: "https://www.npmjs.com/package/pingpal" },
       ],
+      start: "2026-06",
+      stack: ["TypeScript", "Node.js", "pnpm", "MCP"],
+      repo: "Kart-ing/pingpal",
       weight: 1,
     },
     {
@@ -141,6 +164,9 @@ export const record: WorkRecord = {
         "orchestrator",
       ],
       links: [{ label: "GitHub (setup repo)", url: `${GITHUB}/hermes-offloader-setup` }],
+      start: "2026-06",
+      stack: ["Python", "Shell", "systemd", "SSH"],
+      repo: "Kart-ing/hermes-offloader-setup",
       weight: 1,
     },
 
@@ -176,6 +202,19 @@ export const record: WorkRecord = {
         { label: "Devpost", url: "https://devpost.com/software/re-compress" },
         { label: "Live demo", url: "https://demo-eight-olive-97.vercel.app" },
       ],
+      start: "2026-06",
+      stack: ["Python", "LoRA", "Qwen2.5-1.5B", "Modal"],
+      repo: "Kart-ing/ReCompress",
+      media: [
+        {
+          kind: "image",
+          src: "/media/recompress.jpg",
+          alt: "Line chart from the Re:Compress Devpost page: context tokens sent to the solver per conversation turn, for a naive growing history and for ReZero with the distilled model.",
+          width: 1200,
+          height: 720,
+          credit: { label: "Devpost", url: "https://devpost.com/software/re-compress" },
+        },
+      ],
       weight: 2,
     },
     {
@@ -204,6 +243,7 @@ export const record: WorkRecord = {
           url: "https://www.quickcompany.in/patents/system-and-method-providing-data-conversion",
         },
       ],
+      start: "2020-10",
       weight: 2,
     },
 
@@ -230,6 +270,17 @@ export const record: WorkRecord = {
         "2023",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/signease" }],
+      start: "2023-04",
+      media: [
+        {
+          kind: "image",
+          src: "/media/hackpsu-spring-2023.jpg",
+          alt: "SignEase logo: a pink waving hand above the name SignEase on a grid background.",
+          width: 958,
+          height: 769,
+          credit: { label: "Devpost", url: "https://devpost.com/software/signease" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -262,6 +313,18 @@ export const record: WorkRecord = {
           url: "https://devpost.com/software/eyesnap-diabetic-retinopathy-detection-with-diascan",
         },
       ],
+      start: "2023-10",
+      stack: ["TensorFlow", "React Native", "Flask", "SQL"],
+      media: [
+        {
+          kind: "image",
+          src: "/media/hackharvard-2023.jpg",
+          alt: "3D render of an orange cylindrical lens attachment on a red plate, from the EyeSnap Devpost page.",
+          width: 302,
+          height: 272,
+          credit: { label: "Devpost", url: "https://devpost.com/software/eyesnap-diabetic-retinopathy-detection-with-diascan" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -283,6 +346,17 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/devspot" }],
+      start: "2024-03",
+      media: [
+        {
+          kind: "image",
+          src: "/media/hackpsu-spring-2024.jpg",
+          alt: "DevSpot logo: a white outlined emblem inside a circle on a brown background.",
+          width: 1200,
+          height: 1200,
+          credit: { label: "Devpost", url: "https://devpost.com/software/devspot" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -310,6 +384,17 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/moth-challenege" }],
+      start: "2024-04",
+      media: [
+        {
+          kind: "image",
+          src: "/media/bitcamp-2024.jpg",
+          alt: "Moth Challenge artwork: a green pixel-art moth over a striped circle on a black background.",
+          width: 1024,
+          height: 1024,
+          credit: { label: "Devpost", url: "https://devpost.com/software/moth-challenege" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -340,6 +425,18 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/reality-rush" }],
+      start: "2024-10",
+      stack: ["Lens Studio", "TypeScript", "Snap Spectacles"],
+      media: [
+        {
+          kind: "image",
+          src: "/media/hackpsu-fall-2024.jpg",
+          alt: "Reality Rush wordmark in black over teal and lime shapes.",
+          width: 1200,
+          height: 1200,
+          credit: { label: "Devpost", url: "https://devpost.com/software/reality-rush" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -367,6 +464,18 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/circuit-simulator" }],
+      start: "2024-11",
+      stack: ["Meta Quest 3"],
+      media: [
+        {
+          kind: "image",
+          src: "/media/hackumass-xii.jpg",
+          alt: "Screenshot of the VR Breadboard simulator: a breadboard with logic gate buttons, four inputs, VCC and GND wires and nine output pins.",
+          width: 1200,
+          height: 635,
+          credit: { label: "Devpost", url: "https://devpost.com/software/circuit-simulator" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -394,6 +503,18 @@ export const record: WorkRecord = {
         "2025",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/soundsage" }],
+      start: "2025-09",
+      stack: ["MemryX"],
+      media: [
+        {
+          kind: "image",
+          src: "/media/mhacks-2025.jpg",
+          alt: "SoundSage logo: a teal brain outline between audio waveforms on a navy background.",
+          width: 1024,
+          height: 1024,
+          credit: { label: "Devpost", url: "https://devpost.com/software/soundsage" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -424,6 +545,19 @@ export const record: WorkRecord = {
         { label: "Devpost", url: "https://devpost.com/software/agentoverflow" },
         { label: "GitHub", url: `${GITHUB}/agentoverflow` },
       ],
+      start: "2025-10",
+      stack: ["TypeScript", "Node.js", "Elasticsearch"],
+      repo: "Kart-ing/agentoverflow",
+      media: [
+        {
+          kind: "image",
+          src: "/media/calhacks-12.jpg",
+          alt: "AgentOverflow logo: a speech bubble holding orange stacked bars, above the name AgentOverflow.",
+          width: 1024,
+          height: 1024,
+          credit: { label: "Devpost", url: "https://devpost.com/software/agentoverflow" },
+        },
+      ],
       weight: 1,
     },
     {
@@ -451,6 +585,19 @@ export const record: WorkRecord = {
       links: [
         { label: "Devpost", url: "https://devpost.com/software/re-compress" },
         { label: "GitHub", url: `${GITHUB}/ReCompress` },
+      ],
+      start: "2026-06",
+      stack: ["Python", "LoRA", "Qwen2.5-1.5B"],
+      repo: "Kart-ing/ReCompress",
+      media: [
+        {
+          kind: "image",
+          src: "/media/berkeley-ai-hackathon-2026.jpg",
+          alt: "Re:Compress logo: a document with a question mark funnelled by two arrows into a small block, above the name RE:COMPRESS.",
+          width: 1200,
+          height: 654,
+          credit: { label: "Devpost", url: "https://devpost.com/software/re-compress" },
+        },
       ],
       weight: 2,
     },
@@ -485,6 +632,7 @@ export const record: WorkRecord = {
           url: "https://www.compiled.sh/articles/c0mpiled-11-yc-startup-school-hackathon",
         },
       ],
+      start: "2026-07",
       weight: 2,
     },
     {
@@ -518,6 +666,7 @@ export const record: WorkRecord = {
           url: "https://www.compiled.sh/articles/c0mpiled-13-startup-school-hackathon-ii",
         },
       ],
+      start: "2026-07",
       weight: 2,
     },
     {
@@ -550,6 +699,9 @@ export const record: WorkRecord = {
         "2026",
       ],
       links: [{ label: "GitHub", url: `${GITHUB}/adlayer` }],
+      start: "2026-08",
+      stack: ["TypeScript", "Render"],
+      repo: "Kart-ing/adlayer",
       weight: 2,
     },
 
@@ -575,6 +727,7 @@ export const record: WorkRecord = {
         "employer",
       ],
       links: [],
+      start: "2026-06",
       weight: 1,
     },
     {
@@ -598,6 +751,7 @@ export const record: WorkRecord = {
         "2026",
       ],
       links: [],
+      start: "2026-02",
       weight: 1,
     },
     {
@@ -619,6 +773,7 @@ export const record: WorkRecord = {
         "2025",
       ],
       links: [],
+      start: "2025-01",
       weight: 1,
     },
     {
@@ -651,6 +806,8 @@ export const record: WorkRecord = {
         "2021",
       ],
       links: [],
+      start: "2020-08",
+      stack: ["Python", "TensorFlow", "PyTorch", "OpenCV", "Docker", "AWS"],
       weight: 1,
     },
     {
@@ -679,6 +836,8 @@ export const record: WorkRecord = {
         "space",
       ],
       links: [],
+      start: "2024-11",
+      stack: ["Python", "CARLA", "SLAM"],
       weight: 1,
     },
     {
@@ -705,6 +864,7 @@ export const record: WorkRecord = {
         "motion sickness",
       ],
       links: [],
+      stack: ["Lens Studio", "TypeScript", "Node.js"],
       weight: 1,
     },
 
@@ -735,6 +895,7 @@ export const record: WorkRecord = {
         "mentoring",
       ],
       links: [],
+      start: "2024-08",
       weight: 2,
     },
     {
@@ -759,6 +920,7 @@ export const record: WorkRecord = {
         "club",
       ],
       links: [],
+      start: "2023-01",
       weight: 1,
     },
 
@@ -812,6 +974,7 @@ export const record: WorkRecord = {
         "vercel",
       ],
       links: [{ label: "Live site", url: "https://acrn.space" }],
+      stack: ["HTML", "CSS", "JavaScript", "Vercel"],
       weight: 1,
     },
     {
@@ -833,6 +996,8 @@ export const record: WorkRecord = {
         "plan",
       ],
       links: [{ label: "GitHub", url: `${GITHUB}/token-company-prd` }],
+      start: "2026-06",
+      repo: "Kart-ing/token-company-prd",
       weight: 1,
     },
   ],
@@ -859,17 +1024,17 @@ export const record: WorkRecord = {
     {
       id: "multiverse.how",
       starId: "multiverse",
-      text: "Forks agent tool calls into parallel sandboxed futures with a copy-on-write filesystem and SQLite branching; effects are classed READ, SPECULATABLE_WRITE or IRREVERSIBLE.",
+      text: "A fork of OpenCode, the open source AI coding agent, with a decision tree mode that explores 5 parallel approaches per step: Direct, Modular, Minimal, Robust and Creative.",
     },
     {
       id: "multiverse.replay",
       starId: "multiverse",
-      text: "A verifier scores the branches and the winner is committed atomically; a deterministic event log lets any run be replayed, rewound or forked from a past state.",
+      text: "Each approach is scored from 0 to 100 against the step's success metric, and only the winning branch advances to the next step.",
     },
     {
       id: "multiverse.stack",
       starId: "multiverse",
-      text: "Python 3.11, SQLite copy-on-fork, a JSONL event log, a REST control API and ClickHouse streaming. Built at the Harness Engineering Hackathon in June 2026.",
+      text: "TypeScript on Bun, with Langfuse branch-level tracing, ClickHouse tree-state persistence and Composio tool execution. Built for the Harness Engineering Hackathon in June 2026.",
     },
     {
       id: "pingpal.what",

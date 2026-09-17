@@ -78,6 +78,11 @@ export default function RecordPage() {
           {c.stars.map((star) => {
             const lines = getFacets(star.id);
             const meta = [KIND_LABEL[star.kind], star.period].filter(Boolean).join(" · ");
+            const images = (star.media ?? []).filter((item) => item.kind === "image");
+            const links = [...star.links];
+            if (star.repo && !links.some((link) => link.url.includes(`github.com/${star.repo}`))) {
+              links.push({ label: "Repository", url: `https://github.com/${star.repo}` });
+            }
             return (
               <article key={star.id} id={star.id} className="star" aria-labelledby={`h-${star.id}`}>
                 <div className="star-head">
@@ -89,6 +94,31 @@ export default function RecordPage() {
                   </span>
                 </div>
                 <p className="star-summary">{star.summary}</p>
+                {star.stack && star.stack.length > 0 && (
+                  <ul className="stack" aria-label="Stack">
+                    {star.stack.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                {images.length > 0 && (
+                  <div className="record-media">
+                    {images.map((item) => (
+                      // Plain <img>: the page ships no client JavaScript, and the
+                      // record already carries the intrinsic size.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        key={item.src}
+                        src={item.src}
+                        alt={item.alt}
+                        width={item.width}
+                        height={item.height}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ))}
+                  </div>
+                )}
                 {lines.length > 0 && (
                   <ul className="star-facets">
                     {lines.map((facet) => (
@@ -103,9 +133,9 @@ export default function RecordPage() {
                     ))}
                   </ul>
                 )}
-                {star.links.length > 0 && (
+                {links.length > 0 && (
                   <div className="evidence star-links" aria-label={`Sources for ${star.label}`}>
-                    {star.links.map((link) => (
+                    {links.map((link) => (
                       <Evidence key={link.url} link={link} />
                     ))}
                   </div>

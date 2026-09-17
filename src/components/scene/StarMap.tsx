@@ -7,7 +7,9 @@
 //   <div style={{ position: "fixed", inset: 0, zIndex: 0 }}><StarMap onReady={...} /></div>
 //
 // The component fills its container (100% x 100%), so the container must have
-// a size. It must be rendered inside FlightProvider.
+// a size. It must be rendered inside FlightProvider. It reads the V3 signals
+// (intro, beams, narration, view, yearRange, tour, pulses) from useFlight()
+// and calls finishIntro() when the warp-in ends and focusStar() on clicks.
 
 import {
   Component,
@@ -28,12 +30,11 @@ import {
   createRuntime,
   type DeviceProfile,
   type SceneContextValue,
-  type SceneRuntime,
 } from "./SceneContext";
 
 export interface StarMapProps {
   className?: string;
-  /** Skip auto-orbit, drift and swirl; camera moves become quick fades. */
+  /** Skip the intro, beams, drift and swirl; camera moves become quick fades. */
   reducedMotion?: boolean;
   /** Called once, after the first frame has rendered. */
   onReady?: () => void;
@@ -95,7 +96,7 @@ interface NavigatorExtras {
 
 function detectProfile(): DeviceProfile {
   if (typeof window === "undefined") {
-    return { mobile: false, bloom: false, dustCount: 1200, nebulaOctaves: 3 };
+    return { mobile: false, bloom: false, dustCount: 1200, nebulaOctaves: 3, streakCount: 500 };
   }
   const coarse = window.matchMedia("(pointer: coarse)").matches;
   const small = window.innerWidth < 768 || Math.min(window.innerWidth, window.innerHeight) < 560;
@@ -112,6 +113,7 @@ function detectProfile(): DeviceProfile {
     bloom: override.bloom ?? (!effectiveMobile && !lowPower && !lowDpr),
     dustCount: override.dustCount ?? (effectiveMobile ? 1200 : 4000),
     nebulaOctaves: override.nebulaOctaves ?? (effectiveMobile ? 3 : 4),
+    streakCount: effectiveMobile ? 500 : 1500,
   };
 }
 
@@ -140,8 +142,10 @@ const vignetteStyle: CSSProperties = {
 const labelCss = `
 [data-starmap] {
   --sm-mono: var(--font-mono, var(--font-dm-mono, ui-monospace, "SF Mono", Menlo, monospace));
+  --sm-text: var(--font-text, var(--font-hanken, system-ui, -apple-system, "Segoe UI", sans-serif));
   --sm-ink: #edf0f7;
   --sm-accent: #f2c76b;
+  --sm-stage: 0;
 }
 [data-starmap] .sm-constellation {
   font: 500 10.5px/1 var(--sm-mono);
@@ -166,6 +170,18 @@ const labelCss = `
   white-space: nowrap;
   animation: sm-in 0.28s ease-out both;
   user-select: none;
+}
+[data-starmap] .sm-star.sm-side-left {
+  transform: translate(calc(-100% - 4px), -50%);
+  text-align: right;
+}
+[data-starmap] .sm-star.sm-side-above {
+  transform: translate(-50%, calc(-100% - 6px));
+  text-align: center;
+}
+[data-starmap] .sm-star.sm-side-below {
+  transform: translate(-50%, 6px);
+  text-align: center;
 }
 [data-starmap] .sm-star-name {
   display: block;
@@ -196,16 +212,155 @@ const labelCss = `
   font: 500 10px/1 var(--sm-mono);
   transform: translate(-100%, -50%) translate(-6px, 0);
   user-select: none;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
 }
 [data-starmap] .sm-stop-current {
   border-color: var(--sm-accent);
   background: var(--sm-accent);
   color: #070b16;
 }
+[data-starmap] .sm-stop-hidden {
+  opacity: 0;
+}
+[data-starmap] .sm-year {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  white-space: nowrap;
+}
+[data-starmap] .sm-year-value {
+  font: 500 64px/1 var(--sm-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--sm-accent);
+  text-shadow: 0 0 28px rgba(242, 199, 107, 0.35), 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+[data-starmap] .sm-year-caption {
+  font: 400 10.5px/1 var(--sm-mono);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(237, 240, 247, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+@media (max-width: 767px) {
+  [data-starmap] .sm-year-value { font-size: 44px; }
+}
+[data-starmap] .sm-tick {
+  display: block;
+  font: 500 10px/1 var(--sm-mono);
+  letter-spacing: 0.16em;
+  color: rgba(242, 199, 107, 0.8);
+  opacity: var(--sm-stage);
+  transform: translateY(9px);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  user-select: none;
+}
+[data-starmap] .sm-tick.sm-tick-vertical {
+  transform: translate(calc(-50% - 4px), 0);
+}
+[data-starmap] .sm-title {
+  display: block;
+  font: 500 12px/1 var(--sm-mono);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--sm-accent);
+  opacity: var(--sm-stage);
+  white-space: nowrap;
+  text-shadow: 0 0 18px rgba(242, 199, 107, 0.3), 0 1px 2px rgba(0, 0, 0, 0.9);
+  user-select: none;
+}
+[data-starmap] .sm-tech {
+  display: block;
+  font: 500 10px/1.1 var(--sm-mono);
+  letter-spacing: 0.1em;
+  color: rgba(237, 240, 247, 0.8);
+  opacity: var(--sm-stage);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.7);
+  transition: color 0.3s ease;
+  user-select: none;
+}
+[data-starmap] .sm-tech-below { transform: translateY(13px); }
+[data-starmap] .sm-tech-above { transform: translateY(-13px); }
+[data-starmap] .sm-tech-right { transform: translateX(calc(50% + 10px)); }
+[data-starmap] .sm-tech-left { transform: translateX(calc(-50% - 10px)); }
+[data-starmap] .sm-tech-hot { color: var(--sm-accent); }
+[data-starmap] .sm-panel {
+  position: relative;
+  width: 236px;
+  padding: 12px 14px 13px;
+  border-radius: 12px;
+  background: rgba(10, 15, 28, 0.8);
+  border: 1px solid rgba(237, 240, 247, 0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: var(--sm-stage);
+  color: var(--sm-ink);
+  overflow: hidden;
+  user-select: none;
+}
+[data-starmap] .sm-panel::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(242, 199, 107, 0.9), transparent);
+}
+[data-starmap] .sm-panel-below { translate: -50% 12px; }
+[data-starmap] .sm-panel-right { translate: 12px -50%; }
+[data-starmap] .sm-panel-compact { width: 224px; padding: 9px 12px 10px; }
+[data-starmap] .sm-panel-compact .sm-panel-title { margin-top: 5px; font-size: 13.5px; }
+[data-starmap] .sm-panel-compact .sm-panel-stack { margin-top: 6px; }
+[data-starmap] .sm-panel-compact .sm-panel-fact {
+  margin-top: 7px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+[data-starmap] .sm-panel-kind {
+  font: 500 9.5px/1 var(--sm-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(242, 199, 107, 0.85);
+}
+[data-starmap] .sm-panel-title {
+  margin-top: 7px;
+  font: 600 15px/1.2 var(--sm-text);
+  letter-spacing: -0.01em;
+  color: var(--sm-ink);
+}
+[data-starmap] .sm-panel-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+[data-starmap] .sm-badge {
+  font: 500 9px/1 var(--sm-mono);
+  letter-spacing: 0.08em;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: rgba(237, 240, 247, 0.08);
+  border: 1px solid rgba(237, 240, 247, 0.1);
+  color: rgba(237, 240, 247, 0.82);
+}
+[data-starmap] .sm-panel-fact {
+  margin: 9px 0 0;
+  font: 400 12px/1.45 var(--sm-text);
+  color: rgba(237, 240, 247, 0.78);
+}
 @keyframes sm-in {
-  from { opacity: 0; transform: translate(-2px, -50%); }
-  to { opacity: 1; transform: translate(4px, -50%); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 `;
 
@@ -223,8 +378,9 @@ export function StarMap({ className, reducedMotion, onReady }: StarMapProps) {
   const [hidden, setHidden] = useState(false);
   const [failed, setFailed] = useState(false);
   const [hoverId, setHoverId] = useState<string | null>(null);
-  const runtimeRef = useRef<SceneRuntime>(createRuntime());
-  const layout = useMemo(() => buildLayout(record), []);
+  const layout = useMemo(() => buildLayout(record, sceneTuning.metaOverride), []);
+  const [runtime] = useState(() => createRuntime(layout));
+  const runtimeRef = useRef(runtime);
   const motionReduced = reducedMotion ?? systemReducedMotion;
 
   useEffect(() => {

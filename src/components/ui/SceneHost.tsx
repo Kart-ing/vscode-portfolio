@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Component, useCallback, useEffect, useState, type ReactNode } from "react";
+import { useFlight } from "@/lib/flight-state";
 import { supportsWebGL } from "./webgl";
 
 // The 3D scene loads lazily, client-only, after the HTML content has painted.
@@ -40,6 +41,7 @@ class SceneBoundary extends Component<BoundaryProps, { failed: boolean }> {
 export function SceneHost({ reducedMotion }: { reducedMotion: boolean }) {
   const [enabled, setEnabled] = useState(false);
   const [ready, setReady] = useState(false);
+  const { finishIntro } = useFlight();
 
   useEffect(() => {
     if (!supportsWebGL()) return;
@@ -65,7 +67,11 @@ export function SceneHost({ reducedMotion }: { reducedMotion: boolean }) {
   }, [enabled, ready]);
 
   const onReady = useCallback(() => setReady(true), []);
-  const onError = useCallback(() => setEnabled(false), []);
+  // A scene that throws can never end the intro, so end it here.
+  const onError = useCallback(() => {
+    setEnabled(false);
+    finishIntro();
+  }, [finishIntro]);
 
   if (!enabled) return null;
 

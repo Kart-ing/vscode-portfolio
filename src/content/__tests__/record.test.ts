@@ -6,6 +6,7 @@ import { MAX_QUESTION_CHARS, MAX_STOPS } from "../../lib/contract";
 import type { ConstellationId } from "../../lib/contract";
 import { chips } from "../chips";
 import { record } from "../record";
+import { advocate, highlights, tour } from "../scripts";
 
 const KEBAB = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FACET_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -209,7 +210,9 @@ describe("chips", () => {
 });
 
 describe("privacy scan", () => {
-  const serialized = `${JSON.stringify(record)}\n${JSON.stringify(chips)}`;
+  // Everything a visitor can read: the record, the chips and the scripts.
+  const scripts = JSON.stringify({ advocate, highlights, tour });
+  const serialized = `${JSON.stringify(record)}\n${JSON.stringify(chips)}\n${scripts}`;
 
   // Generic personal data. Owner-specific terms live in privacy.local.json,
   // which is git-ignored so the terms themselves never reach the public repo.
@@ -247,7 +250,7 @@ describe("privacy scan", () => {
   it("only the owner email appears, and only in owner links", () => {
     const emails = serialized.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) ?? [];
     expect(new Set(emails)).toEqual(new Set(["kartikeypandey.official@gmail.com"]));
-    const outsideOwner = `${JSON.stringify({ ...record, owner: undefined })}\n${JSON.stringify(chips)}`;
+    const outsideOwner = `${JSON.stringify({ ...record, owner: undefined })}\n${JSON.stringify(chips)}\n${scripts}`;
     expect(outsideOwner).not.toMatch(/@/);
   });
 
@@ -255,7 +258,12 @@ describe("privacy scan", () => {
     const text = [
       ...record.stars.map((s) => s.summary),
       ...record.facets.map((f) => f.text),
+      ...record.stars.flatMap((s) => (s.media ?? []).map((m) => m.alt)),
       ...chips.map((c) => c.question),
+      ...chips.flatMap((c) => (c.sentences ?? []).map((s) => s.text)),
+      ...advocate.sentences.map((s) => s.text),
+      ...highlights.sentences.map((s) => s.text),
+      ...tour.map((t) => t.sentence.text),
     ].join("\n");
     expect(text).not.toMatch(/\b(?:he|she|his|her|him)\b/i);
   });

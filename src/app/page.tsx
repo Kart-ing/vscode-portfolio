@@ -6,5 +6,5 @@ import { Shell } from "@/components/ui/Shell";
 // shell as props, so the name, role, tagline, links and the /record link are
 // in the HTML before any JavaScript runs.
 export default function Home() {
-  return <Shell identity={<Identity />} footer={<Footer />} />;
+  return <Shell identity={<Identity />} footer={<Footer sound />} />;
 }

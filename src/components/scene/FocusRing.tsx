@@ -2,25 +2,22 @@
 
 // Two hairline rings in the site accent around the focused star: one steady,
 // one pulsing outward. Line2 keeps them about 1px wide on screen at any
-// distance. They appear as the camera settles.
+// distance. They appear as the camera settles and follow the star's runtime
+// position, so they stay on it inside staged views.
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Line } from "@react-three/drei";
 import { Group, Vector3 } from "three";
+import { smoothstep } from "./motion";
 import { useScene } from "./SceneContext";
+import { ACCENT } from "./tuning";
 
-const ACCENT = "#f2c76b";
 const SEGMENTS = 96;
 
 interface RingHandle {
   scale: Vector3;
   material: { opacity: number };
-}
-
-function smoothstep(a: number, b: number, x: number): number {
-  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
-  return t * t * (3 - 2 * t);
 }
 
 export function FocusRing() {
@@ -50,7 +47,8 @@ export function FocusRing() {
       return;
     }
     group.visible = true;
-    group.position.copy(star.position);
+    const i = star.index;
+    group.position.set(rt.positions[i * 3], rt.positions[i * 3 + 1], rt.positions[i * 3 + 2]);
     group.quaternion.copy(state.camera.quaternion);
     const appear = rt.flying ? smoothstep(0.6, 1, rt.flightProgress) : 1;
     // Visible halo radius of the glow quad, including the focus boost.

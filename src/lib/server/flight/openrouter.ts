@@ -6,10 +6,11 @@
 // "disables reasoning entirely" with `exclude: true` keeping any residual
 // reasoning out of the response (https://openrouter.ai/docs/use-cases/reasoning-tokens).
 
+import { DEFAULT_MODELS, resolveModelChain } from "@/lib/server/models";
 import { SITE_TITLE, SITE_URL } from "@/lib/server/site";
 
 export const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-export const DEFAULT_MODEL = "z-ai/glm-5.2:free";
+export const DEFAULT_MODEL = DEFAULT_MODELS[0];
 export const DEFAULT_TIMEOUT_MS = 8000;
 /** Small, but with headroom in case the provider still emits some reasoning. */
 export const DEFAULT_MAX_TOKENS = 400;
@@ -29,6 +30,8 @@ export type ModelCallResult =
 export interface ModelCallOptions {
   apiKey: string;
   model: string;
+  /** Priority-ordered fallback chain; defaults to [model]. Non-free ids are dropped. */
+  models?: readonly string[];
   systemPrompt: string;
   question: string;
   fetchImpl: typeof fetch;
@@ -36,9 +39,15 @@ export interface ModelCallOptions {
   maxTokens: number;
 }
 
-export function buildRequestBody(opts: Pick<ModelCallOptions, "model" | "systemPrompt" | "question" | "maxTokens">) {
+export function buildRequestBody(
+  opts: Pick<ModelCallOptions, "model" | "models" | "systemPrompt" | "question" | "maxTokens">,
+) {
+  // Free models only, in priority order; OpenRouter falls through the list
+  // when a model is rate-limited or down (see ../models.ts).
+  const models = resolveModelChain(opts.models ?? [opts.model]);
   return {
-    model: opts.model,
+    model: models[0],
+    models,
     messages: [
       { role: "system", content: opts.systemPrompt },
       { role: "user", content: opts.question },
