@@ -1,4 +1,4 @@
-// Shared contract for kartikey.fyi V2. Every agent builds against these types.
+// Shared contract for kartikey.fyi (V2, extended for V3). Every agent builds against these types.
 // Only the orchestrator changes this file.
 
 export type ConstellationId =
@@ -27,7 +27,7 @@ export type StarKind =
   | "education"
   | "community";
 
-export interface Star {
+export interface Star extends StarMeta {
   /** Unique kebab-case id, for example "karts". */
   id: string;
   label: string;
@@ -87,6 +87,10 @@ export interface Chip {
   label: string;
   question: string;
   stops: FlightStop[];
+  /** V3: curated narration, so a chip never calls the model. */
+  sentences?: AnswerSentence[];
+  /** V3: an optional staged 3D view. */
+  view?: GeneratedView;
 }
 
 /** Body of POST /api/flight. The response body is a FlightPlan. */
@@ -96,3 +100,81 @@ export interface FlightRequest {
 
 export const MAX_QUESTION_CHARS = 200;
 export const MAX_STOPS = 4;
+
+// ------------------------------------------------------------------ V3
+
+export interface MediaItem {
+  kind: "image" | "video";
+  /** Path under /media, for example "/media/eyesnap.jpg". */
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  credit?: SourceLink;
+}
+
+/** Optional star metadata for the timeline, stack views, richer cards and pulses. */
+export interface StarMeta {
+  /** First month of the work, "YYYY-MM". Drives the timeline and the intro order. */
+  start?: string;
+  /** Technologies as display names, for badges and stack views. */
+  stack?: string[];
+  /** Public GitHub repo "owner/name", for live stats and pulses. */
+  repo?: string;
+  /** Owner's own project images, stored under /public/media. */
+  media?: MediaItem[];
+}
+
+/** A 3D arrangement the answer can stage. */
+export type GeneratedView =
+  | { kind: "timeline"; starIds: string[] }
+  | { kind: "compare"; starIds: string[] }
+  | { kind: "stack"; starIds: string[] }
+  | { kind: "constellation"; constellation: ConstellationId };
+
+export type AnswerMode = "advocate" | "chip" | "cache" | "model" | "local" | "none";
+
+/** One validated sentence. Every sentence cites at least one facet, except a scripted "Yes." */
+export interface AnswerSentence {
+  text: string;
+  citations: FlightStop[];
+}
+
+/** POST /api/answer streams NDJSON: one AnswerEvent per line, always ending with "done". */
+export type AnswerEvent =
+  | { type: "beams"; starIds: string[] }
+  | { type: "view"; view: GeneratedView }
+  | { type: "say"; sentence: AnswerSentence }
+  | { type: "done"; mode: AnswerMode }
+  | { type: "error"; message: string };
+
+export interface AnswerRequest {
+  question: string;
+}
+
+/** A curated, model-free answer: the advocate answer and the highlights. */
+export interface ScriptedAnswer {
+  question: string;
+  view?: GeneratedView;
+  sentences: AnswerSentence[];
+}
+
+/** One stop of the guided tour. */
+export interface TourStep {
+  sentence: AnswerSentence;
+  /** How long the camera holds on the first citation, in milliseconds. */
+  holdMs: number;
+}
+
+/** GET /api/pulse returns RepoPulse[] for stars that have a repo. */
+export interface RepoPulse {
+  starId: string;
+  repo: string;
+  stars: number;
+  lastPushAt: string | null;
+  pushesLast30d: number;
+}
+
+export const MAX_SENTENCES = 4;
+export const TIMELINE_START_YEAR = 2020;
+export const TIMELINE_END_YEAR = 2026;

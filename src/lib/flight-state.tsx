@@ -18,13 +18,20 @@ import { z } from "zod";
 import {
   MAX_QUESTION_CHARS,
   MAX_STOPS,
+  TIMELINE_END_YEAR,
+  TIMELINE_START_YEAR,
+  type AnswerMode,
+  type AnswerSentence,
   type Chip,
   type FlightPlan,
   type FlightStop,
+  type GeneratedView,
+  type RepoPulse,
 } from "@/lib/contract";
 import { record } from "@/content/record";
 
 export type FlightStatus = "idle" | "asking" | "flying" | "none";
+export type IntroPhase = "pending" | "playing" | "done";
 
 export interface FlightState {
   plan: FlightPlan | null;
@@ -38,6 +45,20 @@ export interface FlightState {
   error: string | null;
   /** Direction of the last stop change: 1 forward, -1 back. Drives card motion. */
   direction: 1 | -1;
+  // ---- V3 signals. The UI agent implements them; the scene agent reads them.
+  /** Validated narration sentences, in arrival order. */
+  narration: AnswerSentence[];
+  /** Star ids lit by thinking beams while status is "asking". */
+  beams: string[];
+  /** A staged 3D view, or null for the free map. */
+  view: GeneratedView | null;
+  answerMode: AnswerMode | null;
+  /** Inclusive year filter set by the timeline scrubber. */
+  yearRange: [number, number];
+  tour: { active: boolean; index: number };
+  /** Live repo activity keyed by star id. */
+  pulses: Record<string, RepoPulse>;
+  intro: IntroPhase;
 }
 
 export interface FlightActions {
@@ -52,6 +73,12 @@ export interface FlightActions {
   focusStar(starId: string): void;
   reset(): void;
   dismissError(): void;
+  // ---- V3 actions.
+  setYearRange(range: [number, number]): void;
+  startTour(): void;
+  stopTour(): void;
+  /** Called by the scene when the intro animation ends, or by the Skip button. */
+  finishIntro(): void;
 }
 
 type FlightContextValue = FlightState & FlightActions;
@@ -93,6 +120,15 @@ export function FlightProvider({ children }: { children: ReactNode }) {
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [direction, setDirection] = useState<1 | -1>(1);
+  // V3 signals: defaults only. The UI agent wires real behavior.
+  const [narration] = useState<AnswerSentence[]>([]);
+  const [beams] = useState<string[]>([]);
+  const [view] = useState<GeneratedView | null>(null);
+  const [answerMode] = useState<AnswerMode | null>(null);
+  const [yearRange, setYearRange] = useState<[number, number]>([TIMELINE_START_YEAR, TIMELINE_END_YEAR]);
+  const [tour, setTour] = useState<{ active: boolean; index: number }>({ active: false, index: 0 });
+  const [pulses] = useState<Record<string, RepoPulse>>({});
+  const [intro, setIntro] = useState<IntroPhase>("pending");
 
   // Every ask gets a sequence number; a response only lands if it is still the latest.
   const sequence = useRef(0);
@@ -250,6 +286,18 @@ export function FlightProvider({ children }: { children: ReactNode }) {
       focusStar,
       reset,
       dismissError,
+      narration,
+      beams,
+      view,
+      answerMode,
+      yearRange,
+      tour,
+      pulses,
+      intro,
+      setYearRange,
+      startTour: () => setTour({ active: true, index: 0 }),
+      stopTour: () => setTour({ active: false, index: 0 }),
+      finishIntro: () => setIntro("done"),
     }),
     [
       plan,
@@ -265,6 +313,14 @@ export function FlightProvider({ children }: { children: ReactNode }) {
       focusStar,
       reset,
       dismissError,
+      narration,
+      beams,
+      view,
+      answerMode,
+      yearRange,
+      tour,
+      pulses,
+      intro,
     ],
   );
 
