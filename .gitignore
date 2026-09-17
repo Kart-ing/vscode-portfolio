@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# per-agent dev build directories
+/.next-*/
+
+# owner-specific privacy test terms (never commit)
+src/content/__tests__/privacy.local.json

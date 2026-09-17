@@ -1,0 +1,173 @@
+// A small record for server tests. Nothing here needs to be true; it only has
+// to look like the real record so tests stay stable while the content changes.
+
+import type { Chip, WorkRecord } from "@/lib/contract";
+
+export const fixtureRecord: WorkRecord = {
+  owner: {
+    name: "Test Owner",
+    role: "Founder, Karts",
+    tagline: "Karts is the IDE and coding servers for startups.",
+    links: [{ label: "GitHub", url: "https://github.com/example" }],
+  },
+  constellations: [
+    { id: "building", label: "Building" },
+    { id: "agent-tools", label: "Agent tools" },
+    { id: "research", label: "Research" },
+    { id: "hackathons", label: "Hackathons" },
+    { id: "work", label: "Work" },
+    { id: "leadership", label: "Leadership" },
+    { id: "education", label: "Education" },
+  ],
+  stars: [
+    {
+      id: "karts",
+      label: "Karts",
+      constellation: "building",
+      kind: "company",
+      period: "2026",
+      summary: "Karts is the IDE and coding servers for startups.",
+      tags: ["karts", "startup", "ide", "coding servers", "founder", "company"],
+      links: [{ label: "Site", url: "https://example.com/karts" }],
+      weight: 3,
+    },
+    {
+      id: "multiverse",
+      label: "Multiverse",
+      constellation: "agent-tools",
+      kind: "project",
+      period: "2026",
+      summary: "A speculative execution harness for AI agents.",
+      tags: ["multiverse", "agents", "sandbox", "tool calls"],
+      links: [{ label: "GitHub", url: "https://github.com/example/multiverse" }],
+      weight: 2,
+    },
+    {
+      id: "patent",
+      label: "Patent No. 558662",
+      constellation: "research",
+      kind: "patent",
+      period: "Filed 2020, granted 2025",
+      summary: "Indian Patent No. 558662, System and Method Providing Data Conversion.",
+      tags: ["patent", "compression", "16"],
+      links: [],
+      weight: 2,
+    },
+    {
+      id: "signal-paper",
+      label: "Signal compression paper",
+      constellation: "research",
+      kind: "paper",
+      period: "2024",
+      summary: "A peer-reviewed paper on lossless signal compression.",
+      tags: ["paper", "publication", "compression", "ieee"],
+      links: [{ label: "DOI", url: "https://doi.org/10.0000/example" }],
+      weight: 1,
+    },
+    {
+      id: "hackmit",
+      label: "HackMIT 2025",
+      constellation: "hackathons",
+      kind: "award",
+      period: "Sep 2025",
+      summary: "Grand prize at HackMIT 2025 for a voice agent.",
+      tags: ["hackathon", "hackmit", "grand prize", "winner"],
+      links: [{ label: "Devpost", url: "https://devpost.com/example" }],
+      weight: 2,
+    },
+    {
+      id: "acme",
+      label: "Acme Labs",
+      constellation: "work",
+      kind: "role",
+      period: "Summer 2025",
+      summary: "Software engineering intern on the infrastructure team.",
+      tags: ["acme labs", "internship", "software engineer", "infrastructure"],
+      links: [],
+      weight: 1,
+    },
+    {
+      id: "robotics-club",
+      label: "Robotics Club",
+      constellation: "leadership",
+      kind: "community",
+      period: "2023 – 2025",
+      summary: "President of the campus robotics club.",
+      tags: ["robotics", "club", "president"],
+      links: [],
+      weight: 1,
+    },
+    {
+      id: "state-u",
+      label: "State University",
+      constellation: "education",
+      kind: "education",
+      period: "2022 – 2026",
+      summary: "B.S. in Computer Science.",
+      tags: ["computer science", "bs", "university"],
+      links: [],
+      weight: 1,
+    },
+  ],
+  facets: [
+    {
+      id: "karts.what",
+      starId: "karts",
+      text: "Karts is the IDE and coding servers for startups, built for enterprise compliance without losing startup speed.",
+    },
+    {
+      id: "karts.customers",
+      starId: "karts",
+      text: "Karts is sold as SaaS and under licence to teams that run their own servers.",
+    },
+    {
+      id: "multiverse.what",
+      starId: "multiverse",
+      text: "The branch predictor, but for tool calls: fork into parallel sandboxed futures, commit one winner atomically.",
+    },
+    {
+      id: "patent.what",
+      starId: "patent",
+      text: "Sole inventor on Indian Patent No. 558662, filed in 2020 and granted in 2025.",
+      source: { label: "Patent record", url: "https://example.com/patent" },
+    },
+    {
+      id: "signal-paper.what",
+      starId: "signal-paper",
+      text: "First author of a paper on lossless signal compression, published at an IEEE conference in 2024.",
+    },
+    {
+      id: "hackmit.win",
+      starId: "hackmit",
+      text: "Won the grand prize at HackMIT 2025 with a voice agent built in 24 hours.",
+    },
+    {
+      id: "acme.role",
+      starId: "acme",
+      text: "Worked as a software engineering intern at Acme Labs on the infrastructure team in summer 2025.",
+    },
+    {
+      id: "robotics-club.lead",
+      starId: "robotics-club",
+      text: "Led the campus robotics club as president for two years.",
+    },
+    {
+      id: "state-u.degree",
+      starId: "state-u",
+      text: "Studying for a B.S. in Computer Science at State University, class of 2026.",
+    },
+  ],
+};
+
+export const fixtureChips: Chip[] = [
+  {
+    label: "What's Karts?",
+    question: "What is Karts?",
+    stops: [{ starId: "karts", facetId: "karts.what" }],
+  },
+  {
+    label: "What did you build in high school?",
+    question: "What did you build in high school?",
+    stops: [{ starId: "patent", facetId: "patent.what" }],
+  },
+];

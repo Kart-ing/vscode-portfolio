@@ -1,102 +1,71 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, DM_Mono, Hanken_Grotesk } from "next/font/google";
+import type { ReactNode } from "react";
+import { record } from "@/content/record";
 import "./globals.css";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import AvatarGuide from "@/components/ui/AvatarGuide";
-import SEOContent from "@/components/seo/SEOContent";
-import {
-  GITHUB_URL,
-  HACKATHON_WINNER,
-  KARTS_DESCRIPTION,
-  LINKEDIN_URL,
-  ROLE,
-  SITE_URL,
-} from "@/lib/profile";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
+  axes: ["opsz", "wdth"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
+  display: "swap",
 });
+
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const SITE_URL = "https://www.kartikey.fyi";
+const TITLE = `${record.owner.name} · ${record.owner.role}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Kartikey Pandey — Founder, Karts",
-  description: `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER}.`,
-  keywords: ["Kartikey Pandey", "Karts", "Founder", "Hackathon Winner"],
-  authors: [{ name: "Kartikey Pandey" }],
-  creator: "Kartikey Pandey",
+  title: {
+    default: TITLE,
+    template: `%s · ${record.owner.name}`,
+  },
+  description: record.owner.tagline,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Kartikey Pandey — Founder, Karts",
-    description: `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER}.`,
     type: "website",
-    url: SITE_URL,
-    siteName: "Kartikey Pandey",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Kartikey Pandey — Founder, Karts",
-      },
-    ],
+    url: "/",
+    siteName: "kartikey.fyi",
+    title: TITLE,
+    description: record.owner.tagline,
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kartikey Pandey — Founder, Karts",
-    description: `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER}.`,
-    images: ["/opengraph-image"],
+    title: TITLE,
+    description: record.owner.tagline,
   },
-  alternates: {
-    canonical: SITE_URL,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Kartikey Pandey",
-    "jobTitle": ROLE,
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Karts"
-    },
-    "description": `${ROLE}. ${KARTS_DESCRIPTION} ${HACKATHON_WINNER}.`,
-    "url": SITE_URL,
-    "sameAs": [
-      LINKEDIN_URL,
-      GITHUB_URL
-    ]
-  };
+export const viewport: Viewport = {
+  themeColor: "#070b16",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData),
-          }}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider>
-          {children}
-          <AvatarGuide />
-          <SEOContent />
-        </ThemeProvider>
-      </body>
+    <html
+      lang="en"
+      className={`${bricolage.variable} ${hanken.variable} ${dmMono.variable}`}
+    >
+      <body>{children}</body>
     </html>
   );
 }
