@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { TitleBar } from './TitleBar'
 import { Sidebar } from './Sidebar'
@@ -15,9 +15,16 @@ interface VSCodeLayoutProps {
 
 export function VSCodeLayout({ className }: VSCodeLayoutProps) {
   const [sidebarWidth, setSidebarWidth] = useState(250)
-  const [terminalHeight, setTerminalHeight] = useState(300)
+  const [terminalHeight] = useState(300)
   const [isTerminalVisible, setIsTerminalVisible] = useState(true)
   const [isSidebarVisible, setIsSidebarVisible] = useState(true)
+
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      setIsSidebarVisible(false)
+      setIsTerminalVisible(false)
+    }
+  }, [])
 
   const handleToggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible)
@@ -30,43 +37,43 @@ export function VSCodeLayout({ className }: VSCodeLayoutProps) {
   return (
     <FileSystemProvider>
       <div className={cn(
-        'flex flex-col h-screen bg-[var(--background)] text-[var(--textPrimary)]',
+        'flex h-screen w-full max-w-full flex-col overflow-hidden bg-[var(--background)] text-[var(--textPrimary)]',
         className
       )}>
         {/* Title Bar */}
-        <TitleBar 
+        <TitleBar
           onToggleSidebar={handleToggleSidebar}
           onToggleTerminal={handleToggleTerminal}
           isSidebarVisible={isSidebarVisible}
           isTerminalVisible={isTerminalVisible}
         />
-        
+
         {/* Main Content Area */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex min-w-0 flex-1 overflow-hidden">
           {/* Sidebar */}
           {isSidebarVisible && (
-            <Sidebar 
+            <Sidebar
               width={sidebarWidth}
               isCollapsed={false}
               onToggle={() => {}}
               onResize={setSidebarWidth}
             />
           )}
-          
+
           {/* Editor and Terminal Area */}
-          <div className="flex flex-col flex-1 overflow-hidden">
+          <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
             {/* Editor Area - takes remaining space */}
-            <div className="flex-1 overflow-hidden">
+            <div className="min-w-0 flex-1 overflow-hidden">
               <EditorArea />
             </div>
-            
+
             {/* Terminal - fixed height when visible */}
             {isTerminalVisible && (
-              <div 
+              <div
                 className="border-t border-[var(--border)]"
                 style={{ height: `${terminalHeight}px` }}
               >
-                <SimulatedTerminal 
+                <SimulatedTerminal
                   height={terminalHeight}
                   onClose={() => setIsTerminalVisible(false)}
                 />
@@ -74,13 +81,13 @@ export function VSCodeLayout({ className }: VSCodeLayoutProps) {
             )}
           </div>
         </div>
-        
+
         {/* Status Bar */}
-        <StatusBar 
+        <StatusBar
           onToggleTerminal={handleToggleTerminal}
           isTerminalVisible={isTerminalVisible}
         />
       </div>
     </FileSystemProvider>
   )
-} 
+}

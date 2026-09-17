@@ -2,10 +2,10 @@
 
 > Query-aware prompt compression that makes long contexts fit in small models.
 
-**Role:** Solo / Lead · **Year:** 2026 · **Status:** Published research + Live demo
-**Links:** [GitHub](https://github.com/Kart-ing/ReCompress) · [Live Demo](https://demo-eight-olive-97.vercel.app) · [Slides](https://slides-teal-tau.vercel.app) · [Paper](https://doi.org/10.5281/zenodo.20786357)
+**Role:** Co-author · **Authors:** Parth Sanjay Kshirsagar, Kartikey Pandey · **Year:** 2026 · **Status:** Zenodo preprint (June 2026) + Live demo
+**Links:** [GitHub](https://github.com/Kart-ing/ReCompress) · [Live Demo](https://demo-eight-olive-97.vercel.app) · [Slides](https://slides-teal-tau.vercel.app) · [Preprint](https://doi.org/10.5281/zenodo.20786357)
 
-> Built in 24 hours at the UC Berkeley AI Hackathon 2026 for the Token Company Compression Challenge.
+> Built in 24 hours at the UC Berkeley AI Hackathon 2026 for the Token Company Compression Challenge, where it won **Best Compression Model for The Token Company**.
 
 ## The Problem
 LLM context windows are expensive and bloated with text that has nothing to do with the actual query. Small models can't hold long, multi-turn conversations, so context gets truncated or costs balloon. The waste compounds with every turn.
@@ -22,7 +22,8 @@ To make it cheap to run, I distilled a DeepSeek teacher into a **Qwen2.5-1.5B + 
 `Python` · `Modal (H100 training)` · `Qwen2.5-1.5B` · `LoRA` · `DeepSeek / OpenAI / Anthropic SDKs` · `datasets` · `tiktoken` · `Arize Phoenix` · `React + Vite`
 
 ## Highlights
-- **Published** — Zenodo DOI [10.5281/zenodo.20786357](https://doi.org/10.5281/zenodo.20786357)
+- 🏆 **Best Compression Model for The Token Company** — UC Berkeley AI Hackathon 2026
+- **Zenodo preprint (June 2026)** — DOI [10.5281/zenodo.20786357](https://doi.org/10.5281/zenodo.20786357), by Parth Sanjay Kshirsagar and Kartikey Pandey
 - **8.1×** token reduction across a 12-turn conversation
 - Context compressed to **~3.5%** of HotpotQA tokens, single-shot
 - Reproducible Colab + research-grade eval (bootstrap CIs, cross-solver audits, mask-the-answer)
@@ -32,4 +33,4 @@ To make it cheap to run, I distilled a DeepSeek teacher into a **Qwen2.5-1.5B + 
 - GitHub: https://github.com/Kart-ing/ReCompress
 - Live Demo: https://demo-eight-olive-97.vercel.app
 - Slides: https://slides-teal-tau.vercel.app
-- Paper (Zenodo): https://doi.org/10.5281/zenodo.20786357
+- Preprint (Zenodo): https://doi.org/10.5281/zenodo.20786357

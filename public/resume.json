@@ -1,10 +1,9 @@
 {
   "basics": {
     "name": "Kartikey Pandey",
-    "label": "Founding Engineer @ Raya Health",
+    "label": "Founder, Karts",
     "email": "kartikeypandey.official@gmail.com",
-    "phone": "+1 814-325-1459",
-    "summary": "Software engineer and full-stack developer building scalable systems, cloud-native apps, and AI-driven solutions. Founding Engineer at Raya Health (HF0 W26). 10x hackathon winner across ML, computer vision, and full-stack. At Intel, built ML pipelines that cut deployment time 33%. At NASA's Lunar Autonomy Challenge (via JHU APL), worked on autonomous robotics with SLAM and AI frameworks. At Snap's Spectacles Accelerator, secured $25,000+ for AR/AI development. Built a diabetic retinopathy detection platform cutting diagnostic costs ~99.8%. Founder/President of Penn State's Collegiate Hackathon Team (#185 to #74 nationally) and President of GDSC @ Penn State (200+ students).",
+    "summary": "Software engineer and full-stack developer building scalable systems, cloud-native apps, and AI-driven solutions. Founder, Karts: Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed. Member of Technical Staff at Cara (June 2026 to present). Previously Founding Engineer at Raya Health (HF0 W26, February to May 2026). 12x hackathon winner across ML, computer vision, and full-stack. At Intel, built ML pipelines that cut deployment time 33%. On the Lunar Autonomy Challenge team (NASA-affiliated, run by JHU APL), worked on autonomous robotics with SLAM and AI frameworks. At Snap's Spectacles Accelerator, secured $25,000+ for AR/AI development. Built EyeSnap, a diabetic retinopathy detection prototype that won Best Use of MATLAB at HackHarvard 2023. Founder/President of Penn State's Collegiate Hackathon Team (#185 to #74 nationally) and President of GDSC @ Penn State (200+ students).",
     "location": {
       "city": "San Francisco Bay Area",
       "region": "CA",
@@ -14,7 +13,7 @@
       {
         "network": "LinkedIn",
         "username": "kartikeypandey2004",
-        "url": "https://linkedin.com/in/kartikeypandey2004"
+        "url": "https://www.linkedin.com/in/kartikeypandey2004/"
       },
       {
         "network": "GitHub",
@@ -25,15 +24,21 @@
   },
   "work": [
     {
+      "company": "Cara",
+      "position": "Member of Technical Staff",
+      "location": "San Francisco Bay Area",
+      "startDate": "2026-06"
+    },
+    {
       "company": "Raya Health",
       "position": "Founding Engineer",
       "location": "San Francisco Bay Area",
       "startDate": "2026-02",
       "endDate": "2026-05",
-      "summary": "Building Raya Health as a founding engineer as part of the HF0 W26 residency batch.",
+      "summary": "Built Raya Health as a founding engineer as part of the HF0 W26 residency batch.",
       "highlights": [
         "Part of the HF0 W26 batch, a top startup residency",
-        "Shipping product end to end across full-stack, infrastructure, and AI"
+        "Shipped product end to end across full-stack, infrastructure, and AI"
       ]
     },
     {
@@ -46,7 +51,7 @@
       "highlights": [
         "Grew the team to 27+ members",
         "Elevated Penn State's national hackathon rank from #185 to #74 within a year",
-        "10x hackathon winner across full-stack, product management, and GenAI competitions",
+        "Hackathon winner across full-stack, product management, and GenAI competitions",
         "Built a dual-track program: mentoring beginners and showcasing advanced teams to recruiters",
         "Secured national sponsorships and ran workshops on Next.js, GraphQL, and automation engineering"
       ]
@@ -73,7 +78,7 @@
       ]
     },
     {
-      "company": "NASA Lunar Autonomy Challenge (via Johns Hopkins APL)",
+      "company": "Lunar Autonomy Challenge team (NASA-affiliated, run by Johns Hopkins APL)",
       "position": "Machine Learning Engineer",
       "location": "Remote",
       "startDate": "2024-11",
@@ -170,8 +175,24 @@
   ],
   "projects": [
     {
-      "name": "Diabetic Retinopathy Detection Platform",
-      "description": "Healthcare platform for diabetic retinopathy detection cutting diagnostic costs by roughly 99.8%.",
+      "name": "Karts",
+      "description": "Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+      "roles": ["Founder"]
+    },
+    {
+      "name": "ReCompress",
+      "description": "Query-aware prompt compression that makes long contexts fit in small models. Zenodo preprint (June 2026) by Parth Sanjay Kshirsagar and Kartikey Pandey.",
+      "highlights": [
+        "Won Best Compression Model for The Token Company at UC Berkeley AI Hackathon 2026",
+        "8.1x token reduction across a 12-turn conversation",
+        "Context compressed to ~3.5% of HotpotQA tokens, single-shot"
+      ],
+      "keywords": ["LLM", "Prompt Compression", "LoRA", "Qwen2.5-1.5B", "Modal"],
+      "url": "https://doi.org/10.5281/zenodo.20786357"
+    },
+    {
+      "name": "EyeSnap - Diabetic Retinopathy Detection Prototype",
+      "description": "Diabetic retinopathy detection prototype that won Best Use of MATLAB at HackHarvard 2023.",
       "highlights": [
         "Computer vision pipeline for retinal screening",
         "Built with TensorFlow, Flask, and SQL"
@@ -183,42 +204,79 @@
       "description": "AR/AI development for Snap's Spectacles Student Accelerator with real-time cloud sync.",
       "highlights": [
         "Secured $25,000+ in funding",
-        "Snap AR Challenge Winner"
+        "Snap AR Challenge Winner",
+        "Reality Rush: Snap AR Challenge winner and Best DEI Hack sponsored by Fidelity, HackPSU Fall 2024"
       ],
       "keywords": ["AR", "TypeScript", "Node.js", "Real-time Sync"]
     }
   ],
   "awards": [
     {
-      "title": "Harvard Hack - CareYaya Track, 2nd Place",
-      "awarder": "Harvard Hack"
-    },
-    {
-      "title": "HackPSU - 2nd Place Overall",
+      "title": "HackPSU Spring 2023: 3rd Place (SignEase)",
+      "date": "2023",
       "awarder": "HackPSU"
     },
     {
-      "title": "HackPSU Spring 2024 - Entrepreneurship Award",
+      "title": "HackHarvard 2023: Best Use of MATLAB (EyeSnap)",
+      "date": "2023",
+      "awarder": "HackHarvard"
+    },
+    {
+      "title": "HackPSU Spring 2024: Entrepreneurship Award (DevSpot)",
       "date": "2024",
       "awarder": "HackPSU"
     },
     {
-      "title": "Best Cybersecurity Track",
+      "title": "Bitcamp 2024: Best Cybersecurity Track Hack (Moth Challenge)",
+      "date": "2024",
       "awarder": "Bitcamp"
     },
     {
-      "title": "Snap AR Challenge Winner",
-      "awarder": "Snap Inc."
+      "title": "HackPSU Fall 2024: Snap AR Challenge; Best DEI Hack sponsored by Fidelity (Reality Rush)",
+      "date": "2024",
+      "awarder": "HackPSU"
     },
     {
-      "title": "10x Hackathon Winner",
-      "awarder": "Various competitions",
-      "summary": "10x hackathon winner across full-stack, product management, and GenAI competitions."
+      "title": "HackUMass XII, November 2024: Best AR/VR Hack (VR Breadboard)",
+      "date": "2024-11",
+      "awarder": "HackUMass"
+    },
+    {
+      "title": "MHacks 2025: Best Use of MemryX Edge AI Accelerator (SoundSage)",
+      "date": "2025",
+      "awarder": "MHacks"
+    },
+    {
+      "title": "Cal Hacks 12.0, October 2025: Elastic: Best use of the Elastic Agent Builder on a Serverless instance (AgentOverflow)",
+      "date": "2025-10",
+      "awarder": "Cal Hacks"
+    },
+    {
+      "title": "UC Berkeley AI Hackathon 2026: Best Compression Model for The Token Company (Re:Compress)",
+      "date": "2026",
+      "awarder": "UC Berkeley AI Hackathon"
+    },
+    {
+      "title": "c0mpiled-11 YC Startup School Hackathon (Transpose), July 2026: Hexclave award, $1,000 (Cited)",
+      "date": "2026-07",
+      "awarder": "c0mpiled-11 YC Startup School Hackathon (Transpose)"
+    },
+    {
+      "title": "c0mpiled-13 Startup School Hackathon II (Transpose), July 2026: Hexclave award, $1,000 (Swiper No Swiping)",
+      "date": "2026-07",
+      "awarder": "c0mpiled-13 Startup School Hackathon II (Transpose)"
+    },
+    {
+      "title": "The World's First Zero Human Company Hackathon by Terac, August 2026: 3rd Place, Best use of Render (AdLayer)",
+      "date": "2026-08",
+      "awarder": "Terac"
     }
   ],
   "patents": [
     {
-      "title": "System and Method Providing Data Conversion"
+      "title": "System and Method Providing Data Conversion",
+      "number": "Indian Patent No. 558662",
+      "summary": "Sole inventor; filed 2020, granted 2025."
     }
   ],
   "languages": [
@@ -246,7 +304,7 @@
     }
   ],
   "meta": {
-    "lastUpdated": "2026-06-23",
+    "lastUpdated": "2026-09-16",
     "format": "JSON Resume",
     "version": "1.0.0"
   }

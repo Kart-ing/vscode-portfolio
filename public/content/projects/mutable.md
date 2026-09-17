@@ -3,7 +3,6 @@
 > Self-designing forms with bounded autonomy — agents adapt copy and channel, a principle lock prevents drift.
 
 **Role:** Solo / Lead · **Year:** 2026 · **Status:** Live
-**Links:** [GitHub](https://github.com/Kart-ing/mutable) · [Live](https://trymutable.online)
 
 ## The Problem
 Static forms convert poorly and can't adapt to who's filling them out. But handing the keys to a fully autonomous agent is worse — it drifts from the goal, drops required fields, and optimizes for the wrong thing.
@@ -19,7 +18,3 @@ A form platform where agents can rewrite copy, reorder questions, and render the
 - Multi-channel adapters: web / WhatsApp / RCS / iMessage / SMS
 - Multi-armed-bandit engine optimizes copy and ordering against a reward signal
 - Live respondent **"Living View"** dashboard, deployed end-to-end
-
-## Links
-- GitHub: https://github.com/Kart-ing/mutable
-- Live: https://trymutable.online

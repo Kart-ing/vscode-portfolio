@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { IconButton } from '@/components/ui/IconButton'
 import { Modal } from '@/components/ui/Modal'
 import { useFileSystem } from '@/contexts/FileSystemContext'
-import { 
-  Minus, 
-  Square, 
-  X, 
+import { GITHUB_URL, LINKEDIN_URL } from '@/lib/profile'
+import {
+  Minus,
+  Square,
+  X,
   Settings,
   Search,
   GitBranch,
@@ -27,7 +27,6 @@ import {
   Terminal as TerminalIcon,
   HelpCircle,
   ExternalLink,
-  Download,
   Eye,
   EyeOff
 } from 'lucide-react'
@@ -39,15 +38,14 @@ interface TitleBarProps {
   isTerminalVisible?: boolean
 }
 
-export function TitleBar({ 
-  onToggleSidebar, 
-  onToggleTerminal, 
-  isSidebarVisible = true, 
-  isTerminalVisible = true 
+export function TitleBar({
+  onToggleSidebar,
+  onToggleTerminal,
+  isSidebarVisible = true,
+  isTerminalVisible = true
 }: TitleBarProps) {
   const { state, dispatch, findFile } = useFileSystem()
   const [showExitModal, setShowExitModal] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [zoomLevel, setZoomLevel] = useState(100)
   const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
@@ -59,10 +57,8 @@ export function TitleBar({
   const handleMaximize = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
-      setIsFullscreen(true)
     } else {
       document.exitFullscreen()
-      setIsFullscreen(false)
     }
   }
 
@@ -70,46 +66,8 @@ export function TitleBar({
     setShowExitModal(true)
   }
 
-  const handleDownloadResume = () => {
-    // Create a simple text-based resume since we don't have a PDF
-    const resumeContent = `Kartikey Pandey - Resume
-
-EDUCATION
-B.Tech in Computer Science and Engineering
-Vellore Institute of Technology, Vellore
-2020 - 2024
-
-SKILLS
-• Programming Languages: Python, JavaScript, TypeScript, Java, C++
-• Web Technologies: React, Next.js, Node.js, HTML, CSS, Tailwind CSS
-• Databases: MongoDB, PostgreSQL, MySQL
-• Tools & Platforms: Git, Docker, AWS, VS Code
-• Frameworks: Django, Express.js, FastAPI
-
-EXPERIENCE
-Software Engineer Intern - Multiple companies
-• Developed full-stack web applications
-• Worked with modern frameworks and technologies
-• Collaborated in agile development teams
-
-PROJECTS
-• Reality Rush - VR Game Development
-• EyeSnap - Computer Vision Application
-• Project Elementals - Game Development
-• And many more innovative projects
-
-CONTACT
-Email: kartikey.pandey@example.com
-GitHub: github.com/kartikeypandey
-LinkedIn: linkedin.com/in/kartikeypandey`
-
-    const blob = new Blob([resumeContent], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'Kartikey_Pandey_Resume.txt'
-    link.click()
-    URL.revokeObjectURL(url)
+  const handleViewLinkedIn = () => {
+    window.open(LINKEDIN_URL, '_blank', 'noopener,noreferrer')
     setShowExitModal(false)
   }
 
@@ -349,7 +307,7 @@ module.exports = { example };`,
       { label: 'Save', icon: Save, action: handleSave, shortcut: 'Ctrl+S' },
       { label: 'Save As...', icon: Save, action: handleSaveAs, shortcut: 'Ctrl+Shift+S' },
       { separator: true },
-      { label: 'Download Resume', icon: Download, action: handleDownloadResume },
+      { label: 'View LinkedIn', icon: ExternalLink, action: handleViewLinkedIn },
       { separator: true },
       { label: 'Exit', icon: X, action: handleClose }
     ],
@@ -376,8 +334,8 @@ module.exports = { example };`,
       { label: 'Run Node Script', icon: TerminalIcon, action: handleRunNode }
     ],
     help: [
-      { label: 'Documentation', icon: HelpCircle, action: () => window.open('https://github.com/kartikeypandey', '_blank') },
-      { label: 'GitHub Profile', icon: ExternalLink, action: () => window.open('https://github.com/kartikeypandey', '_blank') },
+      { label: 'Documentation', icon: HelpCircle, action: () => window.open(GITHUB_URL, '_blank', 'noopener,noreferrer') },
+      { label: 'GitHub Profile', icon: ExternalLink, action: () => window.open(GITHUB_URL, '_blank', 'noopener,noreferrer') },
       { separator: true },
       { label: 'About Portfolio', icon: HelpCircle, action: () => alert('This is Kartikey Pandey\'s interactive portfolio built with Next.js, TypeScript, and Monaco Editor!\n\nFeatures:\n• VS Code-like interface\n• File system with markdown preview\n• Interactive terminal\n• Real-time editing\n• Responsive design\n\nKeyboard Shortcuts:\n• Ctrl+N: New File\n• Ctrl+S: Save\n• Ctrl+B: Toggle Sidebar\n• Ctrl+`: Toggle Terminal\n• Ctrl+=: Zoom In\n• Ctrl+-: Zoom Out') }
     ]
@@ -410,29 +368,29 @@ module.exports = { example };`,
   }
 
   return (
-    <div className="flex items-center justify-between h-10 bg-[var(--titleBar)] border-b border-[var(--border)] select-none">
+    <div className="flex min-w-0 items-center justify-between h-10 bg-[var(--titleBar)] border-b border-[var(--border)] select-none">
       {/* Left side - App branding and menu */}
-      <div className="flex items-center h-full">
-        <div className="flex items-center px-4 h-full">
+      <div className="flex min-w-0 items-center h-full">
+        <div className="hidden lg:flex items-center px-4 h-full">
           <span className="text-sm font-medium text-[var(--textPrimary)]">
             Kartikey Pandey - Portfolio
           </span>
         </div>
-        
+
         {/* Menu items */}
-        <div className="flex items-center h-full">
+        <div className="flex min-w-0 items-center h-full">
           {Object.entries(menuItems).map(([menuName, items]) => (
             <div key={menuName} className="relative" ref={(el) => { menuRefs.current[menuName] = el }}>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-full px-3 rounded-none hover:bg-[var(--hover)] capitalize"
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-full px-1.5 sm:px-3 text-xs sm:text-sm rounded-none hover:bg-[var(--hover)] capitalize"
                 onClick={() => toggleMenu(menuName)}
               >
                 {menuName}
                 <ChevronDown className="w-3 h-3 ml-1" />
               </Button>
-              
+
               {activeMenu === menuName && (
                 <div className="absolute top-full left-0 bg-[var(--surface)] border border-[var(--border)] rounded shadow-lg z-50 min-w-48 py-1">
                   {items.map(renderMenuItem)}
@@ -444,7 +402,7 @@ module.exports = { example };`,
       </div>
 
       {/* Center - Current file/project info */}
-      <div className="flex items-center h-full">
+      <div className="hidden md:flex items-center h-full">
         <div className="flex items-center gap-2 px-4">
           <GitBranch className="w-4 h-4 text-[var(--textSecondary)]" />
           <span className="text-xs text-[var(--textSecondary)]">main</span>
@@ -454,46 +412,47 @@ module.exports = { example };`,
       </div>
 
       {/* Right side - Window controls */}
-      <div className="flex items-center h-full">
+      <div className="flex shrink-0 items-center h-full">
         <IconButton
           size="sm"
-          className="h-full w-12 rounded-none hover:bg-[var(--hover)]"
-          onClick={() => window.open('https://github.com/kartikeypandey', '_blank')}
+          className="hidden md:inline-flex h-full w-12 rounded-none hover:bg-[var(--hover)]"
+          onClick={() => window.open(GITHUB_URL, '_blank', 'noopener,noreferrer')}
         >
           <Settings className="w-4 h-4" />
         </IconButton>
-        
+
         {/* Window controls */}
-        <div className="flex items-center h-full">
+          <div className="flex items-center h-full">
           <IconButton
             size="sm"
-            className="h-full w-12 rounded-none hover:bg-[var(--hover)]"
+              className="hidden md:inline-flex h-full w-12 rounded-none hover:bg-[var(--hover)]"
             onClick={handleMinimize}
           >
             <Minus className="w-4 h-4" />
           </IconButton>
           <IconButton
             size="sm"
-            className="h-full w-12 rounded-none hover:bg-[var(--hover)]"
+              className="hidden md:inline-flex h-full w-12 rounded-none hover:bg-[var(--hover)]"
             onClick={handleMaximize}
           >
             <Square className="w-4 h-4" />
           </IconButton>
-          <IconButton
-            size="sm"
-            className="h-full w-12 rounded-none hover:bg-red-600 hover:text-white"
-            onClick={handleClose}
-          >
+            <IconButton
+              size="sm"
+              className="h-full w-10 sm:w-12 rounded-none hover:bg-red-600 hover:text-white"
+              onClick={handleClose}
+              aria-label="Open exit dialog"
+            >
             <X className="w-4 h-4" />
           </IconButton>
         </div>
       </div>
-      
+
       <Modal
         isOpen={showExitModal}
         onClose={() => setShowExitModal(false)}
-        onDownloadResume={handleDownloadResume}
+        onViewLinkedIn={handleViewLinkedIn}
       />
     </div>
   )
-} 
+}

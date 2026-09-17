@@ -4,6 +4,14 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import AvatarGuide from "@/components/ui/AvatarGuide";
 import SEOContent from "@/components/seo/SEOContent";
+import {
+  GITHUB_URL,
+  HACKATHON_WINNER,
+  KARTS_DESCRIPTION,
+  LINKEDIN_URL,
+  ROLE,
+  SITE_URL,
+} from "@/lib/profile";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,24 +24,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kartikey Pandey - Founding Engineer & Software Engineer Portfolio",
-  description: "Founding Engineer @ Raya Health (HF0 W26). Full-stack & ML engineer, 10x hackathon winner, ex-NASA Lunar Autonomy Challenge & ex-Intel. Interactive VS Code-themed portfolio showcasing projects, research, and achievements.",
-  keywords: ["Founding Engineer", "Software Engineer", "Full-Stack Developer", "Machine Learning", "Raya Health", "HF0", "NASA", "Intel", "React", "Next.js", "TypeScript", "Python", "Hackathon Winner", "Penn State"],
+  metadataBase: new URL(SITE_URL),
+  title: "Kartikey Pandey — Founder, Karts",
+  description: `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER}.`,
+  keywords: ["Kartikey Pandey", "Karts", "Founder", "Hackathon Winner"],
   authors: [{ name: "Kartikey Pandey" }],
   creator: "Kartikey Pandey",
   openGraph: {
-    title: "Kartikey Pandey - Founding Engineer Portfolio",
-    description: "Founding Engineer @ Raya Health (HF0 W26) · 10x hackathon winner · ex-NASA & ex-Intel · full-stack + ML.",
+    title: "Kartikey Pandey — Founder, Karts",
+    description: `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER}.`,
     type: "website",
-    url: "https://yourdomain.com",
+    url: SITE_URL,
+    siteName: "Kartikey Pandey",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Kartikey Pandey — Founder, Karts",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kartikey Pandey - Founding Engineer Portfolio",
-    description: "Founding Engineer @ Raya Health (HF0 W26) · 10x hackathon winner · ex-NASA & ex-Intel · full-stack + ML.",
+    title: "Kartikey Pandey — Founder, Karts",
+    description: `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER}.`,
+    images: ["/opengraph-image"],
   },
   alternates: {
-    canonical: "https://yourdomain.com",
+    canonical: SITE_URL,
   },
 };
 
@@ -46,33 +65,16 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Kartikey Pandey",
-    "jobTitle": "Founding Engineer",
+    "jobTitle": ROLE,
     "worksFor": {
       "@type": "Organization",
-      "name": "Raya Health"
+      "name": "Karts"
     },
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "Pennsylvania State University"
-    },
-    "description": "Founding Engineer @ Raya Health (HF0 W26). Full-stack and machine-learning engineer, 10x hackathon winner, ex-NASA Lunar Autonomy Challenge and ex-Intel.",
-    "email": "kartikeypandey.official@gmail.com",
-    "url": "https://yourdomain.com",
+    "description": `${ROLE}. ${KARTS_DESCRIPTION} ${HACKATHON_WINNER}.`,
+    "url": SITE_URL,
     "sameAs": [
-      "https://linkedin.com/in/kartikeypandey2004",
-      "https://github.com/Kart-ing"
-    ],
-    "knowsAbout": [
-      "Software Engineering",
-      "Full-Stack Development",
-      "Machine Learning",
-      "Computer Vision",
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Python",
-      "Node.js",
-      "Augmented Reality"
+      LINKEDIN_URL,
+      GITHUB_URL
     ]
   };
 

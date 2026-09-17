@@ -1,17 +1,22 @@
 # Welcome to Kartikey's Portfolio! 👋
 
-Hi there! I'm **Kartikey Pandey**, a software engineer and full-stack developer building scalable systems, cloud-native apps, and AI-driven products. I'm currently a **Founding Engineer @ Raya Health (HF0 W26)**.
+Hi there! I'm **Kartikey Pandey**, a software engineer and full-stack developer building scalable systems, cloud-native apps, and AI-driven products. I'm the **founder of Karts**, and I'm currently a **Member of Technical Staff @ Cara**.
+
+## ⚡ Karts
+
+Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.
 
 ## 🚀 About Me
 
-I'm an **10x hackathon winner** with experience across machine learning, computer vision, and full-stack engineering. I've built ML pipelines at **Intel**, worked on autonomous lunar robotics for **NASA's Lunar Autonomy Challenge** (via Johns Hopkins APL), and led AR/AI development at **Snap's Spectacles Student Accelerator** — where I secured **$25,000+ in funding**.
+I'm a **12x hackathon winner** with experience across machine learning, computer vision, and full-stack engineering. I've built ML pipelines at **Intel**, worked on autonomous lunar robotics for **NASA's Lunar Autonomy Challenge** (via Johns Hopkins APL), and led AR/AI development at **Snap's Spectacles Student Accelerator** — where I secured **$25,000+ in funding**.
 
 ### Quick Facts:
-- 💼 **Current Role**: Founding Engineer @ Raya Health (HF0 W26 batch)
+- 💼 **Current Role**: Founder, Karts
+- 🏢 **Current Job**: Member of Technical Staff @ Cara (June 2026 – present)
 - 🎓 **Education**: B.S. Computer Science, Minor in Entrepreneurship @ Penn State (2022–2026)
 - 📍 **Location**: San Francisco Bay Area
 - 🏆 **Achievement**: Founded & led Penn State's hackathon team, lifting its national rank from **#185 → #74** in a year
-- 🧠 **Background**: ex-NASA (Lunar Autonomy Challenge), ex-Intel, Snap Spectacles Accelerator
+- 🧠 **Background**: NASA Lunar Autonomy Challenge (via JHU APL), Intel apprentice, Snap Spectacles Student Accelerator
 - 📜 **Patent**: "System and Method Providing Data Conversion"
 
 ## 🛠️ Tech Stack
@@ -32,10 +37,10 @@ I'm an **10x hackathon winner** with experience across machine learning, compute
 
 ## 🏆 Recent Achievements
 
-- **Founding Engineer @ Raya Health** — part of the **HF0 W26** residency batch
+- **Founded Karts** (see `projects/karts.md`)
 - **$25,000+ in funding** secured at Snap's Spectacles Student Accelerator
 - **Snap AR Challenge Winner**
-- **10x Hackathon Winner** across full-stack, PM, and GenAI competitions
+- **12x hackathon winner** across full-stack, PM, and GenAI competitions
 - **Founded & led** Penn State's Collegiate Hackathon Team (national rank **#185 → #74**)
 - **President of GDSC @ Penn State** — built a 200+ student SWE/AI/cloud community
 - **NASA Lunar Autonomy Challenge** (via JHU APL) — autonomous lunar robotics
@@ -45,18 +50,10 @@ I'm an **10x hackathon winner** with experience across machine learning, compute
 Navigate through the file explorer to explore different sections:
 
 - **📄 about.md** — My background, journey, and what drives me
-- **💼 experience.md** — Raya Health, NASA, ColdStart, GDSC, Intel, and Snap accelerator
-- **🚀 projects/** — Showcase of AR, ML, and full-stack projects
+- **💼 experience.md** — Cara, Raya Health (HF0 W26), NASA Lunar Autonomy Challenge, ColdStart, GDSC, Intel, and Snap accelerator
+- **🚀 projects/** — Karts first, then a showcase of AR, ML, and full-stack projects
 - **🏅 awards.md** — Hackathon wins, patent, funding, and leadership achievements
-- **📞 contact.md** — Get in touch for opportunities and collaborations
-
-## 🎯 What I'm Looking For
-
-I'm always open to building great products with great people, especially in:
-- **Full-stack Software Engineering** roles
-- **Machine Learning Engineering** opportunities
-- **Founding / early-stage engineering** roles
-- **Cloud & platform engineering** positions
+- **📞 contact.md** — Get in touch for collaborations
 
 ## 🌟 Why This Portfolio?
 

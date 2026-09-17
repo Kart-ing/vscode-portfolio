@@ -65,6 +65,15 @@ const fileStructure: FileNode[] = [
         isOpen: true,
         children: [
           {
+            id: 'karts',
+            name: 'karts.md',
+            type: 'file',
+            path: '/projects/karts.md',
+            externalPath: '/content/projects/karts.md',
+            content: '',
+            language: 'markdown'
+          },
+          {
             id: 'recompress',
             name: 'recompress.md',
             type: 'file',
@@ -115,15 +124,6 @@ const fileStructure: FileNode[] = [
             type: 'file',
             path: '/projects/ledgerup.md',
             externalPath: '/content/projects/ledgerup.md',
-            content: '',
-            language: 'markdown'
-          },
-          {
-            id: 'mechanize-whiteboard',
-            name: 'mechanize-whiteboard.md',
-            type: 'file',
-            path: '/projects/mechanize-whiteboard.md',
-            externalPath: '/content/projects/mechanize-whiteboard.md',
             content: '',
             language: 'markdown'
           },
@@ -487,7 +487,7 @@ export function FileSystemProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'SET_LOADING', payload: { isLoading: true } })
       
       try {
-        const contentMap = await preloadAllFiles(state.files)
+        const contentMap = await preloadAllFiles(fileStructure)
         dispatch({ type: 'BULK_SET_CONTENT', payload: { contentMap } })
       } catch (error) {
         console.error('Error preloading files:', error)

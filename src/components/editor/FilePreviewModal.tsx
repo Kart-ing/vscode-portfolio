@@ -91,7 +91,7 @@ export function FilePreviewModal() {
         )}
       >
         <Icon className="w-3.5 h-3.5" />
-        <span>{label}</span>
+        <span className="hidden min-[480px]:inline">{label}</span>
       </button>
     ),
     [mode]
@@ -105,7 +105,7 @@ export function FilePreviewModal() {
       {activeId && (
         <motion.div
           key="file-preview-overlay"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

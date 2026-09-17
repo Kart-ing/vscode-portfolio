@@ -1,10 +1,15 @@
 # Professional Experience 💼
 
+## Member of Technical Staff — Cara
+**San Francisco Bay Area** | June 2026 – Present
+
+---
+
 ## Founding Engineer — Raya Health
 **HF0 W26 Batch** | San Francisco Bay Area | February 2026 – May 2026
 
-- **Founding engineer** building Raya Health from the ground up as part of the **HF0 W26** residency — one of the top startup residencies.
-- Shipping product end to end across full-stack, infrastructure, and AI.
+- **Founding engineer** who built Raya Health from the ground up as part of the **HF0 W26** residency — one of the top startup residencies.
+- Shipped product end to end across full-stack, infrastructure, and AI.
 
 ---
 
@@ -13,7 +18,7 @@
 
 - **Founded and led** the collegiate hackathon team, growing it to **27+ members**.
 - **Lifted Penn State's national hackathon rank from #185 → #74** within a single year.
-- **10x hackathon winner** across major competitions spanning full-stack, product management, and GenAI tracks.
+- **Hackathon winner** across major competitions spanning full-stack, product management, and GenAI tracks.
 - Built a **dual-track program** — mentoring beginners while showcasing advanced teams to recruiters.
 - **Secured national sponsorships** and ran workshops on **Next.js, GraphQL, and automation engineering**.
 
@@ -35,7 +40,7 @@
 
 ---
 
-## Machine Learning Engineer — NASA Lunar Autonomy Challenge
+## Machine Learning Engineer, Lunar Autonomy Challenge team (NASA-affiliated, run by Johns Hopkins APL)
 **via Johns Hopkins Applied Physics Lab (APL)** | November 2024 – January 2025
 
 - Selected for the **NASA-affiliated Lunar Autonomy Challenge**, run by Johns Hopkins APL.
@@ -96,12 +101,10 @@
 
 ## Honors & Awards
 
-- **Harvard Hack — CareYaya Track**: 2nd Place
-- **HackPSU**: 2nd Place Overall
 - **HackPSU Spring 2024**: Entrepreneurship Award
 - **Bitcamp**: Best Cybersecurity Track
 - **Snap AR Challenge**: Winner
-- **10x Hackathon Winner** overall across major competitions
+- **12x hackathon winner** overall across major competitions
 
 ---
 
@@ -113,7 +116,7 @@
 - **Cloud & DevOps**: AWS, Google Cloud Platform, Docker, PostgreSQL
 
 ### Machine Learning & AI
-- **Computer Vision**: OpenCV, PyTorch — production systems at 97% accuracy
+- **Computer Vision**: OpenCV, PyTorch — chip-defect detection at 97% accuracy (Intel)
 - **NLP**: BERT-based classification
 - **Frameworks**: TensorFlow, Scikit-learn
 - **Robotics/Simulation**: SLAM, CARLA

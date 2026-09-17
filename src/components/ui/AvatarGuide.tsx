@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { X, HelpCircle, MessageCircle } from 'lucide-react';
 
 interface AvatarGuideProps {
@@ -30,7 +31,6 @@ const safeStorage = {
 
 const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasSeen, setHasSeen] = useState(false);
   const [showInitial, setShowInitial] = useState(false);
 
   useEffect(() => {
@@ -42,8 +42,6 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
         setShowInitial(true);
       }, 3000);
       return () => clearTimeout(timer);
-    } else {
-      setHasSeen(true);
     }
   }, []);
 
@@ -63,7 +61,7 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
   };
 
   return (
-    <div className={`fixed bottom-9 right-4 z-50 ${className}`}>
+    <div className={`fixed bottom-9 right-4 z-40 ${className}`}>
       {/* Initial floating message */}
       {showInitial && !isOpen && (
         <div className="absolute bottom-16 right-0 mb-3 animate-bounce">
@@ -91,9 +89,15 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
         title="Get help navigating the portfolio"
       >
         {/* Custom icon placeholder - replace with your image */}
-        <img src="/kartikey-avatar.png" alt="Kartikey" className="w-full h-full object-cover" />
-        
-        
+        <Image
+          src="/kartikey-avatar.png"
+          alt="Kartikey"
+          fill
+          sizes="88px"
+          className="object-cover"
+        />
+
+
       </button>
 
       {/* Help panel */}
@@ -138,8 +142,8 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
                 <h4 className="text-white font-medium mb-2">🚀 What to Check Out:</h4>
                 <ul className="space-y-1 ml-4">
                   <li>• README.md - Start here for overview</li>
-                  <li>• projects/ - My ML, AR & full-stack work</li>
-                  <li>• experience.md - Raya Health, NASA, Intel & more</li>
+                  <li>• projects/ - Karts, plus my ML, AR & full-stack work</li>
+                  <li>• experience.md - Cara, Raya Health, NASA challenge, Intel & more</li>
                   <li>• awards.md - Hackathon wins, patent & achievements</li>
                 </ul>
               </div>
@@ -159,10 +163,11 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
               <div>
                 <h4 className="text-white font-medium mb-2">🎯 Quick Facts:</h4>
                 <ul className="space-y-1 ml-4">
-                  <li>• Founding Engineer @ Raya Health (HF0 W26)</li>
-                  <li>• ex-NASA & ex-Intel</li>
+                  <li>• Founder, Karts</li>
+                  <li>• Member of Technical Staff @ Cara</li>
+                  <li>• NASA Lunar Autonomy Challenge (via JHU APL) & Intel apprentice</li>
                   <li>• $25,000+ funding at Snap's accelerator</li>
-                  <li>• 10x hackathon winner</li>
+                  <li>• 12x hackathon winner</li>
                   <li>• Led Penn State ranking: 185→74 nationally</li>
                 </ul>
               </div>
@@ -181,4 +186,4 @@ const AvatarGuide: React.FC<AvatarGuideProps> = ({ className = '' }) => {
   );
 };
 
-export default AvatarGuide; 
+export default AvatarGuide;

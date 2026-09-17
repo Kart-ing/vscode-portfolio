@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { IconButton } from '@/components/ui/IconButton'
 import { Files, Search, GitBranch, Bug } from 'lucide-react'
 import { FileExplorer } from '@/components/file-explorer/FileExplorer'
+import { GITHUB_URL } from '@/lib/profile'
 
 interface SidebarProps {
   width: number
@@ -13,7 +14,7 @@ interface SidebarProps {
   onResize: (width: number) => void
 }
 
-export function Sidebar({ width, isCollapsed, onToggle, onResize }: SidebarProps) {
+export function Sidebar({ width, onResize }: SidebarProps) {
   const [activeView, setActiveView] = useState<'explorer' | 'search' | 'git' | 'debug'>('explorer')
 
   const handleResize = (e: React.MouseEvent) => {
@@ -35,7 +36,7 @@ export function Sidebar({ width, isCollapsed, onToggle, onResize }: SidebarProps
   }
 
   const handleGitClick = () => {
-    window.open('https://github.com/kartikeypandey', '_blank')
+    window.open(GITHUB_URL, '_blank', 'noopener,noreferrer')
   }
 
   const handleDebugClick = () => {
@@ -43,8 +44,8 @@ export function Sidebar({ width, isCollapsed, onToggle, onResize }: SidebarProps
   }
 
   return (
-    <div 
-      className="flex bg-[var(--sidebar)] border-r border-[var(--border)] vscode-sidebar"
+    <div
+      className="flex shrink-0 bg-[var(--sidebar)] border-r border-[var(--border)] vscode-sidebar"
       style={{ width: `${width}px` }}
     >
       {/* Activity Bar */}
@@ -103,14 +104,14 @@ export function Sidebar({ width, isCollapsed, onToggle, onResize }: SidebarProps
         {/* Content */}
         <div className="flex-1">
           {activeView === 'explorer' && <FileExplorer />}
-          
+
           {activeView === 'search' && (
             <div className="space-y-2">
               <div className="text-sm text-[var(--textSecondary)]">SEARCH</div>
               <div className="text-xs text-[var(--textMuted)]">Search in files</div>
             </div>
           )}
-          
+
           {activeView === 'git' && (
             <div className="p-4 space-y-4">
               <div className="text-sm text-[var(--textSecondary)]">SOURCE CONTROL</div>
@@ -126,7 +127,7 @@ export function Sidebar({ width, isCollapsed, onToggle, onResize }: SidebarProps
               </div>
             </div>
           )}
-          
+
           {activeView === 'debug' && (
             <div className="p-4 space-y-4">
               <div className="text-sm text-[var(--textSecondary)]">RUN AND DEBUG</div>
@@ -152,4 +153,4 @@ export function Sidebar({ width, isCollapsed, onToggle, onResize }: SidebarProps
       />
     </div>
   )
-} 
+}

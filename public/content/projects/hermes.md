@@ -3,7 +3,7 @@
 > Offload expensive coding-agent work to an always-on server.
 
 **Role:** Solo / Lead · **Year:** 2026 · **Status:** Deployed (systemd services on a personal server)
-**Links:** [GitHub](https://github.com/Kart-ing/hermes-offloader)
+**Links:** [GitHub](https://github.com/Kart-ing/hermes-offloader-setup)
 
 ## The Problem
 Heavy Claude Code jobs tie up your laptop and burn premium tokens on mechanical subtasks that don't need a frontier model. The expensive reasoning and the grunt work are billed the same.
@@ -21,4 +21,4 @@ A job orchestrator. A `/handoff` Claude Code skill slices the current conversati
 - Per-task audit logs and a read-only progress dashboard
 
 ## Links
-- GitHub: https://github.com/Kart-ing/hermes-offloader
+- GitHub: https://github.com/Kart-ing/hermes-offloader-setup

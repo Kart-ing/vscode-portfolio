@@ -1,20 +1,27 @@
 # Awards & Achievements 🏆
 
-## 🥇 Hackathon Wins & Honors
+## 🥇 12x hackathon winner
 
-I'm an **10x hackathon winner** across full-stack, product management, and GenAI competitions. Selected honors:
+I'm a **12x hackathon winner** across full-stack, product management, and GenAI competitions:
 
-- **Harvard Hack — CareYaya Track**: 🥈 2nd Place
-- **HackPSU**: 🥈 2nd Place Overall
-- **HackPSU Spring 2024**: 🏅 Entrepreneurship Award
-- **Bitcamp**: 🛡️ Best Cybersecurity Track
-- **Snap AR Challenge**: 🥇 Winner
+1. **HackPSU Spring 2023**: 🥉 3rd Place (SignEase)
+2. **HackHarvard 2023**: 🏅 Best Use of MATLAB (EyeSnap)
+3. **HackPSU Spring 2024**: 🏅 Entrepreneurship Award (DevSpot)
+4. **Bitcamp 2024**: 🛡️ Best Cybersecurity Track Hack (Moth Challenge)
+5. **HackPSU Fall 2024**: 🥇 Snap AR Challenge; Best DEI Hack sponsored by Fidelity (Reality Rush)
+6. **HackUMass XII, November 2024**: 🥽 Best AR/VR Hack (VR Breadboard)
+7. **MHacks 2025**: 🧠 Best Use of MemryX Edge AI Accelerator (SoundSage)
+8. **Cal Hacks 12.0, October 2025**: 🔎 Elastic: Best use of the Elastic Agent Builder on a Serverless instance (AgentOverflow)
+9. **UC Berkeley AI Hackathon 2026**: 🗜️ Best Compression Model for The Token Company (Re:Compress)
+10. **c0mpiled-11 YC Startup School Hackathon (Transpose), July 2026**: 🏅 Hexclave award, $1,000 (Cited)
+11. **c0mpiled-13 Startup School Hackathon II (Transpose), July 2026**: 🏅 Hexclave award, $1,000 (Swiper No Swiping)
+12. **The World's First Zero Human Company Hackathon by Terac, August 2026**: 🥉 3rd Place, Best use of Render (AdLayer)
 
 ---
 
 ## 📜 Patent
 
-- **"System and Method Providing Data Conversion."**
+- **Indian Patent No. 558662, "System and Method Providing Data Conversion"** (sole inventor; filed 2020, granted 2025)
 
 ---
 
@@ -25,9 +32,6 @@ I'm an **10x hackathon winner** across full-stack, product management, and GenAI
 
 - Led AR/AI development with **TypeScript, Node.js, and real-time cloud sync**.
 - Earned the **Snap AR Challenge** win.
-
-### HF0 W26 Residency
-- Selected as part of the **HF0 W26** batch as a **Founding Engineer at Raya Health** — one of the top startup residencies.
 
 ---
 
@@ -52,7 +56,7 @@ I'm an **10x hackathon winner** across full-stack, product management, and GenAI
 ## 🌙 Research & Engineering Recognition
 
 ### NASA Lunar Autonomy Challenge (via JHU APL)
-**Selected Machine Learning Engineer** | November 2024 – January 2025
+**Machine Learning Engineer, Lunar Autonomy Challenge team (NASA-affiliated, run by Johns Hopkins APL)** | November 2024 – January 2025
 
 - Chosen for the **NASA-affiliated Lunar Autonomy Challenge**, run by Johns Hopkins Applied Physics Lab.
 - Worked on **autonomous lunar robotics** (navigation, excavation, resource utilization) with **CARLA simulation, SLAM, and AI frameworks**.
@@ -70,21 +74,20 @@ I'm an **10x hackathon winner** across full-stack, product management, and GenAI
 
 ## 🩺 Project Highlight
 
-### Diabetic Retinopathy Detection Platform
-- Healthcare platform cutting diagnostic costs by roughly **99.8%**.
+### EyeSnap — Diabetic Retinopathy Detection Prototype
+- Healthcare prototype for diabetic retinopathy detection; won **Best Use of MATLAB at HackHarvard 2023**.
 - Built with **computer vision, TensorFlow, Flask, and SQL**.
 
 ---
 
 ## 🎯 Impact Metrics
 
-- **10x** hackathon winner across full-stack, PM, and GenAI competitions
+- **12x** hackathon winner across full-stack, PM, and GenAI competitions
 - **$25,000+** secured at Snap's Spectacles Accelerator
 - **#185 → #74** national hackathon ranking lift for Penn State
 - **200+** students in the GDSC community built
 - **33%** ML deployment-time reduction at Intel
 - **97% accuracy** across 100,000+ images
-- **~99.8%** diagnostic-cost reduction with the retinopathy platform
 
 ---
 

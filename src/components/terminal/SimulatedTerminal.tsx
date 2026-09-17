@@ -1,11 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react'
-import { cn } from '@/lib/utils'
 import { IconButton } from '@/components/ui/IconButton'
 import { X, Trash2 } from 'lucide-react'
 import { useFileSystem } from '@/contexts/FileSystemContext'
 import { loadPyodideOnce, runPython, getPyStatus } from '@/lib/pyodide'
+import {
+  GITHUB_URL,
+  HACKATHON_WINNER,
+  KARTS_DESCRIPTION,
+  LINKEDIN_URL,
+  ROLE,
+} from '@/lib/profile'
 
 interface TerminalProps {
   height: number
@@ -27,7 +33,7 @@ interface TerminalLine {
 }
 
 export function SimulatedTerminal({ height, onClose }: TerminalProps) {
-  const { state, dispatch, findFile } = useFileSystem()
+  const { state, dispatch } = useFileSystem()
   const [currentDirectory, setCurrentDirectory] = useState('/')
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
@@ -44,7 +50,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
     {
       id: 'welcome-2',
       type: 'output',
-      content: 'Type "help" for commands. Try: whoami · projects · open recompress · python fib.py',
+      content: 'Type "help" for commands. Try: whoami · projects · open karts · python fib.py',
       timestamp: new Date()
     },
     {
@@ -63,10 +69,10 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
     if (path === '/') {
       return { type: 'directory', children: state.files }
     }
-    
+
     const pathParts = path.split('/').filter(Boolean)
     let current = state.files
-    
+
     for (const part of pathParts) {
       const found = current.find(node => node.name === part)
       if (!found) {
@@ -81,7 +87,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
         return null
       }
     }
-    
+
     return { type: 'directory', children: current }
   }
 
@@ -93,18 +99,18 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       execute: (args) => {
         const path = args[0] || currentDirectory
         const dir = findFileByPath(path)
-        
+
         if (!dir) {
           return `ls: cannot access '${path}': No such file or directory`
         }
-        
+
         if (dir.type === 'file') {
           return path
         }
-        
+
         const items = dir.children || []
         if (items.length === 0) return ''
-        
+
         return items.map(item => {
           const icon = item.type === 'folder' ? '📁' : '📄'
           return `${icon} ${item.name}`
@@ -118,26 +124,26 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       usage: 'cd [DIRECTORY]',
       execute: (args) => {
         const target = args[0] || '/'
-        
+
         if (target === '..') {
           const parent = currentDirectory.split('/').slice(0, -1).join('/') || '/'
           setCurrentDirectory(parent)
           return ''
         }
-        
+
         if (target === '~' || target === '/') {
           setCurrentDirectory('/')
           return ''
         }
-        
+
         const targetPath = target.startsWith('/') ? target : `${currentDirectory}/${target}`.replace('//', '/')
         const dir = findFileByPath(targetPath)
-        
+
         if (dir && 'children' in dir) {
           setCurrentDirectory(targetPath)
           return ''
         }
-        
+
         return `cd: ${target}: No such file or directory`
       }
     },
@@ -155,16 +161,16 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       usage: 'cat [FILE]...',
       execute: (args) => {
         if (args.length === 0) return 'cat: missing file operand'
-        
+
         const filePath = args[0]
         const fullPath = filePath.startsWith('/') ? filePath : `${currentDirectory}/${filePath}`.replace('//', '/')
         const pathParts = fullPath.split('/').filter(Boolean)
-        
+
         if (pathParts.length === 0) return 'cat: invalid path'
-        
+
         const fileName = pathParts[pathParts.length - 1]
         const dirPath = pathParts.slice(0, -1)
-        
+
         let current = state.files
         for (const part of dirPath) {
           const found = current.find(node => node.name === part && node.type === 'folder')
@@ -173,12 +179,12 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
           }
           current = found.children
         }
-        
+
         const file = current.find(node => node.name === fileName && node.type === 'file')
         if (!file) {
           return `cat: ${filePath}: No such file or directory`
         }
-        
+
         return file.content || ''
       }
     },
@@ -189,7 +195,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       usage: 'mkdir [OPTION]... DIRECTORY...',
       execute: (args) => {
         if (args.length === 0) return 'mkdir: missing operand'
-        
+
         const dirName = args[0]
         const newFolder = {
           id: `folder-${Date.now()}`,
@@ -199,7 +205,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
           isOpen: false,
           children: []
         }
-        
+
         // Find the current directory in the file system
         if (currentDirectory === '/') {
           dispatch({ type: 'ADD_FOLDER', payload: { parentId: 'root', folder: newFolder } })
@@ -207,7 +213,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
           const pathParts = currentDirectory.split('/').filter(Boolean)
           let current = state.files
           let parentId = 'root'
-          
+
           for (const part of pathParts) {
             const found = current.find(node => node.name === part && node.type === 'folder')
             if (!found) {
@@ -216,10 +222,10 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
             parentId = found.id
             current = found.children || []
           }
-          
+
           dispatch({ type: 'ADD_FOLDER', payload: { parentId, folder: newFolder } })
         }
-        
+
         return ''
       }
     },
@@ -230,7 +236,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       usage: 'touch [FILE]...',
       execute: (args) => {
         if (args.length === 0) return 'touch: missing file operand'
-        
+
         const fileName = args[0]
         const newFile = {
           id: `file-${Date.now()}`,
@@ -238,12 +244,12 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
           type: 'file' as const,
           path: `/${fileName}`,
           content: '',
-          language: fileName.endsWith('.js') ? 'javascript' : 
-                   fileName.endsWith('.ts') ? 'typescript' : 
-                   fileName.endsWith('.py') ? 'python' : 
+          language: fileName.endsWith('.js') ? 'javascript' :
+                   fileName.endsWith('.ts') ? 'typescript' :
+                   fileName.endsWith('.py') ? 'python' :
                    fileName.endsWith('.md') ? 'markdown' : 'text'
         }
-        
+
         // Find the current directory in the file system
         if (currentDirectory === '/') {
           dispatch({ type: 'ADD_FILE', payload: { parentId: 'root', file: newFile } })
@@ -251,7 +257,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
           const pathParts = currentDirectory.split('/').filter(Boolean)
           let current = state.files
           let parentId = 'root'
-          
+
           for (const part of pathParts) {
             const found = current.find(node => node.name === part && node.type === 'folder')
             if (!found) {
@@ -260,10 +266,10 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
             parentId = found.id
             current = found.children || []
           }
-          
+
           dispatch({ type: 'ADD_FILE', payload: { parentId, file: newFile } })
         }
-        
+
         return ''
       }
     },
@@ -274,33 +280,30 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       usage: 'rm [OPTION]... FILE...',
       execute: (args) => {
         if (args.length === 0) return 'rm: missing operand'
-        
+
         const fileName = args[0]
         const fullPath = fileName.startsWith('/') ? fileName : `${currentDirectory}/${fileName}`.replace('//', '/')
         const pathParts = fullPath.split('/').filter(Boolean)
-        
+
         if (pathParts.length === 0) return 'rm: invalid path'
-        
+
         const targetName = pathParts[pathParts.length - 1]
         const dirPath = pathParts.slice(0, -1)
-        
+
         let current = state.files
-        let parentId = 'root'
-        
         for (const part of dirPath) {
           const found = current.find(node => node.name === part && node.type === 'folder')
           if (!found || !found.children) {
             return `rm: ${fileName}: No such file or directory`
           }
-          parentId = found.id
           current = found.children
         }
-        
+
         const target = current.find(node => node.name === targetName)
         if (!target) {
           return `rm: ${fileName}: No such file or directory`
         }
-        
+
         dispatch({ type: 'DELETE_NODE', payload: { id: target.id } })
         return ''
       }
@@ -327,7 +330,7 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
       name: 'whoami',
       description: 'Print effective user ID',
       usage: 'whoami',
-      execute: () => 'Kartikey Pandey — Founding Engineer @ Raya Health (HF0 W26). 10x hackathon winner · ex-NASA · ex-Intel.'
+      execute: () => `Kartikey Pandey — ${ROLE}. ${HACKATHON_WINNER} · NASA Lunar Autonomy Challenge (via JHU APL) · Intel apprentice.`
     },
 
     date: {
@@ -357,13 +360,14 @@ export function SimulatedTerminal({ height, onClose }: TerminalProps) {
         return `                    kartikey@portfolio
                     ---------------
 Name: Kartikey Pandey
-Role: Founding Engineer @ Raya Health (HF0 W26)
-Past: NASA Lunar Autonomy Challenge · Intel · Snap Spectacles
-Awards: 10x hackathon winner · 1 patent
+Role: ${ROLE}
+Job: Member of Technical Staff, Cara (June 2026 – present)
+Past: Founding Engineer, Raya Health (HF0 W26) · NASA Lunar Autonomy Challenge · Intel · Snap Spectacles
+Awards: ${HACKATHON_WINNER} · 1 patent
 Edu: B.S. Computer Science, Penn State (2022–2026)
 Stack: TypeScript · Python · React/Next.js · PyTorch · TensorFlow
 Uptime: ${Math.floor(Math.random() * 24)}h ${Math.floor(Math.random() * 60)}m
-Shell: Portfolio Terminal (try: resume, projects, open recompress)
+Shell: Portfolio Terminal (try: linkedin, projects, open karts)
 
 ███▄▄▄▄      ██▄███▄    ▄█     ▄█▄
 ██  ▀██▄    █  █▀ ▀█    ███    ████
@@ -392,13 +396,15 @@ Type ".help" for more information.
       }
     },
 
-    resume: {
-      name: 'resume',
-      description: 'Open my résumé (PDF)',
-      usage: 'resume',
+    linkedin: {
+      name: 'linkedin',
+      description: 'Open LinkedIn',
+      usage: 'linkedin',
       execute: () => {
-        if (typeof window !== 'undefined') window.open('/resume.pdf', '_blank')
-        return 'Opening résumé… (also at /resume.json for structured data)'
+        if (typeof window !== 'undefined') {
+          window.open(LINKEDIN_URL, '_blank', 'noopener,noreferrer')
+        }
+        return 'Opening LinkedIn…'
       }
     },
 
@@ -407,14 +413,17 @@ Type ".help" for more information.
       description: 'Summarize work experience',
       usage: 'experience',
       execute: () => {
+        const row = (role: string, org: string, when: string) =>
+          `${role.padEnd(27)}${org.padEnd(31)}${when}`
         return [
-          'Founding Engineer       Raya Health (HF0 W26)         2026',
-          'Founder & President     Penn State Hackathon Team     2024–2025  (#185 → #74)',
-          'ML Engineer             NASA Lunar Autonomy / JHU APL 2024–2025',
-          'SWE Intern              ColdStart                     2025',
-          'President / Tech Lead    Google DSC @ Penn State       2023–2025  (200+ members)',
-          'Engineer                Intel Corporation             2020–2021  (−33% deploy time)',
-          'AR/AI Dev               Snap Spectacles Accelerator   ($25k+ funding)',
+          row('Member of Technical Staff', 'Cara', '2026–present'),
+          row('Founding Engineer', 'Raya Health (HF0 W26)', '2026  (Feb–May)'),
+          row('Founder & President', 'Penn State Hackathon Team', '2024–2025  (#185 → #74)'),
+          row('ML Engineer', 'Lunar Autonomy Challenge team', '2024–2025  (NASA-affiliated, via JHU APL)'),
+          row('SWE Intern', 'ColdStart', '2025'),
+          row('President / Tech Lead', 'Google DSC @ Penn State', '2023–2025  (200+ members)'),
+          row('Apprentice & Trainee', 'Intel Corporation', '2020–2021  (−33% deploy time)'),
+          row('AR/AI Dev', 'Snap Spectacles Accelerator', '($25k+ funding)'),
           '',
           "Tip: 'cat experience.md' for the full version.",
         ].join('\n')
@@ -429,13 +438,14 @@ Type ".help" for more information.
         const projectsFolder = state.files[0]?.children?.find(n => n.id === 'projects')
         const names = (projectsFolder?.children || []).map(p => `  • ${p.name.replace('.md','')}`)
         return [
-          'Projects (open with: open <name>, e.g. `open recompress`)',
+          'Projects (open with: open <name>, e.g. `open karts`)',
           '',
           ...names,
           '',
-          '⭐ recompress  — published research, 8.1× token reduction (Zenodo DOI)',
+          `⭐ karts       — ${KARTS_DESCRIPTION}`,
+          '⭐ recompress  — Zenodo preprint (June 2026) with Parth Sanjay Kshirsagar, 8.1× token reduction',
           '⭐ multiverse  — speculative execution for AI agents',
-          '   mutable     — self-designing forms, live at trymutable.online',
+          '   mutable     — self-designing forms with bounded autonomy',
         ].join('\n')
       }
     },
@@ -445,7 +455,7 @@ Type ".help" for more information.
       description: 'Open a file in the viewer',
       usage: 'open <file>',
       execute: (args) => {
-        if (args.length === 0) return 'open: missing file operand (try: open recompress)'
+        if (args.length === 0) return 'open: missing file operand (try: open karts)'
         const query = args[0].replace(/\.md$/, '').toLowerCase()
         // Search the whole tree for a file whose id or name matches.
         const search = (nodes: typeof state.files): string | null => {
@@ -475,11 +485,10 @@ Type ".help" for more information.
       usage: 'socials',
       execute: () => {
         return [
-          'GitHub:    https://github.com/Kart-ing',
-          'LinkedIn:  https://linkedin.com/in/kartikeypandey2004',
+          `GitHub:    ${GITHUB_URL}`,
+          `LinkedIn:  ${LINKEDIN_URL}`,
           'Email:     kartikeypandey.official@gmail.com',
           'ReCompress (paper): https://doi.org/10.5281/zenodo.20786357',
-          'Mutable (live):     https://trymutable.online',
         ].join('\n')
       }
     },
@@ -764,14 +773,14 @@ Type ".help" for more information.
       </div>
 
       {/* Terminal content */}
-      <div 
-        ref={terminalRef} 
+      <div
+        ref={terminalRef}
         className="flex-1 p-4 overflow-auto font-mono text-sm"
         onClick={() => inputRef.current?.focus()}
       >
         {/* Output lines */}
         {lines.map(renderLine)}
-        
+
         {/* Current input line */}
         <div className="flex items-start">
           {pythonRepl ? (
@@ -792,13 +801,14 @@ Type ".help" for more information.
                 setCursorPosition(e.target.value.length)
               }}
               onKeyDown={handleKeyDown}
+              disabled={isBusy}
               className="bg-transparent text-white outline-none border-none w-full"
               style={{ caretColor: 'transparent' }}
             />
             {/* Custom cursor */}
-            <div 
+            <div
               className="absolute top-0 w-0.5 h-5 bg-white animate-pulse"
-              style={{ 
+              style={{
                 left: `${cursorPosition * 0.6}rem`,
                 display: cursorPosition <= currentInput.length ? 'block' : 'none'
               }}
@@ -808,4 +818,4 @@ Type ".help" for more information.
       </div>
     </div>
   )
-} 
+}

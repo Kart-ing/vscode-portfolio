@@ -36,7 +36,7 @@ vercel
 ```
 
 ### Step 3: Custom Domain (Optional)
-1. Go to [vercel.com/dashboard](https://vercel.com/dashboard)
+1. Go to [vercel.com](https://vercel.com)
 2. Select your project
 3. Go to Settings → Domains
 4. Add your custom domain
@@ -173,8 +173,8 @@ useEffect(() => {
 ### 3. Environment Variables
 Create `.env.local` for sensitive data:
 ```env
-NEXT_PUBLIC_GITHUB_URL=https://github.com/yourusername
-NEXT_PUBLIC_LINKEDIN_URL=https://linkedin.com/in/yourusername
+NEXT_PUBLIC_GITHUB_URL=https://github.com/Kart-ing
+NEXT_PUBLIC_LINKEDIN_URL=https://www.linkedin.com/in/kartikeypandey2004/
 ```
 
 ---
@@ -249,9 +249,4 @@ jobs:
 
 ## 🎉 Success!
 
-Once deployed, your portfolio will be live at:
-- **Vercel**: `https://your-project.vercel.app`
-- **Netlify**: `https://your-project.netlify.app`
-- **Railway**: `https://your-project.railway.app`
-
-Share your portfolio URL and impress recruiters with your interactive VS Code-themed portfolio! 🚀 
+The portfolio's public URL is `https://www.kartikey.fyi`.

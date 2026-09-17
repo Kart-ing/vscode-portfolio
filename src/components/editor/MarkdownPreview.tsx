@@ -12,7 +12,7 @@ interface MarkdownPreviewProps {
 export function MarkdownPreview({ content, className }: MarkdownPreviewProps) {
   return (
     <div className={cn(
-      'prose prose-invert max-w-none p-6 overflow-auto h-full',
+      'prose prose-invert max-w-none p-4 sm:p-6 overflow-auto h-full [overflow-wrap:anywhere]',
       'prose-headings:text-[var(--textPrimary)]',
       'prose-p:text-[var(--textSecondary)]',
       'prose-strong:text-[var(--textPrimary)]',
@@ -34,7 +34,7 @@ export function MarkdownPreview({ content, className }: MarkdownPreviewProps) {
       'prose-img:rounded',
       className
     )}>
-      <ReactMarkdown 
+      <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           // Custom styling for code blocks
@@ -55,9 +55,9 @@ export function MarkdownPreview({ content, className }: MarkdownPreviewProps) {
           // Custom styling for links
           a({ children, href, ...props }) {
             return (
-              <a 
-                href={href} 
-                target="_blank" 
+              <a
+                href={href}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--accent)] hover:text-[var(--accentHover)] underline"
                 {...props}
@@ -138,4 +138,4 @@ export function MarkdownPreview({ content, className }: MarkdownPreviewProps) {
       </ReactMarkdown>
     </div>
   )
-} 
+}

@@ -1,16 +1,15 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { Button } from './Button'
-import { Download, X } from 'lucide-react'
+import { ExternalLink, X } from 'lucide-react'
 
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
-  onDownloadResume: () => void
+  onViewLinkedIn: () => void
 }
 
-export function Modal({ isOpen, onClose, onDownloadResume }: ModalProps) {
+export function Modal({ isOpen, onClose, onViewLinkedIn }: ModalProps) {
   if (!isOpen) return null
 
   return (
@@ -27,18 +26,18 @@ export function Modal({ isOpen, onClose, onDownloadResume }: ModalProps) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         <p className="text-[var(--textSecondary)] mb-6">
-          Hope you enjoyed exploring Kartikey's Portfolio! Before you go, would you like to download his resume?
+          Hope you enjoyed exploring Kartikey's portfolio. You can continue on LinkedIn.
         </p>
-        
+
         <div className="flex gap-3">
           <Button
-            onClick={onDownloadResume}
+            onClick={onViewLinkedIn}
             className="flex items-center gap-2"
           >
-            <Download className="w-4 h-4" />
-            Download Resume
+            <ExternalLink className="w-4 h-4" />
+            View LinkedIn
           </Button>
           <Button
             variant="secondary"
@@ -50,4 +49,4 @@ export function Modal({ isOpen, onClose, onDownloadResume }: ModalProps) {
       </div>
     </div>
   )
-} 
+}
