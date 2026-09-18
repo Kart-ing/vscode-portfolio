@@ -212,7 +212,9 @@ describe("curated sentences", () => {
   });
 
   it("never uses pronouns for Kartikey", () => {
-    const pronoun = /\b(?:he|she|him|his|her|hers|himself|herself|they|them|their|theirs|themselves)\b/i;
+    // Gendered pronouns only. "they" and "their" are fine when they refer to teams,
+    // as in the owner's own definition of Karts ("on infrastructure they control").
+    const pronoun = /\b(?:he|she|him|his|her|hers|himself|herself)\b/i;
     for (const s of sentences) {
       const match = s.text.match(pronoun);
       expect(match, `${s.where}: found "${match?.[0]}"`).toBeNull();

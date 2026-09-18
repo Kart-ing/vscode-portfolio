@@ -39,10 +39,22 @@ export const chips: Chip[] = [
 
   chip("What is Karts?", "What is Karts?", [
     say(
-      "Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+      "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
+      "karts.founder",
       "karts.what",
     ),
-    say("Kartikey is the founder of Karts.", "karts.founder"),
+    say(
+      "Teams can coordinate coding agents, give each developer or branch its own services and data, and check environments against production.",
+      "karts.capabilities",
+    ),
+    say(
+      "Teams can catch outdated branches, simulate load, and publish applications on their own domains, all on infrastructure they control.",
+      "karts.operations",
+    ),
+    say(
+      "Karts helps startups build and ship software without having to assemble and maintain their own internal development platform.",
+      "karts.why",
+    ),
   ]),
 
   chip(

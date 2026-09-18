@@ -38,7 +38,7 @@ export const advocate: ScriptedAnswer = {
   sentences: [
     { text: "Yes.", citations: [] },
     say(
-      "Kartikey is the founder of Karts, the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+      "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
       "karts.founder",
       "karts.what",
     ),
@@ -63,7 +63,7 @@ export const highlights: ScriptedAnswer = {
   question: "What should I know about Kartikey?",
   sentences: [
     say(
-      "Kartikey is the founder of Karts, the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+      "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
       "karts.founder",
       "karts.what",
     ),
@@ -99,7 +99,7 @@ function step(holdMs: number, text: string, ...facetIds: string[]): TourStep {
 export const tour: TourStep[] = [
   step(
     6000,
-    "Kartikey is the founder of Karts, the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+    "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
     "karts.founder",
     "karts.what",
   ),
@@ -163,7 +163,7 @@ export const tour: TourStep[] = [
   ),
   step(
     5500,
-    "Back to Karts, where Kartikey is the founder: the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+    "Back to Karts, where Kartikey is the founder: a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
     "karts.founder",
     "karts.what",
   ),

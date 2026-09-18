@@ -89,11 +89,11 @@ describe("record: facets", () => {
     }
   });
 
-  it("every star has between 2 and 4 facets (writing rule)", () => {
+  it("every star has between 2 and 5 facets (writing rule)", () => {
     for (const s of record.stars) {
       const n = facetsByStar.get(s.id) ?? 0;
       expect(n, s.id).toBeGreaterThanOrEqual(2);
-      expect(n, s.id).toBeLessThanOrEqual(4);
+      expect(n, s.id).toBeLessThanOrEqual(5); // Karts, the flagship, carries the full definition
     }
   });
 

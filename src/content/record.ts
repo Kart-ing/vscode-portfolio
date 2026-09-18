@@ -21,7 +21,7 @@ export const record: WorkRecord = {
     name: "Kartikey Pandey",
     role: "Founder, Karts",
     tagline:
-      "Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+      "Karts is a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
     links: [
       { label: "GitHub", url: GITHUB },
       { label: "LinkedIn", url: "https://www.linkedin.com/in/kartikeypandey2004/" },
@@ -49,9 +49,14 @@ export const record: WorkRecord = {
       kind: "company",
       period: "2026",
       summary:
-        "Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+        "Karts is a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
       tags: [
         "karts",
+        "self-hosted",
+        "development platform",
+        "dev environments",
+        "app hosting",
+        "platform",
         "company",
         "startup",
         "founder",
@@ -1007,7 +1012,22 @@ export const record: WorkRecord = {
     {
       id: "karts.what",
       starId: "karts",
-      text: "Karts is the IDE and coding servers for startups, built for enterprise compliance and reliability without losing startup speed.",
+      text: "Karts is a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
+    },
+    {
+      id: "karts.capabilities",
+      starId: "karts",
+      text: "Teams can coordinate coding agents, give each developer or branch its own services and data, and check environments against production.",
+    },
+    {
+      id: "karts.operations",
+      starId: "karts",
+      text: "Teams can catch outdated branches, simulate load, and publish applications on their own domains, all on infrastructure they control.",
+    },
+    {
+      id: "karts.why",
+      starId: "karts",
+      text: "Karts helps startups build and ship software without having to assemble and maintain their own internal development platform.",
     },
     {
       id: "karts.founder",
