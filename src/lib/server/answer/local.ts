@@ -6,11 +6,10 @@
 //                               plus stars tagged with those words (AdLayer)
 //   best/top/flagship/proud  -> the strongest facets of weight 2-3 stars
 //
-// It produces the narrated fallback (1-4 facets) and the thinking beams
-// (3-6 star ids). A facet whose text only says where a fact came from
-// ("Devpost tagline") yields to a sibling. It never throws and never returns
-// nothing for a question with a keyword hit; the caller uses the highlights
-// when it comes back empty.
+// It ranks the stars and picks each one's best facet; the relevance gate
+// (gate.ts) builds a question's candidate set and the router's own answer on
+// top of that ranking. A facet whose text only says where a fact came from
+// ("Devpost tagline") yields to a sibling. It never throws.
 
 import { MAX_STOPS, type Facet, type FlightStop, type Star, type WorkRecord } from "@/lib/contract";
 import { expandTokens, scoreTerms } from "@/lib/server/flight/local-router";
@@ -32,8 +31,8 @@ const BEST_WORDS = new Set([
   "impressive", "highlight", "standout", "notable", "signature", "favorite", "favourite",
   "crowning", "finest", "coolest", "peak", "headline", "star", "showcase",
 ]);
-/** Words that name work in general; alone with a BEST word they carry no topic. */
-const GENERIC_WORDS = new Set([
+/** Words that name work in general; alone with a BEST word they carry no topic, and they never anchor the gate. */
+export const GENERIC_WORDS: ReadonlySet<string> = new Set([
   "work", "project", "thing", "stuff", "achievement", "accomplishment", "creation",
   "build", "built", "done", "do", "did", "piece", "item", "example", "result", "moment",
   "effort", "far", "date", "ship", "shipped", "career", "portfolio", "record", "list",
@@ -110,6 +109,10 @@ export interface LocalRanking {
   ranked: RankedStar[];
   /** The entries the narrated answer draws from, before the MAX_STOPS cap. */
   answer: RankedStar[];
+  /** The question's topic tokens the scoring used, before synonym expansion. */
+  topic: string[];
+  /** The technologies the question names (see stackTermsIn); the stack intent handles them. */
+  stackTerms: string[];
 }
 
 const byWeightThenOrder =
@@ -128,7 +131,7 @@ export function rankStars(question: string, record: WorkRecord): LocalRanking {
   try {
     return rankUnsafe(question, record);
   } catch {
-    return { intent: null, ranked: [], answer: [] };
+    return { intent: null, ranked: [], answer: [], topic: [], stackTerms: [] };
   }
 }
 
@@ -169,27 +172,28 @@ function rankUnsafe(question: string, record: WorkRecord): LocalRanking {
 
   let intent: Intent = null;
   let candidates: Star[] = index.stars;
-  let scoringTerms: string[];
+  let topic: string[];
   if (wantsStack) {
     intent = "stack";
     candidates =
       terms.length > 0
         ? index.stars.filter((star) => stackHits.has(star.id) || termFacet.has(star.id))
         : index.stars.filter((star) => index.hasStack.has(star.id));
-    scoringTerms = expandTokens(tokens.filter((t) => !STACK_WORDS.has(t)));
+    topic = tokens.filter((t) => !STACK_WORDS.has(t));
   } else if (wantsLlm) {
     intent = "llm";
     candidates = index.stars.filter(
       (star) => LLM_CONSTELLATIONS.has(star.constellation) || index.llmTagged.has(star.id),
     );
     if (candidates.length === 0) candidates = index.stars;
-    scoringTerms = expandTokens(tokens);
+    topic = tokens;
   } else if (wantsBest) {
     intent = "best";
-    scoringTerms = expandTokens(tokens.filter((t) => !BEST_WORDS.has(t) && !GENERIC_WORDS.has(t)));
+    topic = tokens.filter((t) => !BEST_WORDS.has(t) && !GENERIC_WORDS.has(t));
   } else {
-    scoringTerms = expandTokens(tokens);
+    topic = tokens;
   }
+  const scoringTerms = expandTokens(topic);
 
   const scores = new Map(scoreTerms(scoringTerms, record).map((s) => [s.starId, s]));
 
@@ -284,7 +288,7 @@ function rankUnsafe(question: string, record: WorkRecord): LocalRanking {
     score: e.score,
     hit: hitIds.has(e.star.id),
   });
-  return { intent, ranked: ranked.map(toRanked), answer: answer.map(toRanked) };
+  return { intent, ranked: ranked.map(toRanked), answer: answer.map(toRanked), topic, stackTerms: terms };
 }
 
 /** 1-4 facets for the narrated fallback, one per star; [] when nothing matched. */

@@ -40,6 +40,7 @@ import type {
   RepoPulse,
   StarMeta,
 } from "@/lib/contract";
+import { C2 } from "@/content/canonical";
 import { record } from "@/content/record";
 import {
   FlightProvider,
@@ -151,7 +152,7 @@ const DEMO_BEAMS = ["karts", "multiverse", "recompress", "calhacks-12", "pingpal
 
 const DEMO_NARRATION: AnswerSentence[] = [
   {
-    text: "Kartikey is building Karts, the IDE and coding servers for startups.",
+    text: C2,
     citations: [{ starId: "karts", facetId: "karts.what" }],
   },
   {

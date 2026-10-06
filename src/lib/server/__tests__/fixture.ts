@@ -248,10 +248,9 @@ export const fixtureChips: Chip[] = [
 ];
 
 export const fixtureAdvocate: ScriptedAnswer = {
-  question: "Should we hire Kartikey?",
+  question: "What has Kartikey built?",
   view: { kind: "compare", starIds: ["karts", "hackmit"] },
   sentences: [
-    { text: "Yes.", citations: [] },
     {
       text: "Kartikey is building Karts, the IDE and coding servers for startups.",
       citations: [{ starId: "karts", facetId: "karts.what" }],

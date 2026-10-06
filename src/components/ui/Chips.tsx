@@ -9,7 +9,7 @@ function key(question: string): string {
   return question.toLowerCase().replace(/\s+/g, " ").replace(/[?.!]+$/, "").trim();
 }
 
-// "Should we hire Kartikey?" always leads. If the content lists it as a chip
+// "What has Kartikey built?" always leads. If the content lists it as a chip
 // its label wins; otherwise the scripted answer supplies the chip itself.
 const fromContent = chips.find((chip) => key(chip.question) === key(advocate.question));
 const advocateChip: Chip = {

@@ -27,6 +27,14 @@ export function renderLlmsTxt(record: WorkRecord, siteUrl: string): string {
   }
   out.push(`Site: ${siteUrl}`);
   out.push("");
+  if (owner.about && owner.about.length > 0) {
+    out.push("## About");
+    out.push("");
+    for (const paragraph of owner.about) {
+      out.push(paragraph);
+      out.push("");
+    }
+  }
 
   const facetsByStar = new Map<string, WorkRecord["facets"]>();
   for (const facet of record.facets) {
@@ -53,6 +61,8 @@ export function renderLlmsTxt(record: WorkRecord, siteUrl: string): string {
       out.push(star.summary);
       out.push("");
       for (const facet of facetsByStar.get(star.id) ?? []) {
+        // The summary above already says a line that repeats it.
+        if (facet.text === star.summary && !facet.source) continue;
         const source = facet.source ? ` ([${facet.source.label}](${facet.source.url}))` : "";
         out.push(`- ${facet.text}${source}`);
       }

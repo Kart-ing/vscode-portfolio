@@ -60,6 +60,8 @@ export interface WorkRecord {
     name: string;
     role: string;
     tagline: string;
+    /** The owner's own About, one paragraph per entry, shown on /record and in /llms.txt. */
+    about?: string[];
     links: SourceLink[];
   };
   constellations: { id: ConstellationId; label: string }[];
@@ -134,7 +136,11 @@ export type GeneratedView =
 
 export type AnswerMode = "advocate" | "chip" | "cache" | "model" | "local" | "none";
 
-/** One validated sentence. Every sentence cites at least one facet, except a scripted "Yes." */
+/**
+ * One sentence of an answer. It is either a facet's own text, citing that
+ * facet, or a curated sentence from scripts.ts or chips.ts that cites at least
+ * one facet. The model never writes one.
+ */
 export interface AnswerSentence {
   text: string;
   citations: FlightStop[];
@@ -152,7 +158,7 @@ export interface AnswerRequest {
   question: string;
 }
 
-/** A curated, model-free answer: the advocate answer and the highlights. */
+/** A curated, model-free answer: "What has Kartikey built?" (the former advocate answer) and the highlights. */
 export interface ScriptedAnswer {
   question: string;
   view?: GeneratedView;

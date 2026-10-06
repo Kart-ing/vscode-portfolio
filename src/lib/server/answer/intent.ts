@@ -9,14 +9,19 @@ const SUBJECT =
 /** Someone deciding: "should we", "would you", "why", "worth", "reasons to"... */
 const DECIDER =
   "(?:should|would|could|can|shall|ought to|worth|why|reasons? to|reason to|case for|makes? sense to|is it (?:smart|wise|worth it) to|do you recommend|would you recommend|recommend)";
-const WE = "(?:we |i |you |one |anyone |someone |they |us |investors |a vc |vcs |my \\w+ |our \\w+ |not )?";
+const WE = "(?:we |i |you |one |anyone |someone |they |us |investors |a vc |vcs |my \\w+ |our \\w+ )?";
 const DECISION_VERB =
   "(?:hire|hiring|recruit|recruiting|back|backing|fund|funding|invest in|investing in|invest|partner with|partnering with|partner|bet on|betting on|trust|onboard|interview|sign|choose|pick|take on|bring on|work with|working with|collaborate with|go with|use|buy|adopt|try|consider|shortlist|advance|meet|call|contact|reach out to|make an offer to|offer|take a chance on|gamble on)";
 
+/**
+ * A negated or doubting question ("should we not hire him", "why shouldn't we
+ * invest") is not a request for the proof answer; it goes to the router.
+ */
+const NEGATION = /\b(?:not|never|shouldnt|wouldnt|dont|doesnt|didnt|cant|cannot|wont|isnt|arent)\b/;
+
 const ADVOCATE_PATTERNS: readonly RegExp[] = [
-  // Hiring and recruiting, any object. Past tense is history, not a decision.
-  /\bhires?\b/,
-  /\bhiring\b/,
+  // "Is Karts hiring?" and "did he hire anyone" are not decisions about him;
+  // hiring needs a decider ("should we hire") or a worth ("worth hiring").
   /\bbe hired\b/,
   /\brecruit(?:s|ing)?\b/,
   /\bbe recruited\b/,
@@ -28,9 +33,10 @@ const ADVOCATE_PATTERNS: readonly RegExp[] = [
   /\binvest(?:s|ing|ment)?\b(?! (?:his|her|their|my|our|your) (?:time|effort|energy|years?|money))/,
   // "would you recommend him", "recommend Kartikey".
   new RegExp(`\\brecommend(?:ing|ed)? ${SUBJECT}\\b`),
-  // Verbs that need an object to mean advocacy.
+  // Verbs that need an object to mean advocacy. "Working on Karts" is a fact
+  // question, not a decision, so work and working are not here.
   new RegExp(
-    `\\b(?:back|backing|fund|funding|partner|partnering|partnership|work|working|collaborate|collaborating|bet|betting|trust|choose|pick|onboard|interview|sign|meet)(?: with| on)? ${SUBJECT}\\b`,
+    `\\b(?:back|backing|fund|funding|partner|partnering|partnership|collaborate|collaborating|bet|betting|trust|choose|pick|onboard|interview|sign|meet)(?: with| on)? ${SUBJECT}\\b`,
   ),
   // A decider plus a decision verb, with or without an object.
   new RegExp(`\\b${DECIDER} ${WE}${DECISION_VERB}\\b`),
@@ -40,9 +46,14 @@ const ADVOCATE_PATTERNS: readonly RegExp[] = [
   new RegExp(`^why (?:not )?${SUBJECT}(?:$| (?:for|over|instead|rather|vs|versus|as|and not|though|then|now|specifically|of all|at all)\\b.*$)`),
 ];
 
-/** True when a normalized question asks whether to hire, back, fund, invest in, partner or work with Kartikey. */
+/**
+ * True when a normalized question asks whether to hire, back, fund, invest in,
+ * partner or work with Kartikey, without a negation. Those questions get the
+ * cited "What has Kartikey built?" lines; nothing answers them "Yes".
+ */
 export function isAdvocateQuestion(normalized: string): boolean {
   if (!normalized) return false;
+  if (NEGATION.test(normalized)) return false;
   return ADVOCATE_PATTERNS.some((pattern) => pattern.test(normalized));
 }
 

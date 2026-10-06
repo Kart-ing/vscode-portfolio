@@ -71,6 +71,22 @@ describe("isAdvocateQuestion", () => {
       expect(advocate(q), q).toBe(false);
     }
   });
+
+  it("does not match the questions that once got a scripted yes (SITE-AUDIT P0-2)", () => {
+    for (const q of [
+      "Is Kartikey working on Karts full-time?",
+      "Is Karts hiring?",
+      "Did Kartikey hire anyone at Raya?",
+      "Should we not hire Kartikey?",
+      "Should we not hire him?",
+      "Why shouldn't we invest in Karts?",
+      "would you never hire him",
+      "we don't want to hire",
+      "is he working on anything else",
+    ]) {
+      expect(advocate(q), q).toBe(false);
+    }
+  });
 });
 
 describe("isVagueQuestion", () => {

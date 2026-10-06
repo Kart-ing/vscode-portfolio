@@ -19,6 +19,10 @@ const DENY_PATTERNS: readonly RegExp[] = [
   /\bh ?1 ?b\b/,
   /\bphone\b/,
   /\baddress\b/,
+  // Where he lives, in any phrasing.
+  /\bwhere (?:\w+ ){0,3}(?:live|lives|living|reside|resides|stay|stays|staying)\b/,
+  /\b(?:lives?|living|resides?) in\b/,
+  /\bhome ?town\b/,
   /\bsalary\b/,
   /\bcompensation\b/,
   /\bpassword\b/,

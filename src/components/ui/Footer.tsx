@@ -10,7 +10,7 @@ export function Footer({ sound = false }: { sound?: boolean }) {
       <span className="sep wide" aria-hidden="true">
         ·
       </span>
-      <span>Questions go to GLM-5.2 via OpenRouter</span>
+      <span>Some typed questions go to free AI models on OpenRouter</span>
       <span className="sep" aria-hidden="true">
         ·
       </span>

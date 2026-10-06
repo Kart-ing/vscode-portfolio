@@ -1197,23 +1197,19 @@ button {
 
 /* ---------- intro ---------- */
 
-/* Set on <html> before paint by the layout's inline script. The identity and
-   the dock stay in the HTML for crawlers and no-JS visitors; they are only
-   hidden visually while the intro plays. */
+/* Set on <html> before paint by the layout's inline script. The name, role
+   line and its scrim stay visible from the first paint, intro or not, so a
+   first-time visitor reads who this is at once. Only the dock (chips and
+   prompt) waits for the intro to end. */
 .masthead,
 .dock {
   transition: opacity 500ms ease, visibility 0s;
 }
-html[data-intro="playing"] .masthead,
 html[data-intro="playing"] .dock,
-html[data-intro="playing"] .scrim-top,
 html[data-intro="playing"] .scrim-bottom {
   opacity: 0;
   visibility: hidden;
   transition: opacity 400ms ease, visibility 0s 400ms;
-}
-.shell[data-intro="done"] .masthead {
-  animation: settle 900ms var(--ease-out-quint) both;
 }
 .shell[data-intro="done"] .dock {
   animation: settle 900ms var(--ease-out-quint) 140ms both;
@@ -1296,8 +1292,7 @@ html[data-intro="playing"] .scrim-bottom {
     0 0 18px rgb(7 11 22 / 0.85);
 }
 .title,
-.mode-line,
-.proof-eyebrow {
+.mode-line {
   text-shadow:
     0 1px 2px rgb(7 11 22 / 0.95),
     0 0 16px rgb(7 11 22 / 0.8);
@@ -1359,24 +1354,6 @@ html[data-intro="playing"] .scrim-bottom {
   color: var(--color-canvas);
 }
 
-.yes-block {
-  margin-top: 4px;
-}
-.yes {
-  font-size: clamp(64px, 8.4vw, 124px);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  color: var(--color-star);
-  text-shadow: 0 0 48px rgb(242 199 107 / 0.28);
-  font-variation-settings: "opsz" 96, "wdth" 96;
-}
-.proof-eyebrow {
-  margin: 16px 0 6px;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-ink-3);
-}
 .narration[data-mode="advocate"] .sentences {
   gap: 12px;
 }
@@ -1974,12 +1951,6 @@ html[data-intro="playing"] .scrim-bottom {
 .narration-host.is-sheet .narration[data-mode="advocate"] .sentence {
   font-size: 15px;
 }
-.narration-host.is-sheet .yes {
-  font-size: 64px;
-}
-.narration-host.is-sheet .proof-eyebrow {
-  margin-top: 10px;
-}
 .narration-host.is-sheet .mode-line {
   margin-top: 14px;
 }
@@ -2076,7 +2047,6 @@ html[data-intro="playing"] .scrim-bottom {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shell[data-intro="done"] .masthead,
   .shell[data-intro="done"] .dock {
     animation: none;
   }

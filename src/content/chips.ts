@@ -1,12 +1,14 @@
 import { MAX_STOPS, type AnswerSentence, type Chip, type FlightStop } from "@/lib/contract";
 
+import { C11, C2, C5A } from "./canonical";
 import { record } from "./record";
 import { advocate, say } from "./scripts";
 
 // Preset questions. Each chip carries curated sentences that cite the record,
 // so a chip never calls the model, plus the V2 flight stops: each sentence's
 // first citation (the star the camera visits), deduplicated, at most MAX_STOPS. Every fact and number in
-// a sentence appears in the text of a facet it cites. Never mention age here.
+// a sentence appears in the text of a facet it cites. Role facts appear only as
+// the C11 sentences, verbatim. Never mention age here.
 
 function stopsOf(sentences: AnswerSentence[]): FlightStop[] {
   const seen = new Set<string>();
@@ -29,8 +31,8 @@ function chip(
   return { label, question, stops: stopsOf(sentences), sentences, ...(view ? { view } : {}) };
 }
 
-/** The twelve hackathon wins, in the record's chronological order. */
-const WIN_STAR_IDS = record.stars
+/** The hackathon prize stars, in the record's chronological order. */
+const PRIZE_STAR_IDS = record.stars
   .filter((s) => s.constellation === "hackathons")
   .map((s) => s.id);
 
@@ -38,23 +40,9 @@ export const chips: Chip[] = [
   chip(advocate.question, advocate.question, advocate.sentences, advocate.view),
 
   chip("What is Karts?", "What is Karts?", [
-    say(
-      "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
-      "karts.founder",
-      "karts.what",
-    ),
-    say(
-      "Teams can coordinate coding agents, give each developer or branch its own services and data, and check environments against production.",
-      "karts.capabilities",
-    ),
-    say(
-      "Teams can catch outdated branches, simulate load, and publish applications on their own domains, all on infrastructure they control.",
-      "karts.operations",
-    ),
-    say(
-      "Karts helps startups build and ship software without having to assemble and maintain their own internal development platform.",
-      "karts.why",
-    ),
+    say(C11.karts, "karts.founder"),
+    say(C2, "karts.what"),
+    say(C5A, "karts.traction"),
   ]),
 
   chip(
@@ -62,7 +50,8 @@ export const chips: Chip[] = [
     "What has Kartikey built for AI agents?",
     [
       say(
-        "Kartikey's Multiverse is the branch predictor, but for tool calls: it forks into parallel sandboxed futures, commits one winner atomically and replays deterministically.",
+        "Kartikey and two teammates built Multiverse: the branch predictor, but for tool calls.",
+        "multiverse.team",
         "multiverse.what",
       ),
       say(
@@ -79,24 +68,24 @@ export const chips: Chip[] = [
   ),
 
   chip(
-    "Hackathon wins",
-    "Show me the hackathon wins",
+    "Hackathon prizes",
+    "Show me the hackathon prizes",
     [
       say(
-        "Kartikey is a 12x hackathon winner; AdLayer, in August 2026, was the twelfth win.",
+        "Kartikey has won 13 prizes at 12 hackathons; the latest was AdLayer, in August 2026.",
         "zero-human-company-hackathon.count",
       ),
       say(
-        "Two $1,000 Hexclave awards came at c0mpiled-11, the YC Startup School Hackathon, with Cited, and at c0mpiled-13, Startup School Hackathon II, with Swiper No Swiping.",
+        "Two $1,000 Hexclave awards came at c0mpiled-11, a hackathon hosted by Transpose during YC Startup School weekend, with Cited, and at c0mpiled-13, Startup School Hackathon II, with Swiper No Swiping.",
         "compiled-11.prize",
         "compiled-13.prize",
       ),
       say(
-        "Re:Compress won Best Compression Model for The Token Company at the UC Berkeley AI Hackathon 2026.",
+        "Re:Compress, built with Parth Kshirsagar, won The Token Company's Best Compression Model prize at the UC Berkeley AI Hackathon 2026.",
         "berkeley-ai-hackathon-2026.prize",
       ),
     ],
-    { kind: "timeline", starIds: WIN_STAR_IDS },
+    { kind: "timeline", starIds: PRIZE_STAR_IDS },
   ),
 
   chip(
@@ -112,7 +101,7 @@ export const chips: Chip[] = [
         "recompress.result",
       ),
       say(
-        "Kartikey is the sole inventor and applicant on the patent, filed in October 2020 during high school; the grant was published on January 31, 2025.",
+        "Kartikey is the sole inventor and applicant on the patent, filed in October 2020 during high school; the grant was published on January 31, 2025, and the patent has since lapsed.",
         "patent.inventor",
         "patent.timeline",
       ),
@@ -121,18 +110,9 @@ export const chips: Chip[] = [
   ),
 
   chip("Where has Kartikey worked?", "Where has Kartikey worked?", [
-    say("Kartikey has been Member of Technical Staff at Cara since June 2026.", "cara.role"),
-    say(
-      "Before that, Kartikey was Founding Engineer at Raya Health from February to May 2026, in the HF0 W26 residency batch.",
-      "raya-health.role",
-    ),
-    say(
-      "Earlier, Kartikey was a Software Engineer Intern at ColdStart from January to May 2025, in State College, PA.",
-      "coldstart.role",
-    ),
-    say(
-      "At Intel Corporation, Kartikey was Internship Trainee from August 2020 to May 2021, then Apprentice from May to July 2021.",
-      "intel.role",
-    ),
+    say(C11.cara, "cara.role"),
+    say(C11.raya, "raya-health.role"),
+    say(C11.coldstart, "coldstart.role"),
+    say(C11.intel, "intel.role"),
   ]),
 ];

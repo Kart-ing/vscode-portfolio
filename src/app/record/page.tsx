@@ -46,8 +46,14 @@ export default function RecordPage() {
         </Link>
         <h1 className="display record-title">The record</h1>
         <p className="record-lede">
-          {owner.name}, {owner.role}. {owner.tagline}
+          {owner.name} · {owner.role}
         </p>
+        {/* The owner's own About, in his words. */}
+        {(owner.about ?? [owner.tagline]).map((paragraph) => (
+          <p key={paragraph} className="record-lede record-about">
+            {paragraph}
+          </p>
+        ))}
         <p className="record-stats">
           <span>{stars.length} stars</span>
           <span>{facets.length} lines</span>
@@ -76,7 +82,10 @@ export default function RecordPage() {
             </span>
           </div>
           {c.stars.map((star) => {
-            const lines = getFacets(star.id);
+            // A line that repeats the summary is said once; the summary keeps its anchor.
+            const all = getFacets(star.id);
+            const repeat = all.find((facet) => facet.text === star.summary);
+            const lines = all.filter((facet) => facet !== repeat);
             const meta = [KIND_LABEL[star.kind], star.period].filter(Boolean).join(" · ");
             const images = (star.media ?? []).filter((item) => item.kind === "image");
             const links = [...star.links];
@@ -93,7 +102,14 @@ export default function RecordPage() {
                     {meta} · <span className="star-id">{star.id}</span>
                   </span>
                 </div>
-                <p className="star-summary">{star.summary}</p>
+                <p className="star-summary" id={repeat?.id}>
+                  {star.summary}
+                  {repeat?.source && (
+                    <a href={repeat.source.url} target="_blank" rel="noopener noreferrer">
+                      {repeat.source.label} ↗
+                    </a>
+                  )}
+                </p>
                 {star.stack && star.stack.length > 0 && (
                   <ul className="stack" aria-label="Stack">
                     {star.stack.map((item) => (

@@ -10,6 +10,7 @@ import {
   TIMELINE_START_YEAR,
 } from "../../lib/contract";
 import type { AnswerSentence, FlightStop, GeneratedView } from "../../lib/contract";
+import { FROZEN_TEXTS } from "../canonical";
 import { chips } from "../chips";
 import { record } from "../record";
 import { advocate, highlights, tour } from "../scripts";
@@ -179,12 +180,8 @@ describe("curated sentences", () => {
     }
   });
 
-  it("every sentence is cited, except the scripted Yes.", () => {
+  it("every sentence is cited, with no exception", () => {
     for (const s of sentences) {
-      if (s.text === "Yes.") {
-        expect(s.citations, s.where).toEqual([]);
-        continue;
-      }
       expect(s.citations.length, `${s.where}: uncited "${s.text}"`).toBeGreaterThan(0);
     }
   });
@@ -211,11 +208,12 @@ describe("curated sentences", () => {
     }
   });
 
-  it("never uses pronouns for Kartikey", () => {
-    // Gendered pronouns only. "they" and "their" are fine when they refer to teams,
-    // as in the owner's own definition of Karts ("on infrastructure they control").
+  it("never uses pronouns for Kartikey, outside the frozen C11 role sentences", () => {
+    // Gendered pronouns only. "they" and "their" are fine when they refer to teams.
+    // The PRD freezes the C11 sentences whole ("which he builds part-time"), so they are exempt.
     const pronoun = /\b(?:he|she|him|his|her|hers|himself|herself)\b/i;
     for (const s of sentences) {
+      if (FROZEN_TEXTS.includes(s.text)) continue;
       const match = s.text.match(pronoun);
       expect(match, `${s.where}: found "${match?.[0]}"`).toBeNull();
     }
@@ -235,7 +233,8 @@ describe("curated sentences", () => {
 describe("chips (V3)", () => {
   it("there are exactly 6 chips, and the first is the advocate answer", () => {
     expect(chips).toHaveLength(6);
-    expect(chips[0].question).toBe("Should we hire Kartikey?");
+    expect(chips[0].question).toBe("What has Kartikey built?");
+    expect(chips[0].label).toBe("What has Kartikey built?");
     expect(chips[0].sentences).toBe(advocate.sentences);
     expect(chips[0].view).toEqual(advocate.view);
   });
@@ -261,7 +260,7 @@ describe("chips (V3)", () => {
       kind: "constellation",
       constellation: "agent-tools",
     });
-    const wins = byLabel.get("Hackathon wins")?.view;
+    const wins = byLabel.get("Hackathon prizes")?.view;
     expect(wins?.kind).toBe("timeline");
     expect(wins && "starIds" in wins ? wins.starIds : []).toEqual(winStarIds);
     expect(byLabel.get("Research and patent")?.view).toEqual({
@@ -274,14 +273,13 @@ describe("chips (V3)", () => {
 });
 
 describe("scripts", () => {
-  it("advocate opens with an uncited Yes. and then 3 to 4 cited proof sentences", () => {
-    expect(advocate.question).toBe("Should we hire Kartikey?");
-    expect(advocate.sentences[0]).toEqual({ text: "Yes.", citations: [] });
-    const proof = advocate.sentences.slice(1);
-    expect(proof.length).toBeGreaterThanOrEqual(3);
-    expect(proof.length).toBeLessThanOrEqual(4);
-    for (const s of proof) expect(s.citations.length, s.text).toBeGreaterThan(0);
-    expect(proof[0].citations[0]?.starId).toBe("karts");
+  it('"What has Kartikey built?" is 3 to 4 cited sentences, opening on Karts, with no verdict', () => {
+    expect(advocate.question).toBe("What has Kartikey built?");
+    expect(advocate.sentences.length).toBeGreaterThanOrEqual(3);
+    expect(advocate.sentences.length).toBeLessThanOrEqual(4);
+    for (const s of advocate.sentences) expect(s.citations.length, s.text).toBeGreaterThan(0);
+    expect(advocate.sentences[0].citations[0]?.starId).toBe("karts");
+    for (const s of advocate.sentences) expect(s.text, s.text).not.toMatch(/^(?:Yes|No)\b/);
     expect(advocate.view?.kind).toBe("timeline");
   });
 

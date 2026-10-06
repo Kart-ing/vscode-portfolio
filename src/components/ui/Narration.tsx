@@ -9,6 +9,7 @@
 
 import { Fragment } from "react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
+import { NO_ANSWER_TEXT } from "@/content/allowlist";
 import type { AnswerSentence, FlightStop } from "@/lib/contract";
 import { useFlight } from "@/lib/flight-state";
 import { Chips } from "./Chips";
@@ -29,18 +30,6 @@ const citesVariants: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
 };
-const yesVariants: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.9 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 230, damping: 20 } },
-};
-const yesVariantsReduced: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.3 } },
-};
-
-function isYes(sentence: AnswerSentence): boolean {
-  return sentence.citations.length === 0 && /^yes[.!]?$/i.test(sentence.text.trim());
-}
 
 function Words({ text, reduced }: { text: string; reduced: boolean }) {
   const words = text.split(/\s+/).filter(Boolean);
@@ -117,19 +106,6 @@ function Sentence({ sentence, active, reduced, focusedFacetId, onCite }: Sentenc
   );
 }
 
-function Yes({ reduced }: { reduced: boolean }) {
-  return (
-    <div className="yes-block">
-      <motion.p className="display yes" variants={reduced ? yesVariantsReduced : yesVariants} initial="hidden" animate="show">
-        Yes.
-      </motion.p>
-      <motion.p className="proof-eyebrow mono" variants={blockVariants} initial="hidden" animate="show">
-        Proof from the record
-      </motion.p>
-    </div>
-  );
-}
-
 function Thinking() {
   return (
     <motion.p className="status-line thinking" role="status" variants={blockVariants} initial="hidden" animate="show" exit="exit">
@@ -151,7 +127,7 @@ function ModeLine() {
   const citations = `${count} ${count === 1 ? "citation" : "citations"}`;
   let label: string;
   if (tour.active) label = `Guided tour · step ${tour.index + 1} of ${tour.total}`;
-  else if (answerMode === "model") label = `Answered by GLM-5.2 · ${citations}`;
+  else if (answerMode === "model") label = `From the record, picked by AI · ${citations}`;
   else if (answerMode === "cache") label = `Replayed answer · ${citations}`;
   else if (answerMode === null) label = `Answering · ${citations}`;
   else label = `From the record · ${citations}`;
@@ -176,9 +152,6 @@ export function NarrationPanel({ reduced, mode, onCite }: NarrationPanelProps) {
   const showTitle = mode !== "sentences";
   const showSentences = mode !== "title";
   const visible = !!question && status !== "idle";
-  const leadsWithYes = answerMode === "advocate" && narration.length > 0 && isYes(narration[0]);
-  const sentences = leadsWithYes ? narration.slice(1) : narration;
-  const offset = leadsWithYes ? 1 : 0;
 
   const follow = (stop: FlightStop) => {
     focusCitation(stop);
@@ -194,27 +167,24 @@ export function NarrationPanel({ reduced, mode, onCite }: NarrationPanelProps) {
             {showTitle && status === "asking" && narration.length === 0 && <Thinking />}
             {showTitle && status === "none" && (
               <motion.div className="none-block" role="status" variants={blockVariants} initial="hidden" animate="show" exit="exit">
-                <p>Nothing in the record answers that.</p>
+                <p>{NO_ANSWER_TEXT}</p>
                 <Chips withTour={false} />
               </motion.div>
             )}
             {showSentences && narration.length > 0 && (
               <div className="narration" data-mode={answerMode ?? "pending"}>
-                {leadsWithYes && <Yes reduced={reduced} />}
-                {sentences.length > 0 && (
-                  <ol className="sentences">
-                    {sentences.map((sentence, i) => (
-                      <Sentence
-                        key={`${i + offset}-${sentence.text.slice(0, 24)}`}
-                        sentence={sentence}
-                        active={activeSentence === i + offset}
-                        reduced={reduced}
-                        focusedFacetId={focusedFacetId}
-                        onCite={follow}
-                      />
-                    ))}
-                  </ol>
-                )}
+                <ol className="sentences">
+                  {narration.map((sentence, i) => (
+                    <Sentence
+                      key={`${i}-${sentence.text.slice(0, 24)}`}
+                      sentence={sentence}
+                      active={activeSentence === i}
+                      reduced={reduced}
+                      focusedFacetId={focusedFacetId}
+                      onCite={follow}
+                    />
+                  ))}
+                </ol>
                 <ModeLine />
               </div>
             )}

@@ -79,15 +79,18 @@ async function answerLines(body: string): Promise<AnswerEvent[]> {
 }
 
 describe("real V3 routes", () => {
-  it("POST /api/answer answers 'Should we hire him?' from the script with no network", async () => {
+  it("POST /api/answer answers 'Should we hire him?' with cited lines, no verdict, and no network", async () => {
     vi.stubEnv("OPENROUTER_API_KEY", "");
     const fetchSpy = vi.fn();
     vi.stubGlobal("fetch", fetchSpy);
     const events = await answerLines(JSON.stringify({ question: "Should we hire him?" }));
     expect(events[events.length - 1]).toEqual({ type: "done", mode: "advocate" });
     const says = events.flatMap((e) => (e.type === "say" ? [e.sentence] : []));
-    expect(says.length).toBeGreaterThanOrEqual(1);
-    expect(says[0].text).toBe("Yes.");
+    expect(says.length).toBeGreaterThanOrEqual(3);
+    for (const sentence of says) {
+      expect(sentence.text).not.toMatch(/^(?:Yes|No)\b/);
+      expect(sentence.citations.length).toBeGreaterThan(0);
+    }
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 

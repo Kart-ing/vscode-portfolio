@@ -1,12 +1,14 @@
-import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 // Relative imports only: vitest runs without the "@/" alias.
 import { MAX_QUESTION_CHARS, MAX_STOPS } from "../../lib/contract";
 import type { ConstellationId } from "../../lib/contract";
+import { UI_ALLOWLIST } from "../allowlist";
+import { FROZEN_TEXTS, ROLE_LINE } from "../canonical";
 import { chips } from "../chips";
 import { record } from "../record";
 import { advocate, highlights, tour } from "../scripts";
+import { MISSING_PRIVACY_FILE, bannedIn, loadPrivacyRules } from "./scanner";
 
 const KEBAB = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FACET_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -32,7 +34,8 @@ function duplicates(values: string[]): string[] {
 describe("record: owner", () => {
   it("has a name, role, tagline and links", () => {
     expect(record.owner.name).toBe("Kartikey Pandey");
-    expect(record.owner.role).toBe("Founder, Karts");
+    expect(record.owner.role).toBe(ROLE_LINE);
+    expect(record.owner.role).toBe("Founder, Karts (part-time)");
     expect(record.owner.tagline.length).toBeGreaterThan(20);
     expect(record.owner.links.length).toBeGreaterThan(0);
   });
@@ -89,11 +92,12 @@ describe("record: facets", () => {
     }
   });
 
-  it("every star has between 2 and 5 facets (writing rule)", () => {
+  it("every star has between 2 and 5 facets, and a role star at least its role line (writing rule)", () => {
     for (const s of record.stars) {
       const n = facetsByStar.get(s.id) ?? 0;
-      expect(n, s.id).toBeGreaterThanOrEqual(2);
-      expect(n, s.id).toBeLessThanOrEqual(5); // Karts, the flagship, carries the full definition
+      // A role star's role facts live in one C11 sentence, so it may carry that line alone.
+      expect(n, s.id).toBeGreaterThanOrEqual(s.kind === "role" ? 1 : 2);
+      expect(n, s.id).toBeLessThanOrEqual(5);
     }
   });
 
@@ -153,7 +157,7 @@ describe("record: stars", () => {
     expect(karts?.weight).toBe(3);
   });
 
-  it("the twelve hackathon wins are each an award star", () => {
+  it("the 12 hackathons with prizes are each an award star", () => {
     const awards = record.stars.filter((s) => s.constellation === "hackathons");
     expect(awards).toHaveLength(12);
     for (const s of awards) expect(s.kind, s.id).toBe("award");
@@ -210,42 +214,20 @@ describe("chips", () => {
 });
 
 describe("privacy scan", () => {
-  // Everything a visitor can read: the record, the chips and the scripts.
+  // Everything a visitor can read: the record, the chips, the scripts and the UI allowlist.
   const scripts = JSON.stringify({ advocate, highlights, tour });
-  const serialized = `${JSON.stringify(record)}\n${JSON.stringify(chips)}\n${scripts}`;
+  const serialized = `${JSON.stringify(record)}\n${JSON.stringify(chips)}\n${scripts}\n${JSON.stringify(UI_ALLOWLIST)}`;
 
-  // Generic personal data. Owner-specific terms live in privacy.local.json,
-  // which is git-ignored so the terms themselves never reach the public repo.
-  const patterns: { name: string; re: RegExp }[] = [
-    { name: "phone number", re: /\d{3}[- ]\d{3}[- ]\d{4}/ },
-    { name: "phone number (parenthesised)", re: /\(\d{3}\)\s?\d{3}[- ]\d{4}/ },
-    { name: "international phone", re: /\+\d{1,3}[- ]?\d{5,}/ },
-    { name: "date of birth", re: /date of birth/i },
-    { name: "born", re: /\bborn\b/i },
-    { name: "birthday", re: /\bbirthday\b/i },
-    { name: "visa", re: /\bvisa\b/i },
-    { name: "immigration", re: /\bimmigration\b/i },
-    { name: "GPA", re: /\bGPA\b/ },
-    { name: "years old", re: /years old/i },
-    { name: "age", re: /\bage(?:d)? \d{1,2}\b/i },
-  ];
+  it("needs privacy.local.json, and fails rather than skips without it", () => {
+    expect(() => loadPrivacyRules(new URL("./no-such-privacy-file.json", import.meta.url))).toThrow(
+      MISSING_PRIVACY_FILE,
+    );
+    expect(loadPrivacyRules().length).toBeGreaterThan(0);
+  });
 
-  const localFile = new URL("./privacy.local.json", import.meta.url);
-  if (existsSync(localFile)) {
-    const local = JSON.parse(readFileSync(localFile, "utf8")) as {
-      name: string;
-      source: string;
-      flags?: string;
-    }[];
-    for (const { name, source, flags } of local) patterns.push({ name, re: new RegExp(source, flags) });
-  }
-
-  for (const { name, re } of patterns) {
-    it(`contains no ${name}`, () => {
-      const match = serialized.match(re);
-      expect(match, match ? `found "${match[0]}"` : "").toBeNull();
-    });
-  }
+  it("breaks no banned-claim, personal-data or owner rule (names only, never the match)", () => {
+    expect(bannedIn(serialized)).toEqual([]);
+  });
 
   it("only the owner email appears, and only in owner links", () => {
     const emails = serialized.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) ?? [];
@@ -254,7 +236,7 @@ describe("privacy scan", () => {
     expect(outsideOwner).not.toMatch(/@/);
   });
 
-  it("never refers to the owner as he or she", () => {
+  it("never refers to the owner as he or she, outside the frozen C11 role sentences", () => {
     const text = [
       ...record.stars.map((s) => s.summary),
       ...record.facets.map((f) => f.text),
@@ -264,7 +246,9 @@ describe("privacy scan", () => {
       ...advocate.sentences.map((s) => s.text),
       ...highlights.sentences.map((s) => s.text),
       ...tour.map((t) => t.sentence.text),
-    ].join("\n");
+    ]
+      .filter((line) => !FROZEN_TEXTS.includes(line))
+      .join("\n");
     expect(text).not.toMatch(/\b(?:he|she|his|her|him)\b/i);
   });
 });

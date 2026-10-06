@@ -1,17 +1,22 @@
-// The answer pipeline, PRD steps 1-9: validate, deny, advocate, chip, vague,
-// cache, beams, model stream, local fallback. It is an async generator so the
-// handler can write each event the moment it exists. Everything is injectable
-// so tests run against a fixture record and a mocked fetch. One instance holds
-// one cache and one set of budgets, shared with nothing else.
+// The answer pipeline: validate, deny, the "What has Kartikey built?" lines
+// for hire, back and invest questions, chips, greetings, cache, then the
+// relevance gate (gate.ts) and the extractive model path.
+//
+// Invariant I1 (the owner's one-story PRD, 6 Oct 2026): every sentence this
+// yields is a facet's own text citing that facet, or a curated sentence from
+// scripts.ts or chips.ts. The model never writes text. For a typed question
+// the gate computes the candidate set first, with no model involved; the model
+// may only pick ids from it, and the server drops every other id. When no id
+// survives, or the model is off, slow or failing, the router's own answer is
+// shown, drawn from the same set; when the set is empty the answer is none,
+// and the page shows its no-answer line.
+//
+// It is an async generator so the handler can write each event the moment it
+// exists. Everything is injectable so tests run against a fixture record and
+// a mocked fetch. One instance holds one cache and one set of budgets, shared
+// with nothing else.
 
-import {
-  MAX_STOPS,
-  type AnswerEvent,
-  type AnswerMode,
-  type Chip,
-  type ScriptedAnswer,
-  type WorkRecord,
-} from "@/lib/contract";
+import type { AnswerEvent, AnswerMode, Chip, Facet, FlightStop, ScriptedAnswer, WorkRecord } from "@/lib/contract";
 import { DailyBudget, RollingWindowLimiter } from "@/lib/server/flight/budgets";
 import { matchChip } from "@/lib/server/flight/chips";
 import { isDeniedQuestion } from "@/lib/server/flight/deny";
@@ -20,24 +25,23 @@ import { DEFAULTS } from "@/lib/server/flight/planner";
 import { modelChainFromEnv, resolveModelChain } from "@/lib/server/models";
 import { normalizeQuestion } from "@/lib/server/flight/text";
 import { cleanQuestion } from "@/lib/server/flight/validate";
+import { answerCandidates, type Candidates } from "./gate";
 import { isAdvocateQuestion, isVagueQuestion } from "./intent";
-import { beamsFor, localAnswerStops } from "./local";
+import { MAX_BEAMS } from "./local";
 import {
   DEFAULT_STREAM_MAX_TOKENS,
   DEFAULT_STREAM_TIMEOUT_MS,
   ModelStreamError,
   streamOpenRouter,
 } from "./openrouter-stream";
-import { buildAnswerPrompt } from "./prompt";
-import { buildTruthIndex, isLeakedPhrasing, ProtocolValidator } from "./protocol";
+import { EXTRACT_RULES, buildCandidateMessage } from "./prompt";
+import { MAX_MODEL_OUTPUT_CHARS, gateIds, parseModelIds } from "./protocol";
 import { chipEvents, scriptedEvents } from "./scripted";
-import { LineSplitter } from "./sse";
-import { stackTermsIn } from "./stack-terms";
 
 export interface AnswererOptions {
   record: WorkRecord;
   chips: readonly Chip[];
-  /** The scripted "Yes." answer for hire/back/invest questions. */
+  /** "What has Kartikey built?": the cited lines hire, back and invest questions get. */
   advocate: ScriptedAnswer;
   /** The scripted answer for greetings and vague questions. */
   highlights: ScriptedAnswer;
@@ -73,6 +77,8 @@ export const INVALID_QUESTION_MESSAGE = "Ask a question of 1 to 200 characters."
 
 const done = (mode: AnswerMode): AnswerEvent => ({ type: "done", mode });
 
+const NO_CANDIDATES: Candidates = { candidates: [], answer: [] };
+
 export function createAnswerer(options: AnswererOptions): Answerer {
   const { record, chips, advocate, highlights } = options;
   const getApiKey = options.getApiKey ?? (() => process.env.OPENROUTER_API_KEY);
@@ -100,67 +106,77 @@ export function createAnswerer(options: AnswererOptions): Answerer {
     now,
   );
   let cooldownUntil = 0;
-  const truth = buildTruthIndex(record);
+  const stars = new Set(record.stars.map((star) => star.id));
+  const facets = new Map<string, Facet>();
+  for (const facet of record.facets) if (stars.has(facet.starId)) facets.set(facet.id, facet);
 
-  /** One sentence per routed facet: the facet's own text with its citation. */
-  function localEvents(question: string): AnswerEvent[] {
+  /** One sentence per stop: the facet's own text, citing that facet. Nothing else is ever said here. */
+  function sayFacets(stops: readonly FlightStop[]): AnswerEvent[] {
     const events: AnswerEvent[] = [];
-    for (const stop of localAnswerStops(question, record).slice(0, MAX_STOPS)) {
-      const facet = truth.facets.get(stop.facetId);
-      // The router already prefers a sibling facet; this keeps a lone tagline facet out too.
-      if (!facet || isLeakedPhrasing(facet.text)) continue;
+    for (const stop of stops) {
+      const facet = facets.get(stop.facetId);
+      if (!facet || facet.starId !== stop.starId) continue;
       events.push({
         type: "say",
-        sentence: { text: facet.text, citations: [{ starId: stop.starId, facetId: stop.facetId }] },
+        sentence: { text: facet.text, citations: [{ starId: facet.starId, facetId: facet.id }] },
       });
     }
     return events;
   }
 
-  /** Yields validated view/say events from the model; yields nothing when the model is unavailable. */
-  async function* streamModel(
+  /**
+   * The candidate ids the model picked, after the gate. Empty when the model
+   * is off, over budget, cooling down, failing or timing out, or when nothing
+   * it returned is a candidate.
+   */
+  async function pickWithModel(
     question: string,
+    candidates: readonly FlightStop[],
     clientKey: string,
     signal: AbortSignal | undefined,
-  ): AsyncGenerator<AnswerEvent, void, undefined> {
+  ): Promise<FlightStop[]> {
     const apiKey = getApiKey()?.trim();
-    if (!apiKey) return;
+    if (!apiKey) return [];
     const t = now();
-    if (t < cooldownUntil) return;
-    if (!perClient.tryConsume(clientKey, t)) return;
-    if (!daily.tryConsume(t)) return;
+    if (t < cooldownUntil) return [];
+    if (!perClient.tryConsume(clientKey, t)) return [];
+    if (!daily.tryConsume(t)) return [];
 
-    // A named technology in the question pins every sentence to stars or
-    // facets that carry it.
-    const validator = new ProtocolValidator(truth, {
-      stackTerms: stackTermsIn(normalizeQuestion(question), truth.vocabulary),
-    });
-    const lines = new LineSplitter();
+    let output = "";
+    let ids: string[] | null = null;
     try {
       for await (const delta of streamOpenRouter({
         apiKey,
         models,
-        systemPrompt: buildAnswerPrompt(record),
-        question,
+        systemPrompt: EXTRACT_RULES,
+        question: buildCandidateMessage(question, candidates, record),
         fetchImpl,
         timeoutMs,
         maxTokens,
         signal,
         onModel: (answered) => log(`[answer] answered by ${answered}`),
       })) {
-        for (const line of lines.push(delta)) {
-          for (const event of validator.accept(line)) yield event;
-          if (validator.done) return;
-        }
+        output += delta;
+        // Stop reading at the first complete ids object; whatever follows is never used.
+        if (delta.includes("}")) ids = parseModelIds(output);
+        if (ids !== null || output.length >= MAX_MODEL_OUTPUT_CHARS) break;
       }
-      const tail = lines.flush();
-      if (tail !== null) for (const event of validator.accept(tail)) yield event;
     } catch (error) {
       const reason = error instanceof ModelStreamError ? error.reason : "unknown";
       const status = error instanceof ModelStreamError && error.status ? ` (${error.status})` : "";
       log(`[answer] model stream failed: ${reason}${status}`);
       if (reason === "http_429" || reason === "http_5xx") cooldownUntil = now() + cooldownMs;
+      return [];
     }
+    ids ??= parseModelIds(output);
+    if (ids === null) {
+      log("[answer] model output held no ids object");
+      return [];
+    }
+    const byId = new Map(candidates.map((stop) => [stop.facetId, stop]));
+    const kept = gateIds(ids, new Set(byId.keys()));
+    if (kept.length < ids.length) log(`[answer] gate dropped ${ids.length - kept.length} of ${ids.length} ids`);
+    return kept.map((id) => byId.get(id)!);
   }
 
   return {
@@ -171,7 +187,9 @@ export function createAnswerer(options: AnswererOptions): Answerer {
         yield done("none");
         return;
       }
-      let said = false;
+      /** The mode whose sentences already went out, if any. */
+      let spoke: AnswerMode | null = null;
+      let gated = NO_CANDIDATES;
       try {
         const key = normalizeQuestion(question);
         if (!key || isDeniedQuestion(key)) {
@@ -187,7 +205,7 @@ export function createAnswerer(options: AnswererOptions): Answerer {
 
         const chip = matchChip(key, chips);
         if (chip) {
-          for (const event of chipEvents(chip, truth.facets)) yield event;
+          for (const event of chipEvents(chip, facets)) yield event;
           yield done("chip");
           return;
         }
@@ -204,40 +222,43 @@ export function createAnswerer(options: AnswererOptions): Answerer {
           return;
         }
 
-        yield { type: "beams", starIds: beamsFor(question, record) };
-
-        const events: AnswerEvent[] = [];
-        for await (const event of streamModel(question, clientKey, signal)) {
-          events.push(event);
-          if (event.type === "say") said = true;
-          yield event;
+        // The relevance gate: the router's candidates, before any model call.
+        gated = answerCandidates(question, record);
+        if (gated.candidates.length === 0) {
+          yield done("none");
+          return;
         }
-        if (said) {
-          events.push(done("model"));
-          cache.set(key, events);
+        yield { type: "beams", starIds: [...new Set(gated.candidates.map((c) => c.starId))].slice(0, MAX_BEAMS) };
+
+        const picked = sayFacets(await pickWithModel(question, gated.candidates, clientKey, signal));
+        if (picked.length > 0) {
+          cache.set(key, [...picked, done("model")]);
+          spoke = "model";
+          for (const event of picked) yield event;
           yield done("model");
           return;
         }
 
-        const local = localEvents(question);
-        if (local.length > 0) {
-          cache.set(key, [...events, ...local, done("local")]);
-          for (const event of local) yield event;
-          yield done("local");
+        const local = sayFacets(gated.answer);
+        if (local.length === 0) {
+          yield done("none");
           return;
         }
-
-        for (const event of scriptedEvents(highlights)) yield event;
+        cache.set(key, [...local, done("local")]);
+        spoke = "local";
+        for (const event of local) yield event;
         yield done("local");
       } catch (error) {
         log(`[answer] pipeline error: ${error instanceof Error ? error.name : "unknown"}`);
-        if (said) {
-          yield done("model");
+        if (spoke) {
+          yield done(spoke);
           return;
         }
+        // Only the router's own answer, recomputed if the gate never ran.
         let fallback: AnswerEvent[] = [];
         try {
-          fallback = localEvents(question);
+          const answer = gated.candidates.length > 0 ? gated.answer : answerCandidates(question, record).answer;
+          fallback = sayFacets(answer);
         } catch {
           fallback = [];
         }

@@ -1,30 +1,39 @@
 import type { WorkRecord } from "@/lib/contract";
+import { C1, C11, C2, C3_DATES, C5A, C9, N1, N2, N3, N4_DOI_URL, N5, ROLE_LINE } from "./canonical";
 
 // The verified record. This is the only text visitors ever see; the model only
-// picks facet ids from it. Every line is true, in the owner's words where
-// available, and backed by a public link wherever one exists.
+// picks facet ids from it, and every answer shows a facet's text verbatim or
+// a curated sentence that cites one. Every line is true, in the owner's words
+// where available, and backed by a public link wherever one exists.
 //
-// Sources: the owner's verified facts, the V1 site content at tag v1.0, public
-// GitHub repo descriptions under github.com/Kart-ing, and Devpost taglines
-// quoted verbatim. Never add a date of birth, age, immigration status, phone
-// number, street address or GPA.
+// Sources: the owner's verified facts, the canonical strings of the 6 Oct 2026
+// one-story PRD (./canonical.ts, used verbatim), the V1 site content at tag
+// v1.0, public GitHub repo descriptions under github.com/Kart-ing, and Devpost
+// taglines quoted verbatim. Never add a date of birth, immigration status,
+// phone number, street address or GPA. His age appears only where the owner
+// approved it: his own About (C9) and the patent line (N2).
+//
+// Role facts (title, company, dates) appear only as the PRD allows: the C3
+// dates in a role star's period, and the C11 sentence in its role facet.
 //
 // V3 metadata (start, stack, repo, media) is verified from each star's period,
 // the karts repo's first commit, Kart-ing repo creation dates, languages and
 // READMEs, and the owner's own project images on public Devpost pages.
 
 const GITHUB = "https://github.com/Kart-ing";
-const RECOMPRESS_DOI = "https://doi.org/10.5281/zenodo.20786357";
+/** The v2 preprint (N4). v1 (zenodo.20786357) carried an older benchmark name. */
+const RECOMPRESS_DOI = N4_DOI_URL;
 
 export const record: WorkRecord = {
   owner: {
     name: "Kartikey Pandey",
-    role: "Founder, Karts",
-    tagline:
-      "Karts is a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
+    role: ROLE_LINE,
+    tagline: C1,
+    about: [...C9],
     links: [
       { label: "GitHub", url: GITHUB },
       { label: "LinkedIn", url: "https://www.linkedin.com/in/kartikeypandey2004/" },
+      { label: "Devpost", url: "https://devpost.com/kartikey-onlineGOD" },
       { label: "Email", url: "mailto:kartikeypandey.official@gmail.com" },
     ],
   },
@@ -33,7 +42,7 @@ export const record: WorkRecord = {
     { id: "building", label: "Building now" },
     { id: "agent-tools", label: "Agent tools" },
     { id: "research", label: "Research and patent" },
-    { id: "hackathons", label: "Hackathon wins" },
+    { id: "hackathons", label: "Hackathon prizes" },
     { id: "work", label: "Work" },
     { id: "leadership", label: "Leadership" },
     { id: "education", label: "Education" },
@@ -47,26 +56,20 @@ export const record: WorkRecord = {
       label: "Karts",
       constellation: "building",
       kind: "company",
-      period: "2026",
-      summary:
-        "Karts is a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
+      period: C3_DATES.karts,
+      summary: C2,
       tags: [
         "karts",
-        "self-hosted",
-        "development platform",
-        "dev environments",
-        "app hosting",
-        "platform",
+        "founder",
         "company",
         "startup",
-        "founder",
-        "ide",
-        "coding servers",
-        "enterprise",
-        "compliance",
+        "part time",
+        "dev environments",
+        "branch",
+        "database",
+        "coding agents",
         "building now",
         "current",
-        "working on",
       ],
       links: [],
       start: "2026-08",
@@ -227,7 +230,7 @@ export const record: WorkRecord = {
       label: "Indian Patent No. 558662",
       constellation: "research",
       kind: "patent",
-      period: "Filed Oct 2020 · granted Jan 2025",
+      period: "Filed Oct 2020 · granted Jan 2025 · since lapsed",
       summary:
         "Kartikey is the sole inventor and applicant on Indian Patent No. 558662, System and Method Providing Data Conversion.",
       tags: [
@@ -241,13 +244,11 @@ export const record: WorkRecord = {
         "inventor",
         "high school",
         "granted",
+        "lapsed",
       ],
-      links: [
-        {
-          label: "IP India record (QuickCompany copy)",
-          url: "https://www.quickcompany.in/patents/system-and-method-providing-data-conversion",
-        },
-      ],
+      // No link to any patent-record site, by the owner's decision; the
+      // patent and application numbers in the facets are the evidence.
+      links: [],
       start: "2020-10",
       weight: 2,
     },
@@ -571,8 +572,7 @@ export const record: WorkRecord = {
       constellation: "hackathons",
       kind: "award",
       period: "Jun 2026",
-      summary:
-        "Best Compression Model for The Token Company at the UC Berkeley AI Hackathon 2026 with Re:Compress.",
+      summary: `${N3}, for Re:Compress.`,
       tags: [
         "re:compress",
         "recompress",
@@ -613,7 +613,7 @@ export const record: WorkRecord = {
       kind: "award",
       period: "Jul 24, 2026",
       summary:
-        "Hexclave award ($1,000) at c0mpiled-11, the YC Startup School Hackathon hosted by Transpose, with Cited.",
+        "Hexclave award ($1,000) at c0mpiled-11, a hackathon hosted by Transpose during YC Startup School weekend, with Cited.",
       tags: [
         "cited",
         "c0mpiled",
@@ -653,8 +653,6 @@ export const record: WorkRecord = {
         "c0mpiled",
         "compiled",
         "c0mpiled-13",
-        "yc",
-        "y combinator",
         "startup school",
         "transpose",
         "hexclave",
@@ -696,9 +694,9 @@ export const record: WorkRecord = {
         "ads",
         "advertising",
         "answer layer",
-        "12x",
+        "12 hackathons",
         "how many",
-        "hackathon winner",
+        "hackathon prizes",
         "latest",
         "recent",
         "2026",
@@ -716,8 +714,8 @@ export const record: WorkRecord = {
       label: "Cara",
       constellation: "work",
       kind: "role",
-      period: "Jun 2026 – present",
-      summary: "Member of Technical Staff at Cara, San Francisco Bay Area, since June 2026.",
+      period: C3_DATES.cara,
+      summary: C11.cara,
       tags: [
         "cara",
         "job",
@@ -727,8 +725,6 @@ export const record: WorkRecord = {
         "now",
         "member of technical staff",
         "mts",
-        "san francisco",
-        "bay area",
         "employer",
       ],
       links: [],
@@ -740,14 +736,13 @@ export const record: WorkRecord = {
       label: "Raya Health",
       constellation: "work",
       kind: "role",
-      period: "Feb 2026 – May 2026",
-      summary: "Founding Engineer at Raya Health, part of the HF0 W26 residency batch.",
+      period: C3_DATES.raya,
+      summary: C11.raya,
       tags: [
         "raya",
         "raya health",
         "founding engineer",
         "hf0",
-        "residency",
         "job",
         "work",
         "role",
@@ -764,17 +759,18 @@ export const record: WorkRecord = {
       label: "ColdStart",
       constellation: "work",
       kind: "role",
-      period: "Jan 2025 – May 2025",
-      summary: "Software Engineer Intern at ColdStart in State College, PA.",
+      period: C3_DATES.coldstart,
+      summary: C11.coldstart,
       tags: [
         "coldstart",
-        "intern",
-        "internship",
+        "founding engineer",
         "software engineer",
+        "startup",
+        "reddit",
+        "social listening",
         "job",
         "work",
         "role",
-        "state college",
         "2025",
       ],
       links: [],
@@ -786,9 +782,8 @@ export const record: WorkRecord = {
       label: "Intel Corporation",
       constellation: "work",
       kind: "role",
-      period: "Aug 2020 – Jul 2021",
-      summary:
-        "Internship Trainee, then Apprentice, at Intel Corporation, building ML pipelines and computer-vision systems.",
+      period: C3_DATES.intel,
+      summary: C11.intel,
       tags: [
         "intel",
         "apprentice",
@@ -816,18 +811,21 @@ export const record: WorkRecord = {
       weight: 1,
     },
     {
+      // A NASA competition for student teams, not a job at NASA.
       id: "lunar-autonomy-challenge",
-      label: "NASA Lunar Autonomy Challenge",
-      constellation: "work",
-      kind: "role",
+      label: "Lunar Autonomy Challenge",
+      constellation: "more-projects",
+      kind: "project",
       period: "Nov 2024 – Jan 2025",
       summary:
-        "Machine learning on a team in the NASA Lunar Autonomy Challenge, run by Johns Hopkins APL.",
+        "Machine learning on a student team in the Lunar Autonomy Challenge, a NASA competition run with Johns Hopkins APL.",
       tags: [
         "nasa",
         "lunar",
         "moon",
         "lunar autonomy challenge",
+        "competition",
+        "student team",
         "johns hopkins",
         "jhu",
         "apl",
@@ -837,7 +835,6 @@ export const record: WorkRecord = {
         "carla",
         "simulation",
         "machine learning",
-        "lsii",
         "space",
       ],
       links: [],
@@ -880,8 +877,7 @@ export const record: WorkRecord = {
       constellation: "leadership",
       kind: "community",
       period: "Aug 2024 – Dec 2025",
-      summary:
-        "Founder & President of the Penn State Collegiate Hackathon Team, which grew to 27+ members and lifted Penn State's national hackathon rank from #185 to #74 in one year.",
+      summary: `Founder & President of the Penn State Collegiate Hackathon Team, which grew to 27+ members and lifted Penn State from ${N5}.`,
       tags: [
         "penn state",
         "psu",
@@ -935,9 +931,8 @@ export const record: WorkRecord = {
       label: "Penn State University",
       constellation: "education",
       kind: "education",
-      period: "2022 – 2026",
-      summary:
-        "B.S. Computer Science with a Minor in Entrepreneurship at Penn State University, 2022 to 2026.",
+      period: C3_DATES.education,
+      summary: `B.S. Computer Science, minor in Entrepreneurship, Penn State, ${C3_DATES.education}.`,
       tags: [
         "penn state",
         "psu",
@@ -1009,31 +1004,9 @@ export const record: WorkRecord = {
 
   facets: [
     // ---------------------------------------------------------------- building
-    {
-      id: "karts.what",
-      starId: "karts",
-      text: "Karts is a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
-    },
-    {
-      id: "karts.capabilities",
-      starId: "karts",
-      text: "Teams can coordinate coding agents, give each developer or branch its own services and data, and check environments against production.",
-    },
-    {
-      id: "karts.operations",
-      starId: "karts",
-      text: "Teams can catch outdated branches, simulate load, and publish applications on their own domains, all on infrastructure they control.",
-    },
-    {
-      id: "karts.why",
-      starId: "karts",
-      text: "Karts helps startups build and ship software without having to assemble and maintain their own internal development platform.",
-    },
-    {
-      id: "karts.founder",
-      starId: "karts",
-      text: "Kartikey is the founder of Karts.",
-    },
+    { id: "karts.what", starId: "karts", text: C2 },
+    { id: "karts.founder", starId: "karts", text: C11.karts },
+    { id: "karts.traction", starId: "karts", text: C5A },
 
     // ------------------------------------------------------------ agent tools
     {
@@ -1055,6 +1028,11 @@ export const record: WorkRecord = {
       id: "multiverse.stack",
       starId: "multiverse",
       text: "TypeScript on Bun, with Langfuse branch-level tracing, ClickHouse tree-state persistence and Composio tool execution. Built for the Harness Engineering Hackathon in June 2026.",
+    },
+    {
+      id: "multiverse.team",
+      starId: "multiverse",
+      text: "Kartikey built Multiverse with Lance Streuber and Ujjwal Aggarwal at the Harness Engineering Hack.",
     },
     {
       id: "pingpal.what",
@@ -1123,10 +1101,11 @@ export const record: WorkRecord = {
       text: "Its \"Re:Zero\" tiered memory keeps a 12-turn conversation flat at about 184 tokens versus a naive 1,482, an 8.1x reduction.",
       source: { label: "GitHub", url: `${GITHUB}/ReCompress` },
     },
+    { id: "patent.what", starId: "patent", text: `${N2}.` },
     {
-      id: "patent.what",
+      id: "patent.title",
       starId: "patent",
-      text: "Indian Patent No. 558662, \"System and Method Providing Data Conversion\", application 202041040194.",
+      text: "\"System and Method Providing Data Conversion\", application 202041040194.",
     },
     {
       id: "patent.inventor",
@@ -1136,7 +1115,7 @@ export const record: WorkRecord = {
     {
       id: "patent.timeline",
       starId: "patent",
-      text: "Filed in October 2020, during high school; the grant was published on January 31, 2025.",
+      text: "Filed in October 2020, during high school; the grant was published on January 31, 2025. The patent has since lapsed.",
     },
     {
       id: "patent.claims",
@@ -1243,7 +1222,7 @@ export const record: WorkRecord = {
     {
       id: "berkeley-ai-hackathon-2026.prize",
       starId: "berkeley-ai-hackathon-2026",
-      text: "Won Best Compression Model for The Token Company at the UC Berkeley AI Hackathon 2026 (June 20-21, 2026) with Re:Compress.",
+      text: `Won ${N3}, for Re:Compress.`,
     },
     {
       id: "berkeley-ai-hackathon-2026.what",
@@ -1259,7 +1238,7 @@ export const record: WorkRecord = {
     {
       id: "compiled-11.prize",
       starId: "compiled-11",
-      text: "Won the Hexclave award ($1,000) at c0mpiled-11, the YC Startup School Hackathon, with Cited.",
+      text: "Won the Hexclave award ($1,000) at c0mpiled-11, a hackathon hosted by Transpose during YC Startup School weekend, with Cited.",
     },
     {
       id: "compiled-11.event",
@@ -1289,45 +1268,15 @@ export const record: WorkRecord = {
     {
       id: "zero-human-company-hackathon.count",
       starId: "zero-human-company-hackathon",
-      text: "Kartikey is a 12x hackathon winner; AdLayer (August 2026) was the twelfth win.",
+      text: `Kartikey has won ${N1} as of October 2026; the latest was AdLayer, in August 2026.`,
     },
 
     // ------------------------------------------------------------------- work
-    {
-      id: "cara.role",
-      starId: "cara",
-      text: "Member of Technical Staff at Cara since June 2026.",
-    },
-    {
-      id: "cara.where",
-      starId: "cara",
-      text: "Based in the San Francisco Bay Area.",
-    },
-    {
-      id: "raya-health.role",
-      starId: "raya-health",
-      text: "Founding Engineer at Raya Health from February to May 2026, in the HF0 W26 residency batch.",
-    },
-    {
-      id: "raya-health.built",
-      starId: "raya-health",
-      text: "Built Raya Health from the ground up and shipped product end to end across full-stack, infrastructure and AI.",
-    },
-    {
-      id: "coldstart.role",
-      starId: "coldstart",
-      text: "Software Engineer Intern at ColdStart, January to May 2025, in State College, PA.",
-    },
-    {
-      id: "coldstart.work",
-      starId: "coldstart",
-      text: "A software engineering internship contributing to product development and full-stack engineering.",
-    },
-    {
-      id: "intel.role",
-      starId: "intel",
-      text: "Internship Trainee at Intel Corporation from August 2020 to May 2021, then Apprentice from May to July 2021.",
-    },
+    // Each role star carries exactly one role line, its C11 sentence.
+    { id: "cara.role", starId: "cara", text: C11.cara },
+    { id: "raya-health.role", starId: "raya-health", text: C11.raya },
+    { id: "coldstart.role", starId: "coldstart", text: C11.coldstart },
+    { id: "intel.role", starId: "intel", text: C11.intel },
     {
       id: "intel.pipeline",
       starId: "intel",
@@ -1346,17 +1295,12 @@ export const record: WorkRecord = {
     {
       id: "lunar-autonomy-challenge.role",
       starId: "lunar-autonomy-challenge",
-      text: "Machine learning on a NASA Lunar Autonomy Challenge team, run by Johns Hopkins APL, from November 2024 to January 2025.",
+      text: "Machine learning on a student team in NASA's Lunar Autonomy Challenge, November 2024 to January 2025.",
     },
     {
       id: "lunar-autonomy-challenge.what",
       starId: "lunar-autonomy-challenge",
       text: "Autonomous lunar robotics: navigation, excavation and resource utilization, using CARLA simulation and SLAM.",
-    },
-    {
-      id: "lunar-autonomy-challenge.lsii",
-      starId: "lunar-autonomy-challenge",
-      text: "The work supported NASA's Lunar Surface Innovation Initiative (LSII).",
     },
     {
       id: "snap-accelerator.funding",
@@ -1393,7 +1337,7 @@ export const record: WorkRecord = {
     {
       id: "psu-hackathon-team.rank",
       starId: "psu-hackathon-team",
-      text: "Lifted Penn State's national hackathon rank from #185 to #74 within one year.",
+      text: `Lifted Penn State from ${N5}.`,
     },
     {
       id: "psu-hackathon-team.program",
@@ -1415,7 +1359,7 @@ export const record: WorkRecord = {
     {
       id: "penn-state.degree",
       starId: "penn-state",
-      text: "B.S. Computer Science, Minor in Entrepreneurship, Penn State University, 2022 to 2026.",
+      text: `B.S. Computer Science, minor in Entrepreneurship, Penn State, ${C3_DATES.education}.`,
     },
     {
       id: "penn-state.focus",
@@ -1437,7 +1381,7 @@ export const record: WorkRecord = {
     {
       id: "acrn.build",
       starId: "acrn",
-      text: "No framework: a hand-written index of about 35KB with full OG/SEO meta and 8 member profiles, in HTML, CSS and vanilla JS on Vercel.",
+      text: "A hand-written index of about 35KB with no framework, full OG/SEO meta and 8 member profiles, in HTML, CSS and vanilla JS on Vercel.",
     },
     {
       id: "token-company-prd.what",

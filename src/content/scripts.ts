@@ -1,13 +1,16 @@
 import type { AnswerSentence, FlightStop, ScriptedAnswer, TourStep } from "@/lib/contract";
+import { C11, C2 } from "./canonical";
 
-// Curated, model-free answers: the advocate answer for hire/back/invest
-// questions, the highlights for vague questions, and the guided tour.
+// Curated, model-free answers: "What has Kartikey built?" (the first chip,
+// which hire, back and invest questions also get), the highlights for
+// greetings and vague questions, and the guided tour.
 //
-// Rules. Every sentence cites facets from record.ts, and every fact and every
-// number in a sentence appears in the text of a facet it cites. The single
-// exception is the scripted "Yes." that opens the advocate answer. Sentences
-// name Kartikey and never use pronouns for Kartikey. The content tests enforce
-// all of this.
+// Rules. Every sentence cites at least one facet from record.ts, and every
+// fact and every number in a sentence appears in the text of a facet it cites.
+// No sentence is uncited, and none opens with "Yes" or "No". Role facts appear
+// only as the C11 sentences, verbatim. Sentences name Kartikey and, apart from
+// those frozen C11 sentences, never use pronouns for Kartikey. The content
+// tests enforce all of this.
 
 /** Star ids never contain a dot, so a facet id parses into its stop. */
 function cite(facetId: string): FlightStop {
@@ -18,9 +21,12 @@ export function say(text: string, ...facetIds: string[]): AnswerSentence {
   return { text, citations: facetIds.map(cite) };
 }
 
-/** The scripted answer to "Should we hire Kartikey?" and every hire, back, invest or work-with question. */
+/**
+ * "What has Kartikey built?": the first chip. Hire, back and invest
+ * questions get the same cited lines, never a scripted verdict.
+ */
 export const advocate: ScriptedAnswer = {
-  question: "Should we hire Kartikey?",
+  question: "What has Kartikey built?",
   view: {
     kind: "timeline",
     starIds: [
@@ -36,24 +42,18 @@ export const advocate: ScriptedAnswer = {
     ],
   },
   sentences: [
-    { text: "Yes.", citations: [] },
+    say(C11.karts, "karts.founder"),
+    say(C2, "karts.what"),
     say(
-      "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
-      "karts.founder",
-      "karts.what",
-    ),
-    say(
-      "Kartikey is a 12x hackathon winner, with wins including Best Compression Model for The Token Company at the UC Berkeley AI Hackathon 2026 and two $1,000 Hexclave awards.",
-      "berkeley-ai-hackathon-2026.prize",
-      "compiled-11.prize",
-      "compiled-13.prize",
+      "Kartikey has won 13 prizes at 12 hackathons, including The Token Company's Best Compression Model prize, UC Berkeley AI Hackathon 2026, with Parth Kshirsagar.",
       "zero-human-company-hackathon.count",
+      "berkeley-ai-hackathon-2026.prize",
     ),
     say(
-      "Kartikey co-authored the ReCompress preprint and is the sole inventor and applicant on Indian Patent No. 558662.",
+      "Kartikey co-authored the ReCompress preprint with Parth Kshirsagar and is the sole inventor and applicant on Indian Patent No. 558662, since lapsed.",
       "recompress.preprint",
-      "patent.what",
       "patent.inventor",
+      "patent.what",
     ),
   ],
 };
@@ -62,24 +62,20 @@ export const advocate: ScriptedAnswer = {
 export const highlights: ScriptedAnswer = {
   question: "What should I know about Kartikey?",
   sentences: [
+    say(C11.karts, "karts.founder"),
     say(
-      "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
-      "karts.founder",
-      "karts.what",
-    ),
-    say(
-      "Kartikey is a 12x hackathon winner; the wins include two $1,000 Hexclave awards, at c0mpiled-11 with Cited and at c0mpiled-13 with Swiper No Swiping.",
+      "Kartikey has won 13 prizes at 12 hackathons, including two $1,000 Hexclave awards, at c0mpiled-11 with Cited and at c0mpiled-13 with Swiper No Swiping.",
       "zero-human-company-hackathon.count",
       "compiled-11.prize",
       "compiled-13.prize",
     ),
     say(
-      "Re:Compress won Best Compression Model for The Token Company at the UC Berkeley AI Hackathon 2026, and the same work became the ReCompress preprint on Zenodo.",
+      "Re:Compress, built with Parth Kshirsagar, won The Token Company's Best Compression Model prize at the UC Berkeley AI Hackathon 2026, and the same work became the ReCompress preprint on Zenodo.",
       "berkeley-ai-hackathon-2026.prize",
       "berkeley-ai-hackathon-2026.paper",
     ),
     say(
-      "Kartikey is the sole inventor and applicant on Indian Patent No. 558662, filed in October 2020 during high school and granted in January 2025.",
+      "Kartikey is the sole inventor and applicant on Indian Patent No. 558662, filed in October 2020 during high school, granted in January 2025 and since lapsed.",
       "patent.what",
       "patent.inventor",
       "patent.timeline",
@@ -97,12 +93,7 @@ function step(holdMs: number, text: string, ...facetIds: string[]): TourStep {
  * the patent, the hackathon run, leadership, work, and back to Karts.
  */
 export const tour: TourStep[] = [
-  step(
-    6000,
-    "Kartikey is the founder of Karts, a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
-    "karts.founder",
-    "karts.what",
-  ),
+  step(6000, C11.karts, "karts.founder"),
   step(
     5500,
     "Multiverse is the branch predictor, but for tool calls: it forks into parallel sandboxed futures, commits one winner atomically and replays deterministically.",
@@ -127,7 +118,7 @@ export const tour: TourStep[] = [
   ),
   step(
     5500,
-    "Kartikey is the sole inventor and applicant on Indian Patent No. 558662, filed in October 2020 during high school and granted in January 2025.",
+    "Kartikey is the sole inventor and applicant on Indian Patent No. 558662, filed in October 2020 during high school, granted in January 2025 and since lapsed.",
     "patent.what",
     "patent.inventor",
     "patent.timeline",
@@ -139,32 +130,22 @@ export const tour: TourStep[] = [
   ),
   step(
     5500,
-    "Two $1,000 Hexclave awards: at c0mpiled-11, the YC Startup School Hackathon, with Cited, and at c0mpiled-13, Startup School Hackathon II, with Swiper No Swiping.",
+    "Two $1,000 Hexclave awards: at c0mpiled-11, a hackathon hosted by Transpose during YC Startup School weekend, with Cited, and at c0mpiled-13, Startup School Hackathon II, with Swiper No Swiping.",
     "compiled-11.prize",
     "compiled-13.prize",
   ),
   step(
     5500,
-    "Kartikey is a 12x hackathon winner; the twelfth win was 3rd place in Best use of Render at the Zero Human Company Hackathon by Terac, in August 2026, with AdLayer.",
+    "Kartikey has won 13 prizes at 12 hackathons; the latest was 3rd place in Best use of Render at the Zero Human Company Hackathon by Terac, in August 2026, with AdLayer.",
     "zero-human-company-hackathon.count",
     "zero-human-company-hackathon.prize",
   ),
   step(
     5500,
-    "As Founder & President of the Penn State Collegiate Hackathon Team, Kartikey lifted Penn State's national hackathon rank from #185 to #74 within one year.",
+    "As Founder & President of the Penn State Collegiate Hackathon Team, Kartikey lifted Penn State from #185 to #74 (merit rank) in one year.",
     "psu-hackathon-team.rank",
     "psu-hackathon-team.role",
   ),
-  step(
-    5000,
-    "Kartikey has been Member of Technical Staff at Cara since June 2026, after a stint as Founding Engineer at Raya Health in the HF0 W26 residency batch.",
-    "cara.role",
-    "raya-health.role",
-  ),
-  step(
-    5500,
-    "Back to Karts, where Kartikey is the founder: a self-hosted development platform that brings AI coding agents, persistent dev environments and app hosting into one workspace.",
-    "karts.founder",
-    "karts.what",
-  ),
+  step(5000, C11.cara, "cara.role"),
+  step(5500, C2, "karts.what"),
 ];

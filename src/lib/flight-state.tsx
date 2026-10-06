@@ -172,12 +172,12 @@ function cleanCitations(citations: FlightStop[]): FlightStop[] {
   return kept;
 }
 
-/** A sentence survives with its valid citations. Only scripts may say something uncited ("Yes."). */
-function cleanSentence(sentence: AnswerSentence, allowUncited: boolean): AnswerSentence | null {
+/** A sentence survives with its valid citations, and only with at least one: nothing on the page is uncited. */
+function cleanSentence(sentence: AnswerSentence): AnswerSentence | null {
   const text = sentence.text.trim();
   if (!text) return null;
   const citations = cleanCitations(sentence.citations);
-  if (citations.length === 0 && !allowUncited) return null;
+  if (citations.length === 0) return null;
   return { text, citations };
 }
 
@@ -555,7 +555,7 @@ function createEngine(set: Setters): FlightActions & { dispose(): void } {
   const playScript = (question: string, script: Script) => {
     supersede();
     const sentences = script.sentences
-      .map((sentence) => cleanSentence(sentence, true))
+      .map((sentence) => cleanSentence(sentence))
       .filter((sentence): sentence is AnswerSentence => sentence !== null);
     begin(question, "asking");
     if (sentences.length === 0) {
@@ -565,7 +565,7 @@ function createEngine(set: Setters): FlightActions & { dispose(): void } {
       return;
     }
     set.view(script.view ? cleanView(script.view) : null);
-    // A script's mode is known up front, so the panel can frame it ("Yes.") while it reveals.
+    // A script's mode is known up front, so the panel can style it while it reveals.
     set.answerMode(script.mode);
     if (prefersReducedMotion()) {
       setNarration(sentences);
@@ -616,7 +616,7 @@ function createEngine(set: Setters): FlightActions & { dispose(): void } {
           break;
         case "say": {
           if (landed >= MAX_SENTENCES) break;
-          const sentence = cleanSentence(event.sentence, false);
+          const sentence = cleanSentence(event.sentence);
           if (!sentence) break;
           landed += 1;
           land(sentence, true);
@@ -798,7 +798,13 @@ function createEngine(set: Setters): FlightActions & { dispose(): void } {
   const showTourStep = (index: number, paused: boolean) => {
     const step = tourScript[index];
     if (!step) return;
-    const sentence = cleanSentence(step.sentence, true) ?? { text: step.sentence.text, citations: [] };
+    const sentence = cleanSentence(step.sentence);
+    // The content tests keep every step cited; an uncited step ends the tour rather than show.
+    if (!sentence) {
+      supersede();
+      begin(null, "idle");
+      return;
+    }
     m.tourActive = true;
     m.tourIndex = index;
     m.tourPaused = paused;
