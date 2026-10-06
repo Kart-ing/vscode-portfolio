@@ -11,8 +11,8 @@ V1, the VS Code-themed portfolio, is archived on the `v1` branch and the
 ## How answers work
 
 `src/content/record.ts` is the only source of facts: 27 stars and 70 short
-lines. Where a public page exists (a repo, Devpost page, DOI or organizer
-write-up), the line links it. The owner's canonical strings (his About, role
+lines. Many lines link a public source (a repo, Devpost page, DOI or organizer
+write-up). The owner's canonical strings (his About, role
 line and numbers) live in `src/content/canonical.ts` and are used verbatim.
 
 Every sentence an answer shows is either a record line's own text or a
@@ -27,8 +27,8 @@ only other text is the no-answer line. No model ever writes a sentence.
    and none of them opens with a verdict.
 3. For any other question, the local keyword router first picks the candidate
    lines, at most 12, with no model involved
-   (`src/lib/server/answer/gate.ts`). No candidates means no answer, and a
-   question that names something the record never mentions has none.
+   (`src/lib/server/answer/gate.ts`). No candidates means no answer. A
+   capitalized name the record never mentions, such as NASA, gets none too.
 4. When a key is set, a free model on OpenRouter (GLM-5.2, then Nemotron 3.5
    Lightning, then Nex N2.5 Pro) sees only those candidates and replies with
    ids. The server drops every id outside the set and shows the remaining

@@ -77,10 +77,10 @@ function expectValidView(view: GeneratedView | undefined, where: string) {
 }
 
 describe("star metadata: start", () => {
-  it("is YYYY-MM within the timeline years", () => {
+  it("is YYYY or YYYY-MM (per the contract) within the timeline years", () => {
     for (const s of record.stars) {
       if (s.start === undefined) continue;
-      expect(s.start, s.id).toMatch(/^\d{4}-(0[1-9]|1[0-2])$/);
+      expect(s.start, s.id).toMatch(/^\d{4}(-(0[1-9]|1[0-2]))?$/);
       const year = Number(s.start.slice(0, 4));
       expect(year, s.id).toBeGreaterThanOrEqual(TIMELINE_START_YEAR);
       expect(year, s.id).toBeLessThanOrEqual(TIMELINE_END_YEAR);

@@ -273,7 +273,7 @@ export const record: WorkRecord = {
         "2023",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/signease" }],
-      start: "2023-04",
+      start: "2023",
       media: [
         {
           kind: "image",
@@ -316,7 +316,7 @@ export const record: WorkRecord = {
           url: "https://devpost.com/software/eyesnap-diabetic-retinopathy-detection-with-diascan",
         },
       ],
-      start: "2023-10",
+      start: "2023",
       stack: ["TensorFlow", "React Native", "Flask", "SQL"],
       media: [
         {
@@ -349,7 +349,7 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/devspot" }],
-      start: "2024-03",
+      start: "2024",
       media: [
         {
           kind: "image",
@@ -387,7 +387,7 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/moth-challenege" }],
-      start: "2024-04",
+      start: "2024",
       media: [
         {
           kind: "image",
@@ -428,7 +428,7 @@ export const record: WorkRecord = {
         "2024",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/reality-rush" }],
-      start: "2024-10",
+      start: "2024",
       stack: ["Lens Studio", "TypeScript", "Snap Spectacles"],
       media: [
         {
@@ -506,7 +506,7 @@ export const record: WorkRecord = {
         "2025",
       ],
       links: [{ label: "Devpost", url: "https://devpost.com/software/soundsage" }],
-      start: "2025-09",
+      start: "2025",
       stack: ["MemryX"],
       media: [
         {
@@ -867,7 +867,6 @@ export const record: WorkRecord = {
       label: "ACRN",
       constellation: "more-projects",
       kind: "project",
-      period: "2026",
       summary: "Kartikey designed and built the website for ACRN, a hacker house.",
       tags: [
         "acrn",
@@ -876,7 +875,6 @@ export const record: WorkRecord = {
         "site",
         "design",
         "static site",
-        "material design",
         "typography",
         "frontend",
         "vercel",
@@ -1251,7 +1249,7 @@ export const record: WorkRecord = {
     {
       id: "acrn.design",
       starId: "acrn",
-      text: "The ACRN site uses a Material Design 3 color system themed on soil, moss, acorn, fern and clay, with three typefaces: Fraunces, Newsreader and JetBrains Mono.",
+      text: "The ACRN site uses a color system themed on soil, moss, acorn, fern and clay, with three typefaces: Fraunces, Newsreader and JetBrains Mono.",
     },
     {
       id: "acrn.build",

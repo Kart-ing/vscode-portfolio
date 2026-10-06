@@ -77,7 +77,7 @@ export function renderLlmsTxt(record: WorkRecord, siteUrl: string): string {
   out.push("");
   out.push(`- The full record as JSON: ${siteUrl}/record.json`);
   out.push(
-    "- Every line on this page is copied from the owner's record; nothing here is generated. Lines link their public source where one exists.",
+    "- Every line on this page is copied from the owner's record; nothing here is generated. Many lines link a public source.",
   );
   out.push("");
 
