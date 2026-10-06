@@ -83,18 +83,15 @@ export const record: WorkRecord = {
       constellation: "agent-tools",
       kind: "project",
       period: "2026",
-      summary: "A speculative execution harness for AI agents.",
+      summary:
+        "An OpenCode fork with a decision-tree agent mode, designed to try five approaches per step and keep the winner. A hackathon prototype.",
       tags: [
         "multiverse",
         "agents",
         "ai agents",
         "agent harness",
-        "speculative execution",
         "tool calls",
-        "sandbox",
         "fork",
-        "replay",
-        "branch predictor",
         "typescript",
         "opencode",
         "decision tree",
@@ -155,7 +152,7 @@ export const record: WorkRecord = {
       kind: "project",
       period: "2026",
       summary:
-        "Offload work from your laptop to a cheap always-on server via /offload in Claude Code.",
+        "Offload work from your laptop to a cheap always-on server through a /handoff skill in Claude Code.",
       tags: [
         "hermes",
         "offloader",
@@ -259,7 +256,7 @@ export const record: WorkRecord = {
       label: "SignEase",
       constellation: "hackathons",
       kind: "award",
-      period: "Apr 2023",
+      period: "2023",
       summary: "3rd Place at HackPSU Spring 2023 with SignEase.",
       tags: [
         "signease",
@@ -294,7 +291,7 @@ export const record: WorkRecord = {
       label: "EyeSnap",
       constellation: "hackathons",
       kind: "award",
-      period: "Oct 2023",
+      period: "2023",
       summary:
         "Best Use of MATLAB at HackHarvard 2023 with EyeSnap, a diabetic retinopathy detection prototype.",
       tags: [
@@ -338,7 +335,7 @@ export const record: WorkRecord = {
       label: "DevSpot",
       constellation: "hackathons",
       kind: "award",
-      period: "Mar 2024",
+      period: "2024",
       summary: "Entrepreneurship Award at HackPSU Spring 2024 with DevSpot.",
       tags: [
         "devspot",
@@ -370,7 +367,7 @@ export const record: WorkRecord = {
       label: "Moth Challenge",
       constellation: "hackathons",
       kind: "award",
-      period: "Apr 2024",
+      period: "2024",
       summary: "Best Cybersecurity Track Hack at Bitcamp 2024 with Moth Challenge.",
       tags: [
         "moth challenge",
@@ -408,7 +405,7 @@ export const record: WorkRecord = {
       label: "Reality Rush",
       constellation: "hackathons",
       kind: "award",
-      period: "Oct 2024",
+      period: "2024",
       summary:
         "Snap AR Challenge winner and Best DEI Hack sponsored by Fidelity at HackPSU Fall 2024 with Reality Rush.",
       tags: [
@@ -489,7 +486,7 @@ export const record: WorkRecord = {
       label: "SoundSage",
       constellation: "hackathons",
       kind: "award",
-      period: "Sep 2025",
+      period: "2025",
       summary:
         "Best Use of MemryX Edge AI Accelerator at MHacks 2025 with SoundSage, a one-person entry.",
       tags: [
@@ -810,65 +807,6 @@ export const record: WorkRecord = {
       stack: ["Python", "TensorFlow", "PyTorch", "OpenCV", "Docker", "AWS"],
       weight: 1,
     },
-    {
-      // A NASA competition for student teams, not a job at NASA.
-      id: "lunar-autonomy-challenge",
-      label: "Lunar Autonomy Challenge",
-      constellation: "more-projects",
-      kind: "project",
-      period: "Nov 2024 – Jan 2025",
-      summary:
-        "Machine learning on a student team in the Lunar Autonomy Challenge, a NASA competition run with Johns Hopkins APL.",
-      tags: [
-        "nasa",
-        "lunar",
-        "moon",
-        "lunar autonomy challenge",
-        "competition",
-        "student team",
-        "johns hopkins",
-        "jhu",
-        "apl",
-        "robotics",
-        "rover",
-        "slam",
-        "carla",
-        "simulation",
-        "machine learning",
-        "space",
-      ],
-      links: [],
-      start: "2024-11",
-      stack: ["Python", "CARLA", "SLAM"],
-      weight: 1,
-    },
-    {
-      id: "snap-accelerator",
-      label: "Snap Spectacles Student Accelerator",
-      constellation: "work",
-      kind: "role",
-      summary:
-        "Secured $25,000+ in funding through Snap's Spectacles Student Accelerator and led AR/AI development.",
-      tags: [
-        "snap",
-        "spectacles",
-        "accelerator",
-        "funding",
-        "25k",
-        "ar",
-        "augmented reality",
-        "lens studio",
-        "typescript",
-        "node.js",
-        "cloud sync",
-        "project elementals",
-        "team virtus",
-        "motion sickness",
-      ],
-      links: [],
-      stack: ["Lens Studio", "TypeScript", "Node.js"],
-      weight: 1,
-    },
 
     // ------------------------------------------------------------- leadership
     {
@@ -889,40 +827,10 @@ export const record: WorkRecord = {
         "team",
         "ranking",
         "rank",
-        "sponsorships",
-        "workshops",
-        "next.js",
-        "graphql",
-        "mentoring",
       ],
       links: [],
       start: "2024-08",
       weight: 2,
-    },
-    {
-      id: "gdsc-psu",
-      label: "GDSC at Penn State",
-      constellation: "leadership",
-      kind: "community",
-      period: "Jan 2023 – May 2025",
-      summary:
-        "Technical Lead, then President, of GDSC at Penn State, building a 200+ student developer community.",
-      tags: [
-        "gdsc",
-        "google developer student club",
-        "google",
-        "penn state",
-        "psu",
-        "president",
-        "technical lead",
-        "leadership",
-        "community",
-        "students",
-        "club",
-      ],
-      links: [],
-      start: "2023-01",
-      weight: 1,
     },
 
     // -------------------------------------------------------------- education
@@ -960,7 +868,7 @@ export const record: WorkRecord = {
       constellation: "more-projects",
       kind: "project",
       period: "2026",
-      summary: "Brand site for a hacker house: botanical-press meets terminal.",
+      summary: "Kartikey designed and built the website for ACRN, a hacker house.",
       tags: [
         "acrn",
         "hacker house",
@@ -973,7 +881,8 @@ export const record: WorkRecord = {
         "frontend",
         "vercel",
       ],
-      links: [{ label: "Live site", url: "https://acrn.space" }],
+      // No link to the live site until the owner updates his card there.
+      links: [],
       stack: ["HTML", "CSS", "JavaScript", "Vercel"],
       weight: 1,
     },
@@ -1000,6 +909,26 @@ export const record: WorkRecord = {
       repo: "Kart-ing/token-company-prd",
       weight: 1,
     },
+    {
+      // Funding, not a role: the one sourced fact is the amount.
+      id: "snap-accelerator",
+      label: "Snap Spectacles Accelerator",
+      constellation: "more-projects",
+      kind: "award",
+      summary: "$25,000+ from Snap's Spectacles Accelerator.",
+      tags: [
+        "snap",
+        "spectacles",
+        "accelerator",
+        "funding",
+        "25k",
+        "ar",
+        "augmented reality",
+        "lens studio",
+      ],
+      links: [],
+      weight: 1,
+    },
   ],
 
   facets: [
@@ -1012,22 +941,17 @@ export const record: WorkRecord = {
     {
       id: "multiverse.what",
       starId: "multiverse",
-      text: "The branch predictor, but for tool calls: fork into parallel sandboxed futures, commit one winner atomically, replay deterministically.",
+      text: "Multiverse is a hackathon prototype: an OpenCode fork with a decision-tree agent mode designed to try five approaches per step and keep the winner.",
     },
     {
       id: "multiverse.how",
       starId: "multiverse",
-      text: "A fork of OpenCode, the open source AI coding agent, with a decision tree mode that explores 5 parallel approaches per step: Direct, Modular, Minimal, Robust and Creative.",
-    },
-    {
-      id: "multiverse.replay",
-      starId: "multiverse",
-      text: "Each approach is scored from 0 to 100 against the step's success metric, and only the winning branch advances to the next step.",
+      text: "In the TUI today, /multiverse and /mv-build animate the tree over six fixed demo steps with simulated scores. Sandboxed APIs and deterministic replay are not built yet.",
     },
     {
       id: "multiverse.stack",
       starId: "multiverse",
-      text: "TypeScript on Bun, with Langfuse branch-level tracing, ClickHouse tree-state persistence and Composio tool execution. Built for the Harness Engineering Hackathon in June 2026.",
+      text: "TypeScript on Bun, with Langfuse branch-level tracing, ClickHouse tree-state persistence and Composio tool execution. Built for the Harness Engineering Hack in June 2026.",
     },
     {
       id: "multiverse.team",
@@ -1052,13 +976,13 @@ export const record: WorkRecord = {
     {
       id: "pingpal.npm",
       starId: "pingpal",
-      text: "Published on npm (npm i -g pingpal) and works across Claude Code, OpenCode and Codex.",
+      text: "Published on npm (npm i -g pingpal).",
       source: { label: "npm", url: "https://www.npmjs.com/package/pingpal" },
     },
     {
       id: "hermes-offloader.what",
       starId: "hermes-offloader",
-      text: "Offload work from your laptop to a cheap always-on server via /offload in Claude Code.",
+      text: "Offload work from your laptop to a cheap always-on server through a /handoff skill in Claude Code.",
     },
     {
       id: "hermes-offloader.how",
@@ -1069,11 +993,6 @@ export const record: WorkRecord = {
       id: "hermes-offloader.setup",
       starId: "hermes-offloader",
       text: "Public setup repo: \"Set up the Hermes job-offload pipeline (Mac-side /handoff dispatcher + VPS-side daemon) on your own VPS.\" The main repo is private.",
-    },
-    {
-      id: "hermes-offloader.deploy",
-      starId: "hermes-offloader",
-      text: "Deployed as systemd services on a personal server: a Python (stdlib-only) orchestrator, shell, SSH/scp and NDJSON, returning status JSON and git-diff patches.",
     },
 
     // --------------------------------------------------------------- research
@@ -1092,14 +1011,8 @@ export const record: WorkRecord = {
     {
       id: "recompress.result",
       starId: "recompress",
-      text: "The 1.5B student compresses HotpotQA context to about 3.5% of its tokens and still answers correctly, keeping the answer-bearing span where deletion truncates it.",
+      text: "The 1.5B student beats bear-2 by +0.252 F1 on HotpotQA while emitting roughly 8.5× fewer tokens.",
       source: { label: "Preprint (Zenodo DOI)", url: RECOMPRESS_DOI },
-    },
-    {
-      id: "recompress.multiturn",
-      starId: "recompress",
-      text: "Its \"Re:Zero\" tiered memory keeps a 12-turn conversation flat at about 184 tokens versus a naive 1,482, an 8.1x reduction.",
-      source: { label: "GitHub", url: `${GITHUB}/ReCompress` },
     },
     { id: "patent.what", starId: "patent", text: `${N2}.` },
     {
@@ -1120,14 +1033,14 @@ export const record: WorkRecord = {
     {
       id: "patent.claims",
       starId: "patent",
-      text: "It describes AI that filters input such as audio or text and outputs it compressed.",
+      text: "It covers the on-device summarizer in NoteX, a lecture-notes app.",
     },
 
     // ------------------------------------------------------------- hackathons
     {
       id: "hackpsu-spring-2023.prize",
       starId: "hackpsu-spring-2023",
-      text: "Won 3rd Place at HackPSU Spring 2023 (April 2023) with SignEase.",
+      text: "Won 3rd Place at HackPSU Spring 2023 with SignEase.",
     },
     {
       id: "hackpsu-spring-2023.what",
@@ -1137,7 +1050,7 @@ export const record: WorkRecord = {
     {
       id: "hackharvard-2023.prize",
       starId: "hackharvard-2023",
-      text: "Won Best Use of MATLAB at HackHarvard 2023 (October 2023) with EyeSnap.",
+      text: "Won Best Use of MATLAB at HackHarvard 2023 with EyeSnap.",
     },
     {
       id: "hackharvard-2023.what",
@@ -1152,7 +1065,7 @@ export const record: WorkRecord = {
     {
       id: "hackpsu-spring-2024.prize",
       starId: "hackpsu-spring-2024",
-      text: "Won the Entrepreneurship Award at HackPSU Spring 2024 (March 2024) with DevSpot.",
+      text: "Won the Entrepreneurship Award at HackPSU Spring 2024 with DevSpot.",
     },
     {
       id: "hackpsu-spring-2024.what",
@@ -1162,7 +1075,7 @@ export const record: WorkRecord = {
     {
       id: "bitcamp-2024.prize",
       starId: "bitcamp-2024",
-      text: "Won Best Cybersecurity Track Hack at Bitcamp 2024 (April 2024) with Moth Challenge.",
+      text: "Won Best Cybersecurity Track Hack at Bitcamp 2024 with Moth Challenge.",
     },
     {
       id: "bitcamp-2024.what",
@@ -1172,7 +1085,7 @@ export const record: WorkRecord = {
     {
       id: "hackpsu-fall-2024.prize",
       starId: "hackpsu-fall-2024",
-      text: "Won the Snap AR Challenge and Best DEI Hack sponsored by Fidelity at HackPSU Fall 2024 (October 2024) with Reality Rush.",
+      text: "Won the Snap AR Challenge and Best DEI Hack sponsored by Fidelity at HackPSU Fall 2024 with Reality Rush.",
     },
     {
       id: "hackpsu-fall-2024.what",
@@ -1180,9 +1093,9 @@ export const record: WorkRecord = {
       text: "A Snap Spectacles AR fitness trainer: Lens Studio's ML Kit tracks pose in real time for live form correction, with a gesture UI on the Spectacles Hand Tracking API.",
     },
     {
-      id: "hackpsu-fall-2024.role",
+      id: "hackpsu-fall-2024.stack",
       starId: "hackpsu-fall-2024",
-      text: "Kartikey was the lead AR developer; built with Lens Studio and TypeScript.",
+      text: "Built with Lens Studio and TypeScript.",
     },
     {
       id: "hackumass-xii.prize",
@@ -1197,7 +1110,7 @@ export const record: WorkRecord = {
     {
       id: "mhacks-2025.prize",
       starId: "mhacks-2025",
-      text: "Won Best Use of MemryX Edge AI Accelerator at MHacks 2025 (September 2025) with SoundSage.",
+      text: "Won Best Use of MemryX Edge AI Accelerator at MHacks 2025 with SoundSage.",
     },
     {
       id: "mhacks-2025.team",
@@ -1218,6 +1131,11 @@ export const record: WorkRecord = {
       id: "calhacks-12.what",
       starId: "calhacks-12",
       text: "Devpost tagline: \"Stack Overflow 2.0: break the prompt spiral-> jump straight to the proven fix.\"",
+    },
+    {
+      id: "calhacks-12.team",
+      starId: "calhacks-12",
+      text: "Kartikey built AgentOverflow with Kanika Gupta, Het Sheth and Ishaan Narang.",
     },
     {
       id: "berkeley-ai-hackathon-2026.prize",
@@ -1266,6 +1184,11 @@ export const record: WorkRecord = {
       text: "The ad network for the answer layer: disclosed placements in llms.txt, and measurement of whether the label survives the model.",
     },
     {
+      id: "zero-human-company-hackathon.team",
+      starId: "zero-human-company-hackathon",
+      text: "Kartikey built AdLayer with Parth Kshirsagar.",
+    },
+    {
       id: "zero-human-company-hackathon.count",
       starId: "zero-human-company-hackathon",
       text: `Kartikey has won ${N1} as of October 2026; the latest was AdLayer, in August 2026.`,
@@ -1292,36 +1215,6 @@ export const record: WorkRecord = {
       starId: "intel",
       text: "Built a BERT-based classifier handling 1,000+ technical specs a day at 90% accuracy.",
     },
-    {
-      id: "lunar-autonomy-challenge.role",
-      starId: "lunar-autonomy-challenge",
-      text: "Machine learning on a student team in NASA's Lunar Autonomy Challenge, November 2024 to January 2025.",
-    },
-    {
-      id: "lunar-autonomy-challenge.what",
-      starId: "lunar-autonomy-challenge",
-      text: "Autonomous lunar robotics: navigation, excavation and resource utilization, using CARLA simulation and SLAM.",
-    },
-    {
-      id: "snap-accelerator.funding",
-      starId: "snap-accelerator",
-      text: "Secured $25,000+ in funding through the Snap Spectacles Student Accelerator.",
-    },
-    {
-      id: "snap-accelerator.role",
-      starId: "snap-accelerator",
-      text: "Led AR/AI development with TypeScript, Node.js and real-time cloud sync.",
-    },
-    {
-      id: "snap-accelerator.elementals",
-      starId: "snap-accelerator",
-      text: "Project Elementals: a multiplayer AR game on Spectacles where players bend elements in one shared world, synced in real time across devices; Kartikey was lead AR developer.",
-    },
-    {
-      id: "snap-accelerator.motion",
-      starId: "snap-accelerator",
-      text: "Also built a stabilization approach that reduces motion sickness during AR use in moving environments, aimed at comfortable extended wear.",
-    },
 
     // ------------------------------------------------------------- leadership
     {
@@ -1339,21 +1232,6 @@ export const record: WorkRecord = {
       starId: "psu-hackathon-team",
       text: `Lifted Penn State from ${N5}.`,
     },
-    {
-      id: "psu-hackathon-team.program",
-      starId: "psu-hackathon-team",
-      text: "Built a dual-track program, secured national sponsorships, and ran workshops on Next.js, GraphQL and automation engineering.",
-    },
-    {
-      id: "gdsc-psu.role",
-      starId: "gdsc-psu",
-      text: "Technical Lead of GDSC at Penn State from January 2023 to August 2024, then President from August 2024 to May 2025.",
-    },
-    {
-      id: "gdsc-psu.community",
-      starId: "gdsc-psu",
-      text: "Built a 200+ student developer community focused on software engineering, AI/ML and cloud.",
-    },
 
     // -------------------------------------------------------------- education
     {
@@ -1361,27 +1239,24 @@ export const record: WorkRecord = {
       starId: "penn-state",
       text: `B.S. Computer Science, minor in Entrepreneurship, Penn State, ${C3_DATES.education}.`,
     },
-    {
-      id: "penn-state.focus",
-      starId: "penn-state",
-      text: "Focus on software engineering, AI/ML and systems.",
-    },
 
     // ---------------------------------------------------------- more projects
+    // ACRN: the owner confirmed he designed and built the site (6 Oct 2026).
+    // The other lines only describe the site itself.
     {
       id: "acrn.what",
       starId: "acrn",
-      text: "Brand site and member directory for a hacker house, designed and built by Kartikey to feel hand-made rather than templated.",
+      text: "Kartikey designed and built the website for ACRN, a hacker house.",
     },
     {
       id: "acrn.design",
       starId: "acrn",
-      text: "A bespoke Material Design 3 color system themed on soil, moss, acorn, fern and clay, with three typefaces: Fraunces, Newsreader and JetBrains Mono.",
+      text: "The ACRN site uses a Material Design 3 color system themed on soil, moss, acorn, fern and clay, with three typefaces: Fraunces, Newsreader and JetBrains Mono.",
     },
     {
       id: "acrn.build",
       starId: "acrn",
-      text: "A hand-written index of about 35KB with no framework, full OG/SEO meta and 8 member profiles, in HTML, CSS and vanilla JS on Vercel.",
+      text: "Kartikey wrote the site by hand in HTML, CSS and plain JavaScript, with no framework.",
     },
     {
       id: "token-company-prd.what",
@@ -1392,6 +1267,11 @@ export const record: WorkRecord = {
       id: "token-company-prd.desc",
       starId: "token-company-prd",
       text: "Repo description: \"The Token Company — UC Berkeley AI Hackathon 2026 PRD: a LoRA fine-tuned code-context compressor proven on held-out SWE-bench (same bug found, far fewer tokens).\"",
+    },
+    {
+      id: "snap-accelerator.funding",
+      starId: "snap-accelerator",
+      text: "Kartikey received $25,000+ in funding from Snap's Spectacles Accelerator.",
     },
   ],
 };

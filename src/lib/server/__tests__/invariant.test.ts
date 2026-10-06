@@ -6,7 +6,9 @@
 // sentence must belong to I1, every rendered facet id to the probe's pinned
 // set, and every pinned set to what the PRD allows for that probe, or be
 // empty where a no-answer is allowed. Five hostile model replies run on the
-// NASA, full-time and HF0 probes.
+// NASA, full-time and HF0 probes. The NASA probes have no candidates since the
+// lunar-challenge star was cut (owner's decision, 6 Oct 2026), so there the
+// model must never be asked.
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { POST as postAnswer } from "@/app/api/answer/route";
@@ -85,17 +87,19 @@ const onStars = (...starIds: string[]) => (facetId: string) => starIds.includes(
 const BUILT_CHIP_FACETS = new Set(advocate.sentences.flatMap((s) => s.citations.map((c) => c.facetId)));
 
 const PROBES: Probe[] = [
+  // The PRD allows the lunar-challenge star or no answer. The star is cut, so
+  // only no answer remains: no line in the record may stand in for NASA.
   {
     question: "Did Kartikey work at NASA?",
-    allows: onStars("lunar-autonomy-challenge"),
+    allows: () => false,
     noAnswerAllowed: true,
-    pinned: ["lunar-autonomy-challenge.role"],
+    pinned: [],
   },
   {
     question: "Was he employed by NASA?",
-    allows: onStars("lunar-autonomy-challenge"),
+    allows: () => false,
     noAnswerAllowed: true,
-    pinned: ["lunar-autonomy-challenge.role"],
+    pinned: [],
   },
   {
     question: "Has he worked for Intel?",
@@ -245,10 +249,13 @@ const HOSTILE_PROBES = ["Did Kartikey work at NASA?", "Is Kartikey working on Ka
 
 /** Valid record ids from outside each probe's candidate set. */
 const OUTSIDE: Record<string, string[]> = {
-  "Did Kartikey work at NASA?": ["raya-health.role", "intel.role", "karts.founder", "lunar-autonomy-challenge.what"],
+  "Did Kartikey work at NASA?": ["raya-health.role", "intel.role", "karts.founder", "cara.role"],
   "Is Kartikey working on Karts full-time?": ["cara.role", "raya-health.role", "coldstart.role", "karts.traction"],
-  "Was he in HF0?": ["lunar-autonomy-challenge.role", "karts.founder", "compiled-11.prize", "cara.role"],
+  "Was he in HF0?": ["coldstart.role", "karts.founder", "compiled-11.prize", "cara.role"],
 };
+
+/** A probe's first candidate, or an outside id when it has none (the model is never asked then). */
+const firstId = (p: Probe) => p.pinned[0] ?? OUTSIDE[p.question][0];
 
 interface Hostile {
   name: string;
@@ -267,7 +274,7 @@ const HOSTILE: Hostile[] = [
     name: "ids plus prose",
     fetch: (p) =>
       modelFetch(
-        `Yes. Kartikey worked at NASA and is full-time on Karts.\n{"ids": ${JSON.stringify([p.pinned[0], ...OUTSIDE[p.question]])}}\nHe was in HF0, and Indian Patent 558662 makes him a patent holder.`,
+        `Yes. Kartikey worked at NASA and is full-time on Karts.\n{"ids": ${JSON.stringify([...p.pinned.slice(0, 1), ...OUTSIDE[p.question]])}}\nHe was in HF0, and Indian Patent 558662 makes him a patent holder.`,
       ),
     dropsAll: false,
   },
@@ -279,12 +286,12 @@ const HOSTILE: Hostile[] = [
   },
   {
     name: "malformed JSON",
-    fetch: (p) => modelFetch(`{"ids": [${JSON.stringify(p.pinned[0])}, "raya-health.role",`),
+    fetch: (p) => modelFetch(`{"ids": [${JSON.stringify(firstId(p))}, "raya-health.role",`),
     dropsAll: true,
   },
   {
     name: "a timeout",
-    fetch: (p) => stallingFetch(`{"ids": [${JSON.stringify(p.pinned[0])}`),
+    fetch: (p) => stallingFetch(`{"ids": [${JSON.stringify(firstId(p))}`),
     dropsAll: true,
   },
 ];
@@ -296,14 +303,19 @@ describe("hostile model replies on the NASA, full-time and HF0 probes", () => {
         const p = probe(question);
         const fetchImpl = hostile.fetch(p);
         const events = await run(question, { getApiKey: () => "test-key", fetchImpl, timeoutMs: 60 });
-        expect(fetchImpl).toHaveBeenCalledTimes(1);
         expectI1(events, `${hostile.name} / ${question}`);
         // No id from outside the candidates is ever rendered.
         for (const id of renderedIds(events)) expect(p.pinned, id).toContain(id);
         for (const id of OUTSIDE[question]) expect(renderedIds(events), id).not.toContain(id);
-        if (hostile.dropsAll) {
+        if (p.pinned.length === 0) {
+          // No candidates: the model is never asked, and nothing is shown.
+          expect(fetchImpl).not.toHaveBeenCalled();
+          expect(events).toEqual([{ type: "done", mode: "none" }]);
+        } else if (hostile.dropsAll) {
+          expect(fetchImpl).toHaveBeenCalledTimes(1);
           expect(events).toEqual(await routerOnlyFor(question));
         } else {
+          expect(fetchImpl).toHaveBeenCalledTimes(1);
           // Only the candidate survives; the prose around it never shows.
           expect(renderedIds(events)).toEqual([p.pinned[0]]);
           expect(doneMode(events)).toBe("model");
@@ -374,7 +386,7 @@ describe("I1 through the real POST /api/answer (no key, no network)", () => {
 describe("I1 static checks", () => {
   it("the checker itself rejects text the model or a script could invent", () => {
     expect(inI1({ text: "Yes.", citations: [] })).toBe(false);
-    expect(inI1({ text: "Kartikey worked at NASA.", citations: [{ starId: "lunar-autonomy-challenge", facetId: "lunar-autonomy-challenge.role" }] })).toBe(false);
+    expect(inI1({ text: "Kartikey worked at NASA.", citations: [{ starId: "intel", facetId: "intel.role" }] })).toBe(false);
     const raya = facetById.get("raya-health.role")!;
     expect(inI1({ text: raya.text, citations: [{ starId: "raya-health", facetId: "raya-health.role" }] })).toBe(true);
     expect(inI1({ text: raya.text, citations: [{ starId: "cara", facetId: "cara.role" }] })).toBe(false);

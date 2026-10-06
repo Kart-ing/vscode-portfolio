@@ -122,6 +122,67 @@ describe("number mapping (site column)", () => {
   });
 });
 
+describe("one-story review fixes (6 Oct 2026)", () => {
+  it("Work holds exactly the four C3 roles; the Snap funding is an award outside Work", () => {
+    expect(record.stars.filter((s) => s.constellation === "work").map((s) => s.id)).toEqual([
+      "cara",
+      "raya-health",
+      "coldstart",
+      "intel",
+    ]);
+    for (const s of record.stars) if (s.kind === "role") expect(s.constellation, s.id).toBe("work");
+    expect(star("snap-accelerator")).toMatchObject({
+      label: "Snap Spectacles Accelerator",
+      constellation: "more-projects",
+      kind: "award",
+      summary: "$25,000+ from Snap's Spectacles Accelerator.",
+    });
+    expect(facetsOf("snap-accelerator").map((f) => f.text)).toEqual([
+      "Kartikey received $25,000+ in funding from Snap's Spectacles Accelerator.",
+    ]);
+  });
+
+  it("cut stars, lines and claims stay cut", () => {
+    for (const id of ["lunar-autonomy-challenge", "gdsc-psu"]) expect(star(id), id).toBeUndefined();
+    for (const id of [
+      "multiverse.replay",
+      "recompress.multiturn",
+      "hermes-offloader.deploy",
+      "psu-hackathon-team.program",
+      "penn-state.focus",
+      "snap-accelerator.role",
+      "snap-accelerator.elementals",
+      "snap-accelerator.motion",
+      "hackpsu-fall-2024.role",
+    ]) {
+      expect(facet(id), id).toBeUndefined();
+    }
+    expect(everything).not.toMatch(
+      /\bNASA\b|lunar|GDSC|Student Accelerator|\/offload\b|still answers correctly|replays? deterministically|speculative execution|botanical|bespoke|acrn\.space|lead AR developer|works across Claude Code/i,
+    );
+  });
+
+  it("Multiverse reads as a prototype and says what is not built yet", () => {
+    expect(star("multiverse")?.summary).toContain("A hackathon prototype.");
+    expect(facet("multiverse.how")?.text).toContain("Sandboxed APIs and deterministic replay are not built yet.");
+  });
+
+  it("the six prize stars without sourced months show the year only", () => {
+    const months = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/;
+    for (const id of ["hackpsu-spring-2023", "hackharvard-2023", "hackpsu-spring-2024", "bitcamp-2024", "hackpsu-fall-2024", "mhacks-2025"]) {
+      expect(star(id)?.period, id).toMatch(/^\d{4}$/);
+      for (const f of facetsOf(id)) expect(f.text, f.id).not.toMatch(months);
+    }
+  });
+
+  it("credits the AgentOverflow and AdLayer teams", () => {
+    expect(facet("calhacks-12.team")?.text).toBe(
+      "Kartikey built AgentOverflow with Kanika Gupta, Het Sheth and Ishaan Narang.",
+    );
+    expect(facet("zero-human-company-hackathon.team")?.text).toBe("Kartikey built AdLayer with Parth Kshirsagar.");
+  });
+});
+
 describe("invariant I1: static checks", () => {
   /** Sentences of a string, split at sentence ends. */
   const sentencesOf = (text: string) => text.split(/(?<=[.!?])\s+/);

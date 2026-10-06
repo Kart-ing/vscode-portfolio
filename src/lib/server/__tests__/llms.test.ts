@@ -21,9 +21,13 @@ describe("renderLlmsTxt", () => {
     expect(text).toContain("- Links: [Devpost](https://devpost.com/example)");
   });
 
-  it("points at record.json and states the provenance", () => {
+  it("points at record.json and states the provenance without overclaiming", () => {
     expect(text).toContain("https://www.kartikey.fyi/record.json");
-    expect(text).toMatch(/every claim .* owner's verified record/i);
+    expect(text).toContain(
+      "- Every line on this page is copied from the owner's record; nothing here is generated. Lines link their public source where one exists.",
+    );
+    // Not every line has a public page to link.
+    expect(text).not.toMatch(/each item links to its evidence/i);
   });
 
   it("keeps stars in constellation order", () => {

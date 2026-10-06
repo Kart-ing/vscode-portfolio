@@ -50,7 +50,7 @@ export const chips: Chip[] = [
     "What has Kartikey built for AI agents?",
     [
       say(
-        "Kartikey and two teammates built Multiverse: the branch predictor, but for tool calls.",
+        "Kartikey, Lance Streuber and Ujjwal Aggarwal built Multiverse, a hackathon prototype: an OpenCode fork with a decision-tree agent mode.",
         "multiverse.team",
         "multiverse.what",
       ),
@@ -60,7 +60,7 @@ export const chips: Chip[] = [
         "pingpal.npm",
       ),
       say(
-        "Hermes Offloader offloads work from your laptop to a cheap always-on server via /offload in Claude Code.",
+        "Hermes Offloader offloads work from your laptop to a cheap always-on server through a /handoff skill in Claude Code.",
         "hermes-offloader.what",
       ),
     ],
@@ -72,8 +72,9 @@ export const chips: Chip[] = [
     "Show me the hackathon prizes",
     [
       say(
-        "Kartikey has won 13 prizes at 12 hackathons; the latest was AdLayer, in August 2026.",
+        "Kartikey has won 13 prizes at 12 hackathons; the latest was AdLayer, built with Parth Kshirsagar, in August 2026.",
         "zero-human-company-hackathon.count",
+        "zero-human-company-hackathon.team",
       ),
       say(
         "Two $1,000 Hexclave awards came at c0mpiled-11, a hackathon hosted by Transpose during YC Startup School weekend, with Cited, and at c0mpiled-13, Startup School Hackathon II, with Swiper No Swiping.",
@@ -97,7 +98,7 @@ export const chips: Chip[] = [
         "recompress.preprint",
       ),
       say(
-        "Its 1.5B student compresses HotpotQA context to about 3.5% of its tokens and still answers correctly, keeping the answer-bearing span where deletion truncates it.",
+        "Its 1.5B student beats bear-2 by +0.252 F1 on HotpotQA while emitting roughly 8.5× fewer tokens.",
         "recompress.result",
       ),
       say(

@@ -7,13 +7,19 @@
 // The gate reads the question's topic tokens (the router's, after its intent
 // filtering) against each star's metadata: tags, label, id, stack,
 // constellation and kind.
+//   - A question that names something the record never mentions gets no
+//     answer. A name is a word the question capitalizes after its first word
+//     ("Google"), or any word with two capitals, even the first ("NASA").
+//     Without this rule, "Did Kartikey work at NASA?" would fall back to
+//     every role.
 //   - A token that reaches 1 to 3 stars is an anchor, unless it is a word for
 //     work in general ("build", "work") or a technology, named in no star's
 //     label, that the router's stack intent already handles ("TypeScript").
 //     It is named when it is in a star's label ("Intel", "Karts", "Snap") and
-//     an attribute otherwise ("nasa", "hf0", "yc", "founder").
+//     an attribute otherwise ("hf0", "yc", "founder").
 //   - When an anchor reaches several stars, the question's other words choose
-//     among them: "work with Snap" keeps the accelerator, not the Snap AR prize.
+//     among them. If they can't, the star the anchor names wins: "work with
+//     Snap" keeps the accelerator, not the Snap AR prize.
 //   - Named anchors win: the candidates are the stars they reach. Without one,
 //     the candidates are the stars that carry every attribute anchor, so
 //     "a YC founder" needs a single star that is both, and finds none.
@@ -58,6 +64,8 @@ interface GateIndex {
   lines: Map<string, Facet[]>;
   /** Text tokens per facet. */
   text: Map<string, ReadonlySet<string>>;
+  /** Every token the record uses anywhere: metadata, summaries and lines. */
+  known: ReadonlySet<string>;
 }
 
 const indexes = new WeakMap<WorkRecord, GateIndex>();
@@ -80,7 +88,11 @@ function buildGateIndex(record: WorkRecord): GateIndex {
   }
   const lines = new Map<string, Facet[]>();
   const text = new Map<string, ReadonlySet<string>>();
+  const known = new Set<string>();
+  for (const tokens of meta.values()) for (const t of tokens) known.add(t);
+  for (const star of record.stars) for (const t of tokenize(star.summary)) known.add(t);
   for (const facet of record.facets) {
+    for (const t of tokenize(facet.text)) known.add(t);
     if (!meta.has(facet.starId) || isLeakedPhrasing(facet.text)) continue;
     const list = lines.get(facet.starId) ?? [];
     list.push(facet);
@@ -93,6 +105,7 @@ function buildGateIndex(record: WorkRecord): GateIndex {
     label,
     lines,
     text,
+    known,
   };
   indexes.set(record, index);
   return index;
@@ -104,6 +117,27 @@ interface Group {
   terms: string[];
   /** Stars whose metadata carries one of the terms. */
   stars: Star[];
+}
+
+/** Company suffixes that are part of a name the record already knows ("Snap Inc"). */
+const NAME_SUFFIXES: ReadonlySet<string> = new Set(["inc", "corp", "co", "llc", "ltd", "plc"]);
+
+/**
+ * The names a question uses: each word it capitalizes after its first word,
+ * plus any word with two capitals ("NASA", "HackMIT"), even the first.
+ */
+function nameTokens(question: string): string[] {
+  return question
+    .trim()
+    .split(/\s+/)
+    .filter((word, i) => (i > 0 ? /[A-Z]/.test(word) : /[A-Z].*[A-Z]/.test(word)))
+    .flatMap((word) => tokenize(word))
+    .filter((token) => !NAME_SUFFIXES.has(token));
+}
+
+/** True when the question names something the record never mentions. */
+function namesUnknown(question: string, index: GateIndex): boolean {
+  return nameTokens(question).some((token) => !expandTokens([token]).some((term) => index.known.has(term)));
 }
 
 /** The candidate set and the router's answer for one question. */
@@ -119,6 +153,7 @@ function gate(question: string, record: WorkRecord): Candidates {
   const normalized = normalizeQuestion(question);
   if (!normalized || isDeniedQuestion(normalized)) return EMPTY;
   const index = buildGateIndex(record);
+  if (namesUnknown(question, index)) return EMPTY;
   const ranking = rankStars(question, record);
   const position = new Map(ranking.ranked.map((entry, i) => [entry.starId, i]));
   const routerLine = new Map(ranking.ranked.map((entry) => [entry.starId, entry.facetId]));
@@ -151,7 +186,14 @@ function gate(question: string, record: WorkRecord): Candidates {
     const others = groups.filter((g) => g !== anchor);
     const reach = (star: Star) => others.filter((g) => carries(star, g.terms)).length;
     const top = Math.max(...anchor.stars.map(reach));
-    return anchor.stars.filter((star) => reach(star) === top);
+    const best = anchor.stars.filter((star) => reach(star) === top);
+    // "Work with Snap": the other words reach the record, but none of these
+    // stars, so they can't choose. The star the anchor names wins.
+    if (top === 0 && others.some((g) => g.stars.length > 0)) {
+      const named = best.filter((star) => index.label.get(star.id)?.has(anchor.token));
+      if (named.length > 0) return named;
+    }
+    return best;
   };
 
   let starIds: string[];

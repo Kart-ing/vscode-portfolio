@@ -42,3 +42,43 @@ describe("TypeScript question against the real record", () => {
     for (const stop of answer) expect(routed.has(stop.starId), stop.starId).toBe(true);
   });
 });
+
+describe("a name the record never mentions", () => {
+  it("gets no answer, whatever the question's other words reach", () => {
+    for (const q of [
+      "Did Kartikey work at NASA?",
+      "Is Kartikey a NASA engineer?",
+      "Did Kartikey work at Google?",
+      "Tell me about the Lunar Autonomy Challenge",
+      "Was he a GDSC president?",
+      "Did he win HackMIT?",
+      "Did he intern at Microsoft?",
+    ]) {
+      expect(answerCandidates(q, record).candidates, q).toEqual([]);
+    }
+  });
+
+  it("never blocks a name the record has, with or without a company suffix", () => {
+    for (const q of [
+      "Has he worked for Intel?",
+      "Did he get a grant from Snap Inc?",
+      "What did he win at HackHarvard?",
+      "Who did he build AgentOverflow with?",
+      "What Has He Built With TypeScript?",
+    ]) {
+      expect(answerCandidates(q, record).candidates.length, q).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe("an anchor the question's other words can't place", () => {
+  const starsFor = (q: string) => new Set(answerCandidates(q, record).candidates.map((c) => c.starId));
+
+  it('"work with Snap" keeps the star Snap names, the accelerator, not the Snap AR prize', () => {
+    expect(starsFor("Did he work with Snap?")).toEqual(new Set(["snap-accelerator"]));
+  });
+
+  it("other words that do choose still win: Spectacles reaches the Snap AR prize too", () => {
+    expect(starsFor("What did he build for Snap Spectacles?").has("hackpsu-fall-2024")).toBe(true);
+  });
+});

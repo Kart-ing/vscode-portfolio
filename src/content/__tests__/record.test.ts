@@ -13,6 +13,11 @@ import { MISSING_PRIVACY_FILE, bannedIn, loadPrivacyRules } from "./scanner";
 const KEBAB = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FACET_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_FACET_CHARS = 200;
+/**
+ * Non-role stars whose verified facts fit one line: the degree (its C3 line)
+ * and the Snap funding award (its one sourced fact is the amount).
+ */
+const ONE_LINE_STARS: ReadonlySet<string> = new Set(["penn-state", "snap-accelerator"]);
 
 const starIds = new Set(record.stars.map((s) => s.id));
 const facetIds = new Set(record.facets.map((f) => f.id));
@@ -92,11 +97,11 @@ describe("record: facets", () => {
     }
   });
 
-  it("every star has between 2 and 5 facets, and a role star at least its role line (writing rule)", () => {
+  it("every star has between 2 and 5 facets; a role star or a one-fact star may carry one line (writing rule)", () => {
     for (const s of record.stars) {
       const n = facetsByStar.get(s.id) ?? 0;
       // A role star's role facts live in one C11 sentence, so it may carry that line alone.
-      expect(n, s.id).toBeGreaterThanOrEqual(s.kind === "role" ? 1 : 2);
+      expect(n, s.id).toBeGreaterThanOrEqual(s.kind === "role" || ONE_LINE_STARS.has(s.id) ? 1 : 2);
       expect(n, s.id).toBeLessThanOrEqual(5);
     }
   });

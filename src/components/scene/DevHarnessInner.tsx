@@ -156,7 +156,7 @@ const DEMO_NARRATION: AnswerSentence[] = [
     citations: [{ starId: "karts", facetId: "karts.what" }],
   },
   {
-    text: "Multiverse is a speculative execution harness for AI agents.",
+    text: "Multiverse is a hackathon prototype: an OpenCode fork with a decision-tree agent mode designed to try five approaches per step and keep the winner.",
     citations: [{ starId: "multiverse", facetId: "multiverse.what" }],
   },
 ];

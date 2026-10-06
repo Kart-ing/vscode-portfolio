@@ -96,7 +96,7 @@ export const tour: TourStep[] = [
   step(6000, C11.karts, "karts.founder"),
   step(
     5500,
-    "Multiverse is the branch predictor, but for tool calls: it forks into parallel sandboxed futures, commits one winner atomically and replays deterministically.",
+    "Multiverse is a hackathon prototype: an OpenCode fork with a decision-tree agent mode designed to try five approaches per step and keep the winner.",
     "multiverse.what",
   ),
   step(
@@ -107,12 +107,12 @@ export const tour: TourStep[] = [
   ),
   step(
     4500,
-    "Hermes Offloader offloads work from your laptop to a cheap always-on server via /offload in Claude Code.",
+    "Hermes Offloader offloads work from your laptop to a cheap always-on server through a /handoff skill in Claude Code.",
     "hermes-offloader.what",
   ),
   step(
     6000,
-    "ReCompress, a Zenodo preprint of June 21, 2026, by Parth Sanjay Kshirsagar and Kartikey Pandey: the 1.5B student compresses HotpotQA context to about 3.5% of its tokens and still answers correctly.",
+    "ReCompress, a Zenodo preprint of June 21, 2026, by Parth Sanjay Kshirsagar and Kartikey Pandey: the 1.5B student beats bear-2 by +0.252 F1 on HotpotQA while emitting roughly 8.5× fewer tokens.",
     "recompress.preprint",
     "recompress.result",
   ),
@@ -125,7 +125,7 @@ export const tour: TourStep[] = [
   ),
   step(
     4500,
-    "In April 2023, SignEase won 3rd Place at HackPSU Spring 2023.",
+    "SignEase won 3rd Place at HackPSU Spring 2023.",
     "hackpsu-spring-2023.prize",
   ),
   step(
@@ -136,9 +136,10 @@ export const tour: TourStep[] = [
   ),
   step(
     5500,
-    "Kartikey has won 13 prizes at 12 hackathons; the latest was 3rd place in Best use of Render at the Zero Human Company Hackathon by Terac, in August 2026, with AdLayer.",
+    "Kartikey has won 13 prizes at 12 hackathons; the latest was 3rd place in Best use of Render at the Zero Human Company Hackathon by Terac, in August 2026, for AdLayer, built with Parth Kshirsagar.",
     "zero-human-company-hackathon.count",
     "zero-human-company-hackathon.prize",
+    "zero-human-company-hackathon.team",
   ),
   step(
     5500,
