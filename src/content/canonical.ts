@@ -30,7 +30,7 @@ export const C9: readonly string[] = [
 export const C11 = {
   karts: "Kartikey is the founder of Karts, which he builds part-time alongside his job at Cara.",
   cara: "Kartikey has been a Member of Technical Staff at Cara since June 2026.",
-  raya: "Kartikey was a Founding Engineer at Raya Health (HF0 W26) from February to June 2026, where he built patient-facing AI agents for intake, triage and eligibility.",
+  raya: "Kartikey was a Founding Engineer at Raya Health (HF0 W26) from December 2025 to June 2026, where he built patient-facing AI agents for intake, triage and eligibility.",
   coldstart:
     "Kartikey was a Founding Engineer at ColdStart from January to December 2025, building a Reddit social-listening engine.",
   intel:
@@ -41,7 +41,7 @@ export const C11 = {
 export const C3_DATES = {
   karts: "Aug 2026 – present",
   cara: "Jun 2026 – present",
-  raya: "Feb 2026 – Jun 2026",
+  raya: "Dec 2025 – Jun 2026",
   coldstart: "Jan 2025 – Dec 2025",
   intel: "Aug 2020 – Jul 2021",
   education: "Aug 2022 – May 2026",

@@ -748,7 +748,7 @@ export const record: WorkRecord = {
         "2026",
       ],
       links: [],
-      start: "2026-02",
+      start: "2025-12",
       weight: 1,
     },
     {
